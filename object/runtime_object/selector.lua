@@ -1,6 +1,6 @@
---选取器
+--chooser
 --
---用来选取某个区域内的单位
+--Used to select units within a region
 ---@class Selector
 ---@overload fun(): self
 local M = Class 'Selector'
@@ -10,7 +10,7 @@ function M:__init()
     return self
 end
 
--- 形状 - 添加形状对象
+--Shape - Adds shape objects
 ---@param pos Point
 ---@param shape Shape
 ---@return self
@@ -22,7 +22,7 @@ function M:in_shape(pos, shape)
     return self
 end
 
--- 形状 - 在圆形区域内
+--Shape - In a circular area
 ---@param cent Point | Unit | Item
 ---@param radius number
 ---@return self
@@ -39,29 +39,29 @@ function M:in_range(cent, radius)
         self._pos = cent
     end
     ---@private
-    self._shape = y3.shape.create_circular_shape(radius)
+    self._shape = clicli.shape.create_circular_shape(radius)
     return self
 end
 
--- 条件 - 是某个玩家的敌人
+--Condition - Is an enemy of a player
 ---@param p Player
 ---@return self
 function M:is_enemy(p)
     ---@private
-    self._owner_player = y3.player_group.get_enemy_player_group_by_player(p)
+    self._owner_player = clicli.player_group.get_enemy_player_group_by_player(p)
     return self
 end
 
--- 条件 - 是某个玩家的同盟
+--Condition - Is an ally of a player
 ---@param p Player
 ---@return self
 function M:is_ally(p)
     ---@private
-    self._owner_player = y3.player_group.get_ally_player_group_by_player(p)
+    self._owner_player = clicli.player_group.get_ally_player_group_by_player(p)
     return self
 end
 
--- 条件 - 属于某个玩家或某个玩家组
+--Condition - Belongs to a player or a group of players
 ---@param p Player | PlayerGroup
 ---@return self
 function M:of_player(p)
@@ -70,7 +70,7 @@ function M:of_player(p)
     return self
 end
 
--- 条件 - 对某个玩家可见
+--Condition - Visible to a player
 ---@param p Player
 ---@return self
 function M:is_visible(p)
@@ -79,7 +79,7 @@ function M:is_visible(p)
     return self
 end
 
--- 条件 - 对某个玩家不可见
+--Condition - Not visible to a player
 ---@param p Player
 ---@return self
 function M:not_visible(p)
@@ -88,7 +88,7 @@ function M:not_visible(p)
     return self
 end
 
--- 条件 - 不在某个单位组中
+--Condition - Not in a unit group
 ---@param ug UnitGroup
 ---@return self
 function M:not_in_group(ug)
@@ -97,7 +97,7 @@ function M:not_in_group(ug)
     return self
 end
 
--- 条件 - 拥有特定标签
+--Condition - Have a specific label
 ---@param tag string
 ---@return self
 function M:with_tag(tag)
@@ -106,7 +106,7 @@ function M:with_tag(tag)
     return self
 end
 
--- 条件 - 不拥有特定标签
+--Condition - Do not own a specific label
 ---@param tag string?
 ---@return self
 function M:without_tag(tag)
@@ -115,7 +115,7 @@ function M:without_tag(tag)
     return self
 end
 
--- 条件 - 不是某个特定的单位
+--Condition - Not a specific unit
 ---@param u Unit
 ---@return self
 function M:not_is(u)
@@ -124,25 +124,25 @@ function M:not_is(u)
     return self
 end
 
--- 条件 - 拥有某个特定的状态
----@param state integer | y3.Const.UnitEnumState
+--Condition - Having a certain state
+---@param state integer | clicli.Const.UnitEnumState
 ---@return self
 function M:in_state(state)
     ---@private
-    self._in_state = state | (y3.const.UnitEnumState[state] or state)
+    self._in_state = state | (clicli.const.UnitEnumState[state] or state)
     return self
 end
 
--- 条件 - 不拥有某个特定的状态
----@param state integer | y3.Const.UnitEnumState
+--Condition - Does not possess a particular state
+---@param state integer | clicli.Const.UnitEnumState
 ---@return self
 function M:not_in_state(state)
     ---@private
-    self._not_in_state = state | (y3.const.UnitEnumState[state] or state)
+    self._not_in_state = state | (clicli.const.UnitEnumState[state] or state)
     return self
 end
 
--- 条件 - 是某个特定的单位类型
+--Condition - Is a specific unit type
 ---@param unit_key py.UnitKey
 ---@return self
 function M:is_unit_key(unit_key)
@@ -151,7 +151,7 @@ function M:is_unit_key(unit_key)
     return self
 end
 
--- 条件 - 是某个特定的单位类型
+--Condition - Is a specific unit type
 ---@param unit_type py.UnitType
 ---@return self
 function M:is_unit_type(unit_type)
@@ -160,7 +160,7 @@ function M:is_unit_type(unit_type)
     return self
 end
 
--- 选项 - 包含死亡的单位
+--Option - Contains dead units
 ---@return self
 function M:include_dead()
     ---@private
@@ -168,7 +168,7 @@ function M:include_dead()
     return self
 end
 
--- 选项 - 选取的数量
+--Options - The number of selections
 ---@param count integer
 ---@return self
 function M:count(count)
@@ -184,7 +184,7 @@ local sort_type = {
     ['随机'] = 2,
 }
 
--- 排序 - 按照某种方式排序
+--Sort - Sort in a certain way
 ---@param st Selector.SortType
 ---@return Selector
 function M:sort_type(st)
@@ -193,7 +193,7 @@ function M:sort_type(st)
     return self
 end
 
--- 进行选取
+--Make selection
 ---@return UnitGroup
 function M:get()
     local pos = self._pos
@@ -224,19 +224,19 @@ function M:get()
     return New 'UnitGroup' (py_unit_group)
 end
 
--- 进行选取
+--Make selection
 ---@return Unit[]
 function M:pick()
     local ug = self:get()
     return ug:pick()
 end
 
--- 进行遍历
+--traversal
 function M:ipairs()
     return ipairs(self:pick())
 end
 
--- 创建选取器
+--Create picker
 ---@return Selector
 function M.create()
     return New 'Selector' ()

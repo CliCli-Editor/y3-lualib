@@ -1,4 +1,4 @@
---本地UI逻辑框架
+--Native UI logic framework
 ---@class LocalUILogic
 ---@field private _main? UI
 ---@overload fun(main?: string | UI): self
@@ -13,7 +13,7 @@ Extends('LocalUILogic', 'GCHost')
 local all_instances = setmetatable({}, { __mode = 'k' })
 
 ---@diagnostic disable-next-line: deprecated
-local local_player = y3.player.get_local()
+local local_player = clicli.player.get_local()
 
 ---@class LocalUILogic.OnRefreshInfo
 ---@field name string
@@ -25,7 +25,7 @@ local local_player = y3.player.get_local()
 
 ---@class LocalUILogic.OnEventInfo
 ---@field name string
----@field event y3.Const.UIEvent
+---@field event clicli.Const.UIEvent
 ---@field on_event fun(ui: UI, local_player: Player, instance: LocalUILogic)
 
 ---@class LocalUILogic.PrefabInfo
@@ -55,8 +55,8 @@ function M:__init(path_or_ui)
     self._need_refresh = {}
 
     if type(path_or_ui) == 'string' then
-        y3.ltimer.wait(0, function ()
-            local main = y3.ui.get_ui(local_player, path_or_ui)
+        clicli.ltimer.wait(0, function ()
+            local main = clicli.ui.get_ui(local_player, path_or_ui)
             self:attach(main)
         end)
     end
@@ -104,9 +104,9 @@ function M:apply_kv(kv)
     end
 end
 
---附着到一个UI上
+--Attach to a UI
 ---@param ui UI
----@param kv? table # 数据使用 `instance:storage_get` 获取
+---@param kv? table # The data is obtained using 'instance:storage_get'
 ---@return LocalUILogic
 function M:attach(ui, kv)
     assert(not self._main, '已经附着到UI上了！')
@@ -139,11 +139,11 @@ function M:attach(ui, kv)
 
     ---@package
     ---@type table<string, table<string, LocalUILogic[]>>
-    self._prefab_instances = y3.util.multiTable(3)
+    self._prefab_instances = clicli.util.multiTable(3)
 
     ---@package
     ---@type table<string, table<string, LocalUILogic[]>>
-    self._prefab_pool = y3.util.multiTable(3)
+    self._prefab_pool = clicli.util.multiTable(3)
 
     self._childs[''] = self._main
     self:init()
@@ -158,11 +158,11 @@ function M:detach()
     self._main = nil
 end
 
---将子控件的属性绑定到单位的属性
+--Binds the properties of the child control to the properties of the unit
 ---@param child_name string
----@param ui_attr y3.Const.UIAttr
----@param unit_attr y3.Const.UnitAttr | string
----@param accuracy? integer # 小数精度
+---@param ui_attr clicli.Const.UIAttr
+---@param unit_attr clicli.Const.UnitAttr | string
+---@param accuracy? integer # Fractional precision
 function M:bind_unit_attr(child_name, ui_attr, unit_attr, accuracy)
     if not self._main then
         table.insert(self._bind_unit_attr, {
@@ -180,8 +180,8 @@ function M:bind_unit_attr(child_name, ui_attr, unit_attr, accuracy)
     child:bind_unit_attr(ui_attr, unit_attr, accuracy)
 end
 
---订阅控件刷新，回调函数在 *本地玩家* 环境中执行。
----@param child_name string # 空字符串表示主控件
+--Subscribe to the control refresh, the callback function is executed in the * local player * environment.
+---@param child_name string # The empty string represents the master device
 ---@param on_refresh fun(ui: UI, local_player: Player, instance: LocalUILogic)
 function M:on_refresh(child_name, on_refresh)
     table.insert(self._on_refreshs, {
@@ -190,9 +190,9 @@ function M:on_refresh(child_name, on_refresh)
     })
 end
 
---订阅控件的本地事件，回调函数在 *本地玩家* 环境中执行。
----@param child_name string # 空字符串表示主控件
----@param event y3.Const.UIEvent
+--Subscribe to the control's local events, and the callback function is executed in the * local player * environment.
+---@param child_name string # The empty string represents the master device
+---@param event clicli.Const.UIEvent
 ---@param callback fun(ui: UI, local_player: Player, instance: LocalUILogic)
 function M:on_event(child_name, event, callback)
     table.insert(self._on_events, {
@@ -202,8 +202,8 @@ function M:on_event(child_name, event, callback)
     })
 end
 
---订阅控件的初始化事件，回调函数在 *本地玩家* 环境中执行。
----@param child_name string # 空字符串表示主控件
+--Subscribe to the initialization event of the control, the callback function is executed in the local player environment.
+---@param child_name string # The empty string represents the master device
 ---@param on_init fun(ui: UI, local_player: Player, instance: LocalUILogic)
 function M:on_init(child_name, on_init)
     table.insert(self._on_inits, {
@@ -212,10 +212,10 @@ function M:on_init(child_name, on_init)
     })
 end
 
---绑定元件
----@param child_name string # 空字符串表示主控件
----@param prefab_logic LocalUILogic # 使用 `y3.local_ui.prefab` 创建的元件逻辑
----@param prefab_token? any # 如果你在不同的控件下绑定了相同的元件且需要分开刷新，可以为它们设置不同的 token
+--Binding element
+---@param child_name string # The empty string represents the master device
+---@param prefab_logic LocalUILogic # Component logic created using 'clicli.local_ui.prefab'
+---@param prefab_token? any # If you bind the same components under different controls and need to refresh them separately, you can set different tokens for them
 function M:bind_prefab(child_name, prefab_logic, prefab_token)
     table.insert(self._prefab_infos, {
         child_name = child_name,
@@ -224,11 +224,11 @@ function M:bind_prefab(child_name, prefab_logic, prefab_token)
     })
 end
 
---刷新元件
----@param prefab_token any # 要刷新的元件，默认为绑定时的元件逻辑
----@param count? integer # 修改元件数量
----@param on_create? fun(index: integer, kv: table) # 创建新的元件时回调，`kv` 中默认会将 `index` 设置为这是第几个元件。
----@param on_refresh? fun(ui: UI, local_player: Player, instance: LocalUILogic) # 刷新元件前的回调，你可以趁机通过 `instance:storage_set` 设置元件的属性。
+--Refresh element
+---@param prefab_token any # The component to refresh defaults to the component logic at binding time
+---@param count? integer # Modify the number of components
+---@param on_create? fun(index: integer, kv: table) # When creating a new component callback, 'kv' defaults to set 'index' to which component it is.
+---@param on_refresh? fun(ui: UI, local_player: Player, instance: LocalUILogic) # To refresh the callback before the component, you can take the opportunity to set the properties of the component with the 'instance:storage_set'.
 function M:refresh_prefab(prefab_token, count, on_create, on_refresh)
     if not self._main then
         error('还未初始化完成，请放到 `on_init` 事件中执行！')
@@ -273,7 +273,7 @@ function M:refresh_prefab(prefab_token, count, on_create, on_refresh)
                         instance:apply_kv(kv)
                         instance:init()
                     else
-                        local ui = y3.ui_prefab.create(local_player, info.prefab_logic._prefab_name, parent):get_child()
+                        local ui = clicli.ui_prefab.create(local_player, info.prefab_logic._prefab_name, parent):get_child()
                         ---@cast ui -?
                         instance = info.prefab_logic:attach(ui, kv)
                         self:bindGC(ui)
@@ -313,7 +313,7 @@ local function is_child_name(target, name)
     if target == name then
         return true
     end
-    if y3.util.stringStartWith(name, target .. '.') then
+    if clicli.util.stringStartWith(name, target .. '.') then
         return true
     end
     return false
@@ -351,10 +351,10 @@ end
 ---@type ClientTimer
 M._refresh_next_tick_timer = nil
 
---刷新控件，指定的控件以及其子控件都会收到刷新消息。
---参数为 `*` 时，刷新所有控件。
+--The refresh control, the specified control, and its child controls receive a refresh message.
+--Refresh all controls when the parameter is' * '.
 ---@param name string
----@param player? Player # 只刷新此玩家的
+---@param player? Player # Refresh only for this player
 function M:refresh(name, player)
     if not self._main then
         return
@@ -367,7 +367,7 @@ function M:refresh(name, player)
     self._need_refresh[name] = true
 
     if not self._refresh_next_tick_timer then
-        self._refresh_next_tick_timer = y3.ctimer.wait(0, function ()
+        self._refresh_next_tick_timer = clicli.ctimer.wait(0, function ()
             self._refresh_next_tick_timer = nil
             self:refreshAll()
         end)
@@ -395,15 +395,15 @@ function M:refreshAll()
     end
 end
 
-y3.reload.onBeforeReload(function (reload, willReload)
+clicli.reload.onBeforeReload(function (reload, willReload)
     for instance in pairs(all_instances) do
         for _, info in pairs(instance._on_refreshs) do
-            if reload:isValidName(y3.reload.getIncludeName(info.on_refresh)) then
+            if reload:isValidName(clicli.reload.getIncludeName(info.on_refresh)) then
                 info.on_refresh = function () end
             end
         end
         for _, info in pairs(instance._on_events) do
-            if reload:isValidName(y3.reload.getIncludeName(info.on_event)) then
+            if reload:isValidName(clicli.reload.getIncludeName(info.on_event)) then
                 info.on_event = function () end
             end
         end
@@ -416,7 +416,7 @@ local API = {}
 ---@package
 API.instance_map = {}
 
---创建一个本地UI逻辑
+--Create a local UI logic
 ---@param path_or_ui string | UI
 ---@return LocalUILogic
 function API.create(path_or_ui)
@@ -428,7 +428,7 @@ function API.create(path_or_ui)
     return local_ui
 end
 
---创建一个用于元件的本地UI逻辑
+--Create a local UI logic for the component
 ---@param prefab_name string
 ---@return LocalUILogic
 function API.prefab(prefab_name)

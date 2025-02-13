@@ -1,18 +1,18 @@
-local event_datas   = require 'y3.meta.event'
-local event_configs = require 'y3.meta.eventconfig'
-local game_event    = require 'y3.game.game_event'
--- local object_event  = require 'y3.game.object_event'
-require 'y3.game.core_object_event'
+local event_datas   = require 'clicli.meta.event'
+local event_configs = require 'clicli.meta.eventconfig'
+local game_event    = require 'clicli.game.game_event'
+--local object_event  = require 'clicli.game.object_event'
+require 'clicli.game.core_object_event'
 
 ---@class PYEventRegister
 ---@field package need_enable_trigger_manualy boolean
 local M = Class 'PYEventRegister'
 
 ---@private
-M.trigger_id_counter = y3.util.counter()
+M.trigger_id_counter = clicli.util.counter()
 
 ---@private
----@param event_key y3.Const.EventType
+---@param event_key clicli.Const.EventType
 ---@param event_params py.Dict
 ---@param extra_args? any[]
 ---@return table
@@ -29,7 +29,7 @@ function M.convert_py_params(event_key, event_params, extra_args)
 end
 
 ---@private
----@param event_name y3.Const.EventType
+---@param event_name clicli.Const.EventType
 ---@param event_data table
 ---@param event_params py.Dict
 ---@return table
@@ -40,7 +40,7 @@ function M.convert_py_params_instant(event_name, event_data, event_params)
         local py_name   = param.name
         local py_type   = param.type
         local py_value  = event_params[py_name]
-        local lua_value = y3.py_converter.py_to_lua(py_type, py_value)
+        local lua_value = clicli.py_converter.py_to_lua(py_type, py_value)
         lua_params[lua_name] = lua_value
     end
     return lua_params
@@ -76,7 +76,7 @@ function M.build_params_lazy_mt(event_data)
                 local py_name  = param.name
                 local py_type  = param.type
                 local py_value = params[py_name]
-                lua_value = y3.py_converter.py_to_lua(py_type, py_value)
+                lua_value = clicli.py_converter.py_to_lua(py_type, py_value)
             end
             data[k] = lua_value
             if lua_value == nil then
@@ -93,7 +93,7 @@ function M.build_params_lazy_mt(event_data)
 end
 
 ---@private
----@param event_key y3.Const.EventType
+---@param event_key clicli.Const.EventType
 ---@param event_data table
 ---@param event_params py.Dict
 ---@param extra_args? any[]
@@ -126,8 +126,8 @@ local function get_py_event_name(event_name)
     return config.key
 end
 
--- 很奇怪的设计，部分参数要包裹成函数返回值放到addition参数里。
--- 如果提取出了需要的参数，会原地修改extra_args。
+--It is a strange design that some of the parameters have to be wrapped into the function return value and put in the addition parameter.
+--If the desired parameters are extracted, the extra_args is modified in place.
 ---@param event_name string
 ---@param extra_args? any[]
 ---@return function?
@@ -154,8 +154,8 @@ local function extract_addition(event_name, extra_args)
         if param.call then
             local lua_value = extra_args[i]
             local lua_type  = param.type
-            local py_type   = y3.py_converter.get_py_type(lua_type)
-            local py_value  = y3.py_converter.lua_to_py(py_type, lua_value)
+            local py_type   = clicli.py_converter.get_py_type(lua_type)
+            local py_value  = clicli.py_converter.lua_to_py(py_type, lua_value)
             local py_addition = function ()
                 return py_value
             end
@@ -176,7 +176,7 @@ end
 
 ---@private
 ---@type table<string, PYEventRef[]>
-M.ref_map = y3.util.multiTable(2)
+M.ref_map = clicli.util.multiTable(2)
 
 local function args_eq(a, b)
     if a == b then
@@ -193,7 +193,7 @@ local function args_eq(a, b)
     return true
 end
 
--- 为参数增加引用计数，返回引用
+--Adds a reference count to the parameter, returning a reference
 ---@private
 ---@param name  string
 ---@param args? any[]
@@ -217,7 +217,7 @@ function M.ref_args(name, args)
     return ref
 end
 
--- 为参数减少引用计数，返回引用
+--Reduces the reference count for the parameter and returns the reference
 ---@private
 ---@param name  string
 ---@param args? any[]
@@ -238,8 +238,8 @@ function M.unref_args(name, args)
     error('未找到事件的引用！' .. tostring(name))
 end
 
---引擎没有提供移除触发器的接口，但是使用已有id注册事件时会移除之前
---使用此id的触发器。因此可以通过复用id来达到移除触发器的目的。
+--The engine does not provide an interface for removing triggers, but events registered with an existing id will be removed before they are
+--Triggers that use this id. Therefore, the purpose of removing the trigger can be achieved by reusing the id.
 
 ---@private
 M.removed_ids = {}
@@ -259,8 +259,8 @@ function M.remove_py_trigger(trigger_id)
     M.removed_ids[#M.removed_ids+1] = trigger_id
 end
 
----@param event_name y3.Const.EventType # 注册给引擎的事件名
----@param extra_args? any[] # 额外参数
+---@param event_name clicli.Const.EventType # The name of the event registered to the engine
+---@param extra_args? any[] # Extra parameter
 function M.event_register(event_name, extra_args)
     local py_event_name = get_py_event_name(event_name)
 
@@ -269,7 +269,7 @@ function M.event_register(event_name, extra_args)
         return
     end
 
-    ---@type y3.Const.EventType | { [1]: y3.Const.EventType, [integer]: any }
+    ---@type clicli.Const.EventType | { [1]: clicli.Const.EventType, [integer]: any }
     local py_event = py_event_name
     local py_addition, py_args = extract_addition(event_name, extra_args)
     if py_args and #py_args > 0 then
@@ -322,7 +322,7 @@ function M.new_global_trigger(event_id, callback)
     end
 end
 
-y3.ctimer.wait_frame(1, function ()
+clicli.ctimer.wait_frame(1, function ()
     M.need_enable_trigger_manualy = true
 end)
 

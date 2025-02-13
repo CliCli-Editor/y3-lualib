@@ -12,17 +12,17 @@ function M.generate_keys()
 end
 
 ---加密
----@param public_key string # 公钥
----@param data string # 要加密的内容
----@return string # 加密后的内容
+---@param public_key string # Public key
+---@param data string # Content to encrypt
+---@return string # Encrypted content
 function M.encrypt(public_key, data)
     return GameAPI.rsa_encrypt_message(public_key, data)
 end
 
 ---解密
----@param private_key string # 私钥
----@param data string # 要解密的内容
----@return string # 解密后的内容
+---@param private_key string # Private key
+---@param data string # The content to be decrypted
+---@return string # The contents after decryption
 function M.decrypt(private_key, data)
     return GameAPI.rsa_decrypt_message(private_key, data)
 end

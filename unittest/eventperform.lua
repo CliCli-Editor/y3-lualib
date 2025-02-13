@@ -1,4 +1,4 @@
-require 'y3.unittest.eventhead'
+require 'clicli.unittest.eventhead'
 
 do --性能测试1
     local o = New 'UnitTest.EventObject' ()

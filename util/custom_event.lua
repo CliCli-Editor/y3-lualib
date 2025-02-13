@@ -89,7 +89,7 @@ function M:event_notify(event_name, ...)
     self.custom_event_manager:notify(event_name, nil, ...)
 end
 
--- 发起带事件参数的自定义事件（通知模式）
+--Initiating custom events with event parameters (notification mode)
 ---@param event_name string
 ---@param args any[]
 ---@param ... any
@@ -137,7 +137,7 @@ function M:event_dispatch(event_name, ...)
     return self.custom_event_manager:dispatch(event_name, nil, ...)
 end
 
--- 发起带事件参数的自定义事件（回执模式）
+--Initiating a custom event with event parameters (receipt mode)
 ---@param event_name string
 ---@param args any[] | any
 ---@param ... any

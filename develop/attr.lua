@@ -1,5 +1,5 @@
 ---@class Develop.Attr
----@overload fun(unit: Unit, attr: y3.Const.UnitAttr):Develop.Attr
+---@overload fun(unit: Unit, attr: clicli.Const.UnitAttr):Develop.Attr
 local M = Class 'Develop.Attr'
 
 ---@class Develop.Attr.API
@@ -9,7 +9,7 @@ local API = {}
 Extends('Develop.Attr', 'GCHost')
 
 ---@param unit Unit
----@param attr y3.Const.UnitAttr
+---@param attr clicli.Const.UnitAttr
 function M:__init(unit, attr)
     self.unit = unit
     self.attr = attr
@@ -63,7 +63,7 @@ function Watch:__init(attr, value, callback)
     self.isSatisfied = self.condition(attr.unit, attr.unit:get_attr(attr.attr))
 
     local unit = attr.unit
-    self.trigger = unit:event('单位-属性变化', y3.const.UnitAttr[attr.attr], function (trg, data)
+    self.trigger = unit:event('单位-属性变化', clicli.const.UnitAttr[attr.attr], function (trg, data)
         local suc, result = xpcall(self.condition, log.error, unit, unit:get_attr(attr.attr))
         if not suc then
             trg:remove()
@@ -86,8 +86,8 @@ function Watch:remove()
 end
 
 ---监控属性变化，当属性从“不满足条件”变化为“满足条件”时触发回调
----@param value Develop.Attr.Accept # 表达式，如 `>= 100`，``` == `最大生命` ```
----@param callback Develop.Attr.Watch.Callback # 回调函数
+---@param value Develop.Attr.Accept # Expressions such as' >= 100 ', '==' Max life ` ```
+---@param callback Develop.Attr.Watch.Callback # Callback function
 ---@return Develop.Attr.Watch
 function M:watch(value, callback)
     local watch = New 'Develop.Attr.Watch' (self, value, callback)
@@ -96,7 +96,7 @@ function M:watch(value, callback)
 end
 
 ---@param unit Unit
----@param attr y3.Const.UnitAttr
+---@param attr clicli.Const.UnitAttr
 ---@return Develop.Attr
 function API.create(unit, attr)
     return New 'Develop.Attr' (unit, attr)

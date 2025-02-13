@@ -52,7 +52,7 @@ local function isArray(v)
     return true
 end
 
--- 将一个Lua值序列化为二进制数据。请勿做为长期存储方案，因为二进制数据可能会因为版本更新而不兼容。
+--Serialize a Lua value to binary data. Do not use as a long-term storage solution, as binary data may become incompatible due to version updates.
 ---@param data Serialization.SupportTypes | nil
 ---@param hook? fun(value: table): Serialization.SupportTypes | nil, string?
 ---@param ignoreUnknownType? boolean
@@ -159,7 +159,7 @@ function M.encode(data, hook, ignoreUnknownType)
     return tableConcat(buf)
 end
 
--- 反序列化二进制数据为Lua值
+--Deserialize binary data to Lua values
 ---@param str string
 ---@param hook? fun(value: Serialization.SupportTypes, tag?: string): Serialization.SupportTypes | nil
 ---@return Serialization.SupportTypes | nil

@@ -25,77 +25,77 @@ function M.get_by_handle(py_mover)
     return New 'Mover' (py_mover)
 end
 
-y3.py_converter.register_py_to_lua('py.Mover', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Mover', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Mover', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Mover', function (lua_value)
     return lua_value.handle
 end)
 
 ---@class Mover.CreateData.Base
----@field on_hit? fun(self: Mover, unit: Unit) # 碰撞单位回调
----@field on_block? fun(self: Mover) # 碰撞地形回调
----@field on_finish? fun(self: Mover) # 运动结束回调
----@field on_break? fun(self: Mover) # 运动打断回调
----@field on_remove? fun(self: Mover) # 运动移除回调
----@field hit_type? integer # 碰撞类型 0： 敌人；1： 盟友；2： 全部
----@field hit_radius? number # 碰撞范围
----@field hit_same? boolean # 能否重复碰撞同一单位
----@field hit_interval? number # 碰撞同一个单位的间隔
----@field terrain_block? boolean # 是否会被地形阻挡
----@field block_interval? number # 触发地形阻挡事件的间隔
----@field priority? integer # 优先级
----@field absolute_height? boolean # 是否使用绝对高度
----@field face_angle? boolean # 是否始终面向运动方向
----@field ability? Ability # 关联技能
----@field unit? Unit # 关联单位
----@field auto_pitch? boolean # 是否自动调整俯仰角，默认为 `true`
+---@field on_hit? fun(self: Mover, unit: Unit) # Collision unit callback
+---@field on_block? fun(self: Mover) # Collision terrain callback
+---@field on_finish? fun(self: Mover) # End of motion callback
+---@field on_break? fun(self: Mover) # Motion interrupt callback
+---@field on_remove? fun(self: Mover) # Motion remove callback
+---@field hit_type? integer # Collision type 0: enemy; 1: Allies; 2: All
+---@field hit_radius? number # Collision range
+---@field hit_same? boolean # Whether to repeatedly collide with the same unit
+---@field hit_interval? number # Collision with the same unit interval
+---@field terrain_block? boolean # Whether it will be blocked by terrain
+---@field block_interval? number # The interval at which a terrain blocking event is triggered
+---@field priority? integer # priority
+---@field absolute_height? boolean # Whether absolute height is used
+---@field face_angle? boolean # Whether to always face the direction of motion
+---@field ability? Ability # Relevance skill
+---@field unit? Unit # Associated unit
+---@field auto_pitch? boolean # Whether to automatically adjust the pitch Angle. The default value is true
 
 ---@class Mover.CreateData.Line: Mover.CreateData.Base
----@field angle number # 运动方向
----@field distance number # 运动距离
----@field speed number # 初始速度
----@field acceleration? number # 加速度
----@field max_speed? number # 最大速度
----@field min_speed? number # 最小速度
----@field init_height? number # 初始高度
----@field fin_height? number # 终点高度
----@field parabola_height? number # 抛物线顶点高度
+---@field angle number # Direction of motion
+---@field distance number # Motion distance
+---@field speed number # Initial velocity
+---@field acceleration? number # acceleration
+---@field max_speed? number # Maximum speed
+---@field min_speed? number # Minimum speed
+---@field init_height? number # Initial altitude
+---@field fin_height? number # Terminal height
+---@field parabola_height? number # Height of the vertex of the parabola
 
 ---@class Mover.CreateData.Target: Mover.CreateData.Base
----@field target Unit|Destructible|Item # 追踪目标
----@field speed number # 初始速度
----@field target_distance number # 撞击目标的距离
----@field acceleration? number # 加速度
----@field max_speed? number # 最大速度
----@field min_speed? number # 最小速度
----@field height? number # 初始高度
----@field parabola_height? number # 抛物线顶点高度
----@field bind_point? string # 绑定点
----@field init_angle? number # 初始角度
----@field rotate_time? number # 过渡时间
+---@field target Unit|Destructible|Item # Tracking target
+---@field speed number # Initial velocity
+---@field target_distance number # The distance to the target
+---@field acceleration? number # acceleration
+---@field max_speed? number # Maximum speed
+---@field min_speed? number # Minimum speed
+---@field height? number # Initial altitude
+---@field parabola_height? number # Height of the vertex of the parabola
+---@field bind_point? string # Binding point
+---@field init_angle? number # Initial Angle
+---@field rotate_time? number # Transition time
 
 
 ---@class Mover.CreateData.Curve: Mover.CreateData.Base
----@field angle number # 运动方向
----@field distance number # 运动距离
----@field speed number # 初始速度
----@field path (Point|py.FixedVec2)[] # 路径点
----@field acceleration? number # 加速度
----@field max_speed? number # 最大速度
----@field min_speed? number # 最小速度
----@field init_height? number # 初始高度
----@field fin_height? number # 终点高度
+---@field angle number # Direction of motion
+---@field distance number # Motion distance
+---@field speed number # Initial velocity
+---@field path (Point|py.FixedVec2)[] # waypoint
+---@field acceleration? number # acceleration
+---@field max_speed? number # Maximum speed
+---@field min_speed? number # Minimum speed
+---@field init_height? number # Initial altitude
+---@field fin_height? number # Terminal height
 
 ---@class Mover.CreateData.Round: Mover.CreateData.Base
----@field target Unit|Point # 环绕目标
----@field radius? number # 环绕半径
----@field angle_speed? number # 环绕速度
----@field init_angle? number # 初始角度
----@field clock_wise? boolean # 是否顺时针
----@field round_time? number # 环绕时间
----@field radius_speed? number # 半径变化速度
----@field lifting_speed? number # 提升速度
----@field height? number # 环绕高度
----@field target_point? Point # 目标点
+---@field target Unit|Point # Circling target
+---@field radius? number # Circumferential radius
+---@field angle_speed? number # Circling velocity
+---@field init_angle? number # Initial Angle
+---@field clock_wise? boolean # Clockwise or not
+---@field round_time? number # Circling time
+---@field radius_speed? number # Velocity of radius change
+---@field lifting_speed? number # Lifting speed
+---@field height? number # Circling height
+---@field target_point? Point # Target point
 
 ---@private
 ---@param mover_data Mover.CreateData.Base
@@ -119,7 +119,7 @@ function M.wrap_callbacks(mover_data)
     if mover_data.on_hit then
         on_hit = function ()
             local py_unit = GameAPI.get_mover_collide_unit()
-            local unit = y3.unit.get_by_handle(py_unit)
+            local unit = clicli.unit.get_by_handle(py_unit)
             xpcall(mover_data.on_hit, log.error, mover, unit)
         end
     end
@@ -179,7 +179,7 @@ function M.wrap_internal_callbacks(mover_data)
         ---@param unit_id integer
         mover_data.on_hit = function (unit_id)
             -- local py_unit = GameAPI.get_mover_collide_unit()
-            local unit = y3.unit.get_by_id(unit_id)
+            local unit = clicli.unit.get_by_id(unit_id)
             xpcall(hit_func, log.error, mover, unit)
         end
     end
@@ -234,7 +234,7 @@ function M.wrap_base_args(builder, args)
     builder.set_terrain_collide_interval(Fix32(args.block_interval or 0.0))
     builder.set_priority                (args.priority or 1)
     builder.set_is_absolute_height      (args.absolute_height or false)
-    builder.dict['is_open_auto_pitch']  = y3.util.default(args.auto_pitch, true)
+    builder.dict['is_open_auto_pitch']  = clicli.util.default(args.auto_pitch, true)
     --builder.set_related_unit            (args.unit and args.unit.handle or nil)
     --builder.set_related_ability         (args.ability and args.ability.handle or nil)
 end
@@ -292,7 +292,7 @@ function M.wrap_curve_args(args)
     ---@param lua_object Point | py.FixedVec2
     ---@return py.FixedVec2
     ---@type py.CurvedPath
-    local path = y3.helper.pack_list(args.path, function (lua_object)
+    local path = clicli.helper.pack_list(args.path, function (lua_object)
         if type(lua_object) == 'userdata' then
             return lua_object
         end
@@ -362,12 +362,12 @@ function M:init(mover_data)
     end
 end
 
--- 打断运动器
+--interrupter
 function M:stop()
     GameAPI.break_mover(self.handle)
 end
 
--- 移除运动器
+--Removal motor
 function M:remove()
     Delete(self)
 end
@@ -381,7 +381,7 @@ function M.mover_line(mover_unit, mover_data)
     assert(mover_data.speed,    '缺少字段：speed')
     assert(mover_data.angle,    '缺少字段：angle')
     assert(mover_data.distance, '缺少字段：distance')
-    if y3.config.mover.enable_internal_regist then
+    if clicli.config.mover.enable_internal_regist then
         --todo 补全一下CreateMoverComponent和MoverSystem的meta
         local update_mover = M.wrap_internal_callbacks(mover_data)
         local comp = CreateMoverComponent.create_line_mover(mover_data)
@@ -415,7 +415,7 @@ function M.mover_target(mover_unit, mover_data)
     assert(mover_data.speed,        '缺少字段：speed')
     assert(mover_data.target_distance, '缺少字段：target_distance')
     assert(mover_data.target,       '缺少字段：target')
-    if y3.config.mover.enable_internal_regist then
+    if clicli.config.mover.enable_internal_regist then
         --todo 补全一下CreateMoverComponent和MoverSystem的meta
         local update_mover = M.wrap_internal_callbacks(mover_data)
         local comp = CreateMoverComponent.create_chasing_mover(mover_data)
@@ -449,7 +449,7 @@ function M.mover_curve(mover_unit, mover_data)
     assert(mover_data.speed,    '缺少字段：speed')
     assert(mover_data.angle,    '缺少字段：angle')
     assert(mover_data.distance, '缺少字段：distance')
-    if y3.config.mover.enable_internal_regist then
+    if clicli.config.mover.enable_internal_regist then
         --todo 补全一下CreateMoverComponent和MoverSystem的meta
         local update_mover = M.wrap_internal_callbacks(mover_data)
         local comp = CreateMoverComponent.create_curved_mover(mover_data)
@@ -481,7 +481,7 @@ end
 ---@return Mover
 function M.mover_round(mover_unit, mover_data)
     assert(mover_data.target, '缺少字段：target')
-    if y3.config.mover.enable_internal_regist then
+    if clicli.config.mover.enable_internal_regist then
         --todo 补全一下CreateMoverComponent和MoverSystem的meta
         local update_mover = M.wrap_internal_callbacks(mover_data)
         local comp = CreateMoverComponent.create_round_mover(mover_data)

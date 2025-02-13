@@ -1,12 +1,12 @@
-local event_configs = require 'y3.meta.eventconfig'
-local get_master    = require 'y3.util.get_master'
+local event_configs = require 'clicli.meta.eventconfig'
+local get_master    = require 'clicli.util.get_master'
 
 ---@class CoreObjectEvent
 ---@field private object_event_manager? EventManager
 ---@overload fun(): self
 local M = Class 'CoreObjectEvent'
 
--- 注册对象的引擎事件
+--Engine events for registered objects
 ---@param event_name string
 ---@param ... any
 ---@return Trigger
@@ -43,7 +43,7 @@ end
 ---@private
 function M:core_subscribe(event_name, ...)
     local config = event_configs.config[event_name]
-    local self_type = y3.class.type(self)
+    local self_type = clicli.class.type(self)
     ---@diagnostic disable-next-line: undefined-field
     if not self.handle then
         error("注册对象事件缺少handle: " .. tostring(event_name))
@@ -97,7 +97,7 @@ function M:core_subscribe(event_name, ...)
     ---@diagnostic disable-next-line: undefined-field
     local seq = regist_object_event(self.handle, config.key, function (data)
         ---@diagnostic disable-next-line: invisible
-        local lua_params = y3.py_event_sub.convert_py_params(config.key, data, extra_args)
+        local lua_params = clicli.py_event_sub.convert_py_params(config.key, data, extra_args)
         trigger:execute(lua_params)
     end, table.unpack(args))
 
@@ -124,5 +124,5 @@ function M:core_subscribe_from_global(event_name, ...)
             callback(trigger, lua_params)
         end
     end
-    return y3.game:event(event_name, table.unpack(params))
+    return clicli.game:event(event_name, table.unpack(params))
 end

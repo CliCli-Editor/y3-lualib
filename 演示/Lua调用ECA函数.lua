@@ -1,8 +1,8 @@
---需要安装“Y3开发助手”插件（版本>=1.1.0）
+--Need to install 'CliCli Developer Assistant' plug-in (version >=1.1.0)
 
 ---@diagnostic disable: param-type-mismatch, redundant-parameter
 
---假设地图中注册了自定义事件：“加法”，参数为2个整数，
---则可以通过以下代码直接调用该自定义事件
+--Suppose a custom event is registered in the map: 'Add', the parameter is 2 integers,
+--You can invoke the custom event directly with the following code
 
-y3.eca.call('加法', 100, 200)
+clicli.eca.call('加法', 100, 200)

@@ -1,4 +1,4 @@
-require 'y3.tools.log'
+require 'clicli.tools.log'
 
 ---@param path string
 ---@param mode openmode
@@ -52,7 +52,7 @@ local function print_to_game(message)
         table.remove(log_cache, 1)
     end
     ---@diagnostic disable-next-line: deprecated
-    y3.ui.display_message(y3.player.get_local(), remove_bad_utf8(table.concat(log_cache, '\n')), 60)
+    clicli.ui.display_message(clicli.player.get_local(), remove_bad_utf8(table.concat(log_cache, '\n')), 60)
 end
 
 local enable_print = true
@@ -75,16 +75,16 @@ log = New 'Log' {
                 upload_traceback(message_with_level)
             end
         end
-        local logger = y3.config.log.logger
+        local logger = clicli.config.log.logger
         if logger then
-            y3.config.log.logger = nil
+            clicli.config.log.logger = nil
             local suc, res = xpcall(logger, log.error, level, message, timeStamp)
-            y3.config.log.logger = logger
+            clicli.config.log.logger = logger
             if suc and res then
                 return
             end
         end
-        if y3.config.log.toDialog then
+        if clicli.config.log.toDialog then
             if level == 'error' or level == 'fatal' then
                 GameAPI.print_to_dialog(1, message)
             elseif level == 'warn' then
@@ -94,14 +94,14 @@ log = New 'Log' {
             end
         end
         if enable_print then
-            if y3.config.log.toConsole then
+            if clicli.config.log.toConsole then
                 consoleprint(message_with_level)
             end
-            if y3.config.log.toGame then
+            if clicli.config.log.toGame then
                 print_to_game(message_with_level)
             end
-            if y3.config.log.toHelper then
-                y3.develop.helper.print(message_with_level)
+            if clicli.config.log.toHelper then
+                clicli.develop.helper.print(message_with_level)
             end
         end
     end,
@@ -117,9 +117,9 @@ log = New 'Log' {
     end,
 }
 
---重载print
+--Overload print
 
---等价于 `log.debug`。另外在开发模式中，还会确保打印到游戏窗口中。
+--Equivalent to 'log.debug'. In development mode, it is also made sure to print to the game window.
 ---@param ... any
 function print(...)
     local strs = {...}
@@ -127,11 +127,11 @@ function print(...)
         strs[i] = tostring(strs[i])
     end
     local message = table.concat(strs, '\t')
-    if y3.game.is_debug_mode() then
+    if clicli.game.is_debug_mode() then
         print_to_game(message)
     end
     consoleprint(message)
-    y3.develop.helper.print(message)
+    clicli.develop.helper.print(message)
     enable_print = false
     log.debug(...)
     enable_print = true

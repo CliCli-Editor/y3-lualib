@@ -1,15 +1,15 @@
-local helper = require 'y3.develop.helper.helper'
+local helper = require 'clicli.develop.helper.helper'
 
 ---输入框的可选项，完全照抄的 VSCode 的接口
 ---@class Develop.Helper.InputBox.Optional
----@field title? string # 标题
----@field value? string # 初始值
----@field valueSelection? [integer, integer] # 初始选中的文本范围(光标位置，第一个字符前为0)
----@field prompt? string # 提示
----@field placeHolder? string # 占位符
----@field password? boolean # 是否是密码框
----@field ignoreFocusOut? boolean # 是否在失去焦点时关闭
----@field validateInput? fun(value: string): string | nil # 返回一个错误消息表示输入不合法
+---@field title? string # title
+---@field value? string # Initial value
+---@field valueSelection? [integer, integer] # Initially selected text range (cursor position, 0 before first character)
+---@field prompt? string # Tips
+---@field placeHolder? string # placeholder
+---@field password? boolean # Password or not box
+---@field ignoreFocusOut? boolean # Whether to close when you lose focus
+---@field validateInput? fun(value: string): string | nil # An error message is returned indicating that the input is invalid
 
 ---@class Develop.Helper.InputBox: Develop.Helper.InputBox.Optional
 ---@overload fun(optional?: Develop.Helper.InputBox.Optional): Develop.Helper.InputBox
@@ -44,7 +44,7 @@ function M:remove()
 end
 
 ---显示输入框
----@param callback fun(value?: string) # 输入完成后的回调函数。如果用户取消输入，`value` 为 `nil`。
+---@param callback fun(value?: string) # Input the callback function after completion. If the user cancels the input, 'value' is nil.
 function M:show(callback)
     M.inputBoxMap[self.id] = self
     helper.request('showInputBox', {

@@ -1,4 +1,4 @@
---投射物
+--projectile
 ---@class Projectile
 ---@field handle py.ProjectileEntity
 ---@field private _removed_by_py boolean
@@ -71,11 +71,11 @@ function M.get_by_id(id)
     return projectile
 end
 
-y3.py_converter.register_py_to_lua('py.Projectile', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Projectile', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Projectile', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Projectile', function (lua_value)
     return lua_value.handle
 end)
-y3.py_converter.register_py_to_lua('py.ProjectileID', M.get_by_id)
+clicli.py_converter.register_py_to_lua('py.ProjectileID', M.get_by_id)
 
 ---获取投射物的类型ID
 ---@return py.ProjectileKey projectile_key
@@ -93,13 +93,13 @@ end
 ---@return number height 高度
 function M:get_height()
     ---@diagnostic disable-next-line: undefined-field
-    return y3.helper.tonumber(self.handle:api_get_height()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_height()) or 0.0
 end
 
 ---获取投射物剩余持续时间
 ---@return number duration 投射物剩余持续时间
 function M:get_left_time()
-    return y3.helper.tonumber(self.handle:api_get_left_time()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_left_time()) or 0.0
 end
 
 ---获取投射物的拥有者
@@ -109,13 +109,13 @@ function M:get_owner()
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
 ---获取投射物朝向
 ---@return number angle 投射物朝向
 function M:get_facing()
-    return y3.helper.tonumber(self.handle:api_get_face_angle()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_face_angle()) or 0.0
 end
 
 ---获取投射物所在点
@@ -123,11 +123,11 @@ end
 function M:get_point()
     local py_point = self.handle:api_get_position()
     if not py_point then
-        return y3.point.create(0, 0)
+        return clicli.point.create(0, 0)
     end
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch
-    local point = y3.point.get_by_handle(py_point)
+    local point = clicli.point.get_by_handle(py_point)
     point.z = self:get_height()
     return point
 end
@@ -160,16 +160,16 @@ end
 ---@field time? number 投射物持续时间
 ---@field owner? Unit|Player 投射物拥有者
 ---@field ability? Ability 投射物关联技能
----@field visible_rule? integer | y3.Const.VisibleType 粒子特效可见性规则，默认为`1`
+---@field visible_rule? integer | clicli.Const.VisibleType 粒子特效可见性规则，默认为`1`
 ---@field remove_immediately? boolean 是否立即移除表现，如果不填会读表
 ---@field show_in_fog? boolean 是否在迷雾中显示，默认为`false`
 
--- 创建投射物
+--Create projectiles
 ---@param data Projectile.CreateData 投射物创建数据
 ---@return Projectile
 function M.create(data)
     if not data.owner then
-        data.owner = y3.player.get_by_id(31)
+        data.owner = clicli.player.get_by_id(31)
     end
     if data.ability and not data.ability:is_exist() then
         data.ability = nil
@@ -188,7 +188,7 @@ function M.create(data)
             Fix32(data.time or 60.0),
             data.time and true or false,
             Fix32(data.height or 0.0),
-            y3.const.VisibleType[data.visible_rule] or data.visible_rule or 1,
+            clicli.const.VisibleType[data.visible_rule] or data.visible_rule or 1,
             data.remove_immediately or false,
             data.remove_immediately == nil and true or false,
             data.show_in_fog or false
@@ -205,7 +205,7 @@ function M.create(data)
             ---@diagnostic disable-next-line: param-type-mismatch
             data.owner.handle,
             data.ability and data.ability.handle or nil,
-            y3.const.VisibleType[data.visible_rule] or data.visible_rule or 1,
+            clicli.const.VisibleType[data.visible_rule] or data.visible_rule or 1,
             Fix32(data.time or 60.0),
             data.time and true or false,
             data.remove_immediately or false,
@@ -297,16 +297,16 @@ end
 function M:get_ability()
     local py_ability = GlobalAPI.get_related_ability(self.handle)
     if py_ability then
-        return y3.ability.get_by_handle(py_ability)
+        return clicli.ability.get_by_handle(py_ability)
     end
     return nil
 end
 
---设置投射物的可见性
----@param visible boolean # 是否可见
----@param player_or_group? Player | PlayerGroup # 应用于哪些玩家，默认为所有玩家
+--Sets the visibility of the projectile
+---@param visible boolean # Visible or not
+---@param player_or_group? Player | PlayerGroup # To which players, default is all players
 function M:set_visible(visible, player_or_group)
-    player_or_group = player_or_group or y3.player_group.get_all_players()
+    player_or_group = player_or_group or clicli.player_group.get_all_players()
     ---@diagnostic disable-next-line: param-type-mismatch
     self.handle:api_set_projectile_visible(player_or_group.handle, visible)
 end

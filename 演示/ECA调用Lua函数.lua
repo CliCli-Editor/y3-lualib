@@ -1,5 +1,5 @@
--- 声明一个新的ECA函数，用于获取单位所有者
-y3.eca.def '获取单位所有者'
+--Declares a new ECA function to get the unit owner
+clicli.eca.def '获取单位所有者'
     -- 声明第一个参数的ECA类型
     : with_param('单位', 'Unit')
     -- 声明返回值的ECA类型
@@ -13,5 +13,5 @@ y3.eca.def '获取单位所有者'
         return p
     end)
 
--- 编辑器中使用ECA “执行Lua代码” 来调用上述函数
--- 设置变量 玩家 = 执行Lua代码 “Bind['获取单位所有者'](args[1])”，参数列表： 单位
+--The ECA 'execute Lua code' is used in the editor to call the above functions
+--Set variable player = Execute Lua code 'Bind[' Get unit owner '](args[1])', parameter list: unit

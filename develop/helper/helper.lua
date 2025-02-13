@@ -1,8 +1,8 @@
-local network  = require 'y3.util.network'
-local console  = require 'y3.develop.console'
-local attr     = require 'y3.develop.helper.attr'
+local network  = require 'clicli.util.network'
+local console  = require 'clicli.develop.console'
+local attr     = require 'clicli.develop.helper.attr'
 
-local nextID = y3.util.counter()
+local nextID = clicli.util.counter()
 
 ---@class Develop.Helper
 local M = Class 'Develop.Helper'
@@ -24,16 +24,16 @@ end
 
 local function logger(...)
     do return end
-    local default = y3.config.log.toHelper
-    y3.config.log.toHelper = false
+    local default = clicli.config.log.toHelper
+    clicli.config.log.toHelper = false
     log.debug(...)
-    y3.config.log.toHelper = default
+    clicli.config.log.toHelper = default
 end
 
---向《Y3开发助手》发送请求
+--Send a request to the CliCli Development Assistant
 ---@param method string
 ---@param params table
----@param callback? fun(data: any) # 接收返回值
+---@param callback? fun(data: any) # Received return value
 function M.request(method, params, callback)
     if not client then
         if callback then callback(nil) end
@@ -46,14 +46,14 @@ function M.request(method, params, callback)
         params = params,
     }
 
-    local jsonContent = y3.json.encode(data)
+    local jsonContent = clicli.json.encode(data)
     logger('send:', jsonContent)
     client:send(string.pack('>s4', jsonContent))
 
     requestMap[data.id] = callback
 end
 
---向《Y3开发助手》发送请求（协程）
+--Sending requests (coroutines) to the CliCli Development Assistant
 ---@async
 ---@param method string
 ---@param params table
@@ -62,12 +62,12 @@ function M.awaitRequest(method, params)
     if not client then
         return
     end
-    return y3.await.yield(function (resume)
+    return clicli.await.yield(function (resume)
         M.request(method, params, resume)
     end)
 end
 
---向《Y3开发助手》发送通知
+--Send notifications to the CliCli Development Assistant
 ---@param method string
 ---@param params table
 function M.notify(method, params)
@@ -80,7 +80,7 @@ function M.notify(method, params)
         params = params,
     }
 
-    local jsonContent = y3.json.encode(data)
+    local jsonContent = clicli.json.encode(data)
     logger('send:', jsonContent)
     client:send(string.pack('>s4', jsonContent))
 end
@@ -100,14 +100,14 @@ function M.response(id, result, err)
         error = err,
     }
 
-    local jsonContent = y3.json.encode(data)
+    local jsonContent = clicli.json.encode(data)
     logger('resp:', jsonContent)
     client:send(string.pack('>s4', jsonContent))
 end
 
 local function handleBody(body)
     logger('recv:', body)
-    local data = y3.json.decode(body)
+    local data = clicli.json.decode(body)
     local id = data.id
     if data.method then
         --request
@@ -150,7 +150,7 @@ local function createClient(port)
     })
 
     client:on_connected(function (self)
-        y3.player.with_local(function (local_player)
+        clicli.player.with_local(function (local_player)
             local arg = GameAPI.lua_get_start_args()
             M.notify('updatePlayer', {
                 name = local_player:get_name(),
@@ -169,14 +169,14 @@ local function createClient(port)
 
     client:on_error(function (self, error)
         print('VSCode链接发生错误：', error)
-        y3.ctimer.wait(1, function ()
+        clicli.ctimer.wait(1, function ()
             createClient(port)
         end)
     end)
 
     client:on_disconnected(function (self)
         print('VSCode链接断开!')
-        y3.ctimer.wait(1, function ()
+        clicli.ctimer.wait(1, function ()
             createClient(port)
         end)
     end)
@@ -192,7 +192,7 @@ local function createClient(port)
     return client
 end
 
---当《Y3开发助手》准备好时调用
+--Called when the CliCli Development Assistant is ready
 ---@param callback fun()
 function M.onReady(callback)
     if not onReadyCallbacks then
@@ -202,13 +202,13 @@ function M.onReady(callback)
     onReadyCallbacks[#onReadyCallbacks+1] = callback
 end
 
---《Y3开发助手》是否准备好
+--Is CliCli Development Assistant ready
 ---@return boolean
 function M.isReady()
     return client ~= nil
 end
 
---在《Y3开发助手》的终端上打印消息
+--Print a message on the terminal of the CliCli Development Assistant
 ---@param message string
 function M.print(message)
     M.notify('print', {
@@ -217,13 +217,13 @@ function M.print(message)
 end
 
 ---@class Develop.Helper.RestartOptions
----@field debugger? boolean # 是否需要启动调试器。如果省略，会根据当前是否附加了调试器来决定是否需要调试器。
+---@field debugger? boolean # Whether to start the debugger. If omitted, it determines whether a debugger is needed based on whether it is currently attached.
 ---@field id? integer  多开模式下自己的id
 
---准备重启游戏
+--Ready to restart the game
 function M.prepareForRestart()
     local arg = GameAPI.lua_get_start_args()
-    y3.player.with_local(function (local_player)
+    clicli.player.with_local(function (local_player)
         M.notify('prepareForRestart', {
             debugger = LDBG
                 and (arg['lua_wait_debugger'] == 'true'
@@ -251,7 +251,7 @@ end
 ---@type table<string, Develop.Helper.TreeView>
 M.treeViewMap = {}
 
---在《Y3开发助手》的视图上创建一个树形视图
+--Create a tree view on the CliCli Development Assistant view
 ---@param name string
 ---@param root Develop.Helper.TreeNode
 ---@return Develop.Helper.TreeView
@@ -264,7 +264,7 @@ function M.createTreeView(name, root)
     return treeView
 end
 
---在《Y3开发助手》的树形视图上创建一个节点
+--Create a node on the tree view of the CliCli Development Assistant
 ---@param name string
 ---@param optional? Develop.Helper.TreeNode.Optional
 ---@return Develop.Helper.TreeNode
@@ -273,7 +273,7 @@ function M.createTreeNode(name, optional)
     return treeNode
 end
 
----在《Y3开发助手》上创建一个输入框
+---在《CliCli开发助手》上创建一个输入框
 ---@param optional? Develop.Helper.InputBox.Optional
 ---@return Develop.Helper.InputBox
 function M.createInputBox(optional)
@@ -281,10 +281,10 @@ function M.createInputBox(optional)
     return inputBox
 end
 
----在《Y3开发助手》上创建一个属性监视器
----@param unit Unit # 要监视的单位
----@param attrType y3.Const.UnitAttr # 属性名
----@param condition? Develop.Attr.Accept # 断点表达式，如 `>= 100`，``` <= `最大生命` / 2 ```
+---在《CliCli开发助手》上创建一个属性监视器
+---@param unit Unit # Units to be monitored
+---@param attrType clicli.Const.UnitAttr # Attribute name
+---@param condition? Develop.Attr.Accept # Breakpoint expressions, such as' >= 100 ', '<=' maximum life / 2 '
 ---@return Develop.Helper.TreeNode
 function M.createAttrWatcher(unit, attrType, condition)
     return attr.add(unit, attrType, condition)
@@ -293,13 +293,13 @@ end
 ---@private
 M._inited = false
 
---初始化与《Y3开发助手》的连接。如果用VSCode启动游戏，会自动连接。
---其他情况若有需求可以调用此函数连接。
----@param port? integer # 目标端口号，若不指定则使用《Y3开发助手》下发的随机端口
----@param force? boolean # 是否允许重复连接
+--Initializes the connection to the CliCli Development Assistant. If you start the game with VSCode, it will connect automatically.
+--In other cases, you can call this function connection if required.
+---@param port? integer # Destination port number. If not specified, use the random port delivered by the CliCli Development Assistant
+---@param force? boolean # Whether to allow repeated connections
 ---@return { network: Network, explorer: Develop.Helper.TreeView }?
 function M.init(port, force)
-    local explorer = require 'y3.develop.helper.explorer'
+    local explorer = require 'clicli.develop.helper.explorer'
     if M._inited and not force then
         return nil
     end
@@ -320,13 +320,13 @@ function M.init(port, force)
     return result
 end
 
---注册一个方法
+--Register a method
 M.registerMethod('command', function (params)
-    y3.develop.console.input(params.data)
+    clicli.develop.console.input(params.data)
 end)
 
-y3.game:event_on('$Y3-初始化', function ()
-    if not y3.game.is_debug_mode() then
+clicli.game:event_on('$CliCli-初始化', function ()
+    if not clicli.game.is_debug_mode() then
         return
     end
     local arg = GameAPI.lua_get_start_args()
@@ -337,7 +337,7 @@ y3.game:event_on('$Y3-初始化', function ()
     M.init()
 end)
 
-y3.game:event_on('$Y3-即将切换关卡', function ()
+clicli.game:event_on('$CliCli-即将切换关卡', function ()
     M.prepareForRestart()
 end)
 

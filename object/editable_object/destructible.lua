@@ -1,4 +1,4 @@
---可破坏物
+--destructible
 ---@class Destructible
 ---@field handle py.Destructible
 ---@field id integer
@@ -61,12 +61,12 @@ function M.get_by_handle(py_destructible)
     return dest
 end
 
-y3.py_converter.register_py_to_lua('py.Destructible', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Destructible', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Destructible', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Destructible', function (lua_value)
     return lua_value.handle
 end)
 
--- 通过可破坏物的唯一ID获取lua的可破坏物对象
+--Gets lua's destructible object by the destructible's unique ID
 ---@param id py.DestructibleID
 ---@return Destructible?
 function M.get_by_id(id)
@@ -74,7 +74,7 @@ function M.get_by_id(id)
     return M.get_by_handle(py_destructible)
 end
 
-y3.py_converter.register_py_to_lua('py.DestructibleID', M.get_by_id)
+clicli.py_converter.register_py_to_lua('py.DestructibleID', M.get_by_id)
 
 ---是否存在
 ---@return boolean is_exist 是否存在
@@ -82,7 +82,7 @@ function M:is_exist()
     return  GameAPI.destructible_is_exist(self.handle)
 end
 
--- 获取唯一ID
+--Get a unique ID
 ---@return integer
 function M:get_id()
     return self.id
@@ -343,7 +343,7 @@ end
 ---获取可破坏物的生命值
 ---@return number cur_hp 生命值
 function M:get_hp()
-    return y3.helper.tonumber(self.handle:api_get_float_attr("hp_cur")) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_float_attr("hp_cur")) or 0.0
 end
 
 ---获取可破坏物的资源名称
@@ -355,7 +355,7 @@ end
 ---获取可破坏物的生命值
 ---@return number hp 可破坏物的生命值
 function M:get_max_hp()
-    return y3.helper.tonumber(self.handle:api_get_float_attr("hp_max")) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_float_attr("hp_max")) or 0.0
 end
 
 ---获取可破坏物的当前资源数
@@ -391,13 +391,13 @@ end
 ---获取可破坏物的高度
 ---@return number height 高度
 function M:get_height()
-    return y3.helper.tonumber(self.handle:api_get_dest_height_offset()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_dest_height_offset()) or 0.0
 end
 
 ---获取可破坏物的面向角度
 ---@return number rotation 面向角度
 function M:get_facing()
-    return y3.helper.tonumber(self.handle:api_get_dest_face_angle()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_dest_face_angle()) or 0.0
 end
 
 ---获取可破坏物对象的位置
@@ -406,7 +406,7 @@ function M:get_position()
     local py_point = self.handle:api_get_position()
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch
-    return y3.point.get_by_handle(py_point)
+    return clicli.point.get_by_handle(py_point)
 end
 
 --------------------------------------------类的方法--------------------------------------------
@@ -427,7 +427,7 @@ function M.create_destructible(type_id, point, angle, scale_x, scale_y, scale_z,
     if not height then height = 0 end
     local py_destructible = GameAPI.create_destructible_new(type_id, point.handle, Fix32(angle), Fix32(scale_x), Fix32(scale_y), Fix32(scale_z), Fix32(height))
 
-    return y3.destructible.get_by_handle(py_destructible) --[[@as Destructible]]
+    return clicli.destructible.get_by_handle(py_destructible) --[[@as Destructible]]
 end
 
 ---获取可破坏物类型的名称
@@ -460,7 +460,7 @@ function M.pick(area)
     local py_list = GameAPI.get_all_dest_in_area(area.handle)
     for i = 0, python_len(py_list) - 1 do
         local iter_destructible = python_index(py_list, i)
-        table.insert(destructibles,y3.destructible.get_by_handle(iter_destructible))
+        table.insert(destructibles,clicli.destructible.get_by_handle(iter_destructible))
     end
     return destructibles
 end
@@ -476,7 +476,7 @@ function M.pick_in_shape(point, shape)
     local lua_table = {}
     for i = 0, python_len(py_list)-1 do
         local iter_destructible = python_index(py_list, i)
-        table.insert(lua_table,y3.destructible.get_by_handle(iter_destructible))
+        table.insert(lua_table,clicli.destructible.get_by_handle(iter_destructible))
     end
     return lua_table
 end

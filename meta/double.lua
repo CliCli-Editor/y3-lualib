@@ -11,65 +11,65 @@
 ---@operator idiv: XDouble
 local M = {}
 
----@param num y3.Number | string
+---@param num clicli.Number | string
 ---@return XDouble
 function xdouble(num) end
 
 ---@return number
 function M:float() end
 
--- 会取整
+--round-up
 ---@return integer
 function M:int() end
 
--- 取绝对值
+--Absolute value
 ---@return XDouble
 function M:abs() end
 
--- 反余弦（角度制）
+--Inverse cosine
 ---@return XDouble
 function M:acos() end
 
--- 反正弦（弧度制）
+--arcsine
 ---@return XDouble
 function M:asin() end
 
--- 反正切（弧度制）
+--arctangent
 ---@return XDouble
 function M:atan() end
 
--- 向上取整
+--Round up
 ---@return XDouble
 function M:ceil() end
 
--- 余弦（弧度制）
+--cosine
 ---@return XDouble
 function M:cos() end
 
--- 自然对数
+--Natural logarithm
 ---@return XDouble
 function M:exp() end
 
--- 向下取整
+--Round down
 ---@return XDouble
 function M:floor() end
 
--- 取对数
+--Take the logarithm
 ---@return XDouble
 function M:log() end
 
--- 四舍五入
+--Round it up
 ---@return XDouble
 function M:round() end
 
--- 正弦（弧度制）
+--sine
 ---@return XDouble
 function M:sin() end
 
--- 开方
+--Root of a root
 ---@return XDouble
 function M:sqrt() end
 
--- 正切（弧度制）
+--tangent
 ---@return XDouble
 function M:tan() end

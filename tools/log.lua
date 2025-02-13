@@ -12,7 +12,7 @@
 ---@overload fun(option: Log.Option): Log
 local M = Class 'Log'
 
--- 设置日志文件的最大大小
+--Set the maximum size of log files
 M.maxSize = 100 * 1024 * 1024
 
 ---@private
@@ -43,7 +43,7 @@ M.needTraceBack = {
     fatal = true,
 }
 
---是否打印到日志文件中
+--Whether to print to a log file
 M.enable = true
 
 ---@param a  table
@@ -63,16 +63,16 @@ local function merge(a, b)
 end
 
 ---@class Log.Option
----@field maxSize? integer # 日志文件的最大大小
----@field path? string # 日志文件的路径，与file二选一
----@field file? file* # 日志文件对象，与path二选一
----@field print? fun(level: Log.Level, message: string, timeStamp: string) # 额外的打印回调
----@field level? Log.Level # 日志等级，低于此等级的日志将不会被记录
----@field logLevel? table<Log.Level, integer> # 自定义日志等级
----@field needTraceBack? table<Log.Level, boolean> # 是否需要打印堆栈信息
----@field clock? fun(): number # 获取当前时间，需要精确到毫秒
----@field startTime? integer # 日志开始的时间戳，若不提供则会使用`os.time`获取
----@field traceback? (fun(message: string, level: integer): string) # 获取堆栈的函数，默认为debug.traceback
+---@field maxSize? integer # Maximum size of the log file
+---@field path? string # The path of the log file can be either file or log file
+---@field file? file* # Log file object, choose either path or log file object
+---@field print? fun(level: Log.Level, message: string, timeStamp: string) # Additional print callbacks
+---@field level? Log.Level # Log level. Logs below this level are not recorded
+---@field logLevel? table<Log.Level, integer> # Customize log levels
+---@field needTraceBack? table<Log.Level, boolean> # Whether to print stack information
+---@field clock? fun(): number # To get the current time, it needs to be accurate to milliseconds
+---@field startTime? integer # The timestamp at the beginning of the log, if not provided, is obtained using 'os.time'
+---@field traceback? (fun(message: string, level: integer): string) # Get the stack function, default is debug.traceback
 
 ---@param path string
 ---@param mode openmode

@@ -27,7 +27,7 @@ function M.pack_list(lua_list, unwrapper)
     return py_list
 end
 
----@param n? y3.Number
+---@param n? clicli.Number
 ---@return number?
 function M.tonumber(n)
     if not n then
@@ -40,7 +40,7 @@ function M.tonumber(n)
     end
 end
 
----@param n? y3.Number | any
+---@param n? clicli.Number | any
 ---@return 'number' | 'Fix32' | 'XDouble' | nil
 function M.number_type(n)
     local tp = type(n)
@@ -110,7 +110,7 @@ local function as_py(v, mark)
         end
         mark[v] = false
         if #v > 0 then
-            v = y3.util.map(v, function (nv)
+            v = clicli.util.map(v, function (nv)
                 return as_py(nv, mark)
             end)
             v = M.py_tuple(v)

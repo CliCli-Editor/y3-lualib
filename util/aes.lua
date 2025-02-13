@@ -1,14 +1,14 @@
 ---@diagnostic disable-next-line: undefined-global
 local y3_crypto = y3_crypto
 
---aes加密解密
+--aes encryption and decryption
 ---@class AES
 local M = {}
 
---加密字符串
----@param key string # 长度必须是16/24/32
----@param iv string # 长度必须是16
----@param source_text string # 要加密的文本
+--Cryptographic string
+---@param key string # The length must be 16/24/32
+---@param iv string # The length must be 16
+---@param source_text string # Text to encrypt
 ---@return string
 function M.encrypt(key, iv, source_text)
     if #key ~= 16 and #key ~= 24 and #key ~= 32 then
@@ -24,10 +24,10 @@ function M.encrypt(key, iv, source_text)
     return ret
 end
 
---解密字符串
----@param key string # 长度必须是16/24/32
----@param iv string # 长度必须是16
----@param crypted_text string # 要解密的文本
+--Decryption string
+---@param key string # The length must be 16/24/32
+---@param iv string # The length must be 16
+---@param crypted_text string # Text to decrypt
 ---@return string
 function M.decrypt(key, iv, crypted_text)
     if #key ~= 16 and #key ~= 24 and #key ~= 32 then

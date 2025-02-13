@@ -99,7 +99,7 @@ function M.get_py_type(type_name)
     if M.type_alias_map[type_name] then
         return M.type_alias_map[type_name]
     end
-    if y3.util.stringStartWith(type_name, 'py.') then
+    if clicli.util.stringStartWith(type_name, 'py.') then
         M.type_alias_map[type_name] = type_name
         return type_name
     end
@@ -118,15 +118,15 @@ function M.register_type_alias(py_type_name, lua_type_name)
 end
 
 M.register_py_to_lua('py.Fixed', function (py_number)
-    return y3.helper.tonumber(py_number)
+    return clicli.helper.tonumber(py_number)
 end)
 
 M.register_py_to_lua('LuaFix32', function (py_number)
-    return y3.helper.tonumber(py_number)
+    return clicli.helper.tonumber(py_number)
 end)
 
 M.register_py_to_lua('number', function (py_number)
-    return y3.helper.tonumber(py_number)
+    return clicli.helper.tonumber(py_number)
 end)
 
 M.register_lua_to_py('py.Fixed', function (number)
@@ -134,7 +134,7 @@ M.register_lua_to_py('py.Fixed', function (number)
 end)
 
 M.register_py_to_lua('table', function (py_table)
-    return y3.proxy.new(py_table, {
+    return clicli.proxy.new(py_table, {
         recursive = true,
         cache = true,
         updateRaw = true,
@@ -146,7 +146,7 @@ M.register_py_to_lua('table', function (py_table)
                 return M.py_to_lua(v.__name, v)
             end
             if tp == 'table' then
-                return y3.proxy.new(v, config)
+                return clicli.proxy.new(v, config)
             end
             return v
         end

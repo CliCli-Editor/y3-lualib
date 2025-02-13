@@ -1,4 +1,4 @@
-local must_sync = require 'y3.meta.must_sync'
+local must_sync = require 'clicli.meta.must_sync'
 
 ---@class LocalPlayer
 local M = Class 'LocalPlayer'
@@ -40,7 +40,7 @@ end
 ---@return boolean
 function M.is_name_must_sync(name)
     if not M.must_sync_name_map then
-        M.must_sync_name_map = y3.util.revertMap(must_sync)
+        M.must_sync_name_map = clicli.util.revertMap(must_sync)
     end
     return M.must_sync_name_map[name] ~= nil
 end
@@ -135,7 +135,7 @@ function M:wrap_table_in_upvalue(func, i, name, value)
     return wrapped_table
 end
 
-M.LOCAL_PLAYER = y3.player.get_by_handle(GameAPI.get_client_role())
+M.LOCAL_PLAYER = clicli.player.get_by_handle(GameAPI.get_client_role())
 
 M.dont_wrap_this = setmetatable({}, { __mode = 'k' })
 
@@ -162,7 +162,7 @@ function M.wrap_table(name, tbl)
     if M.dont_wrap_this[tbl] then
         return tbl
     end
-    local wrapped_table = y3.proxy.new(tbl, M.proxy_config, name)
+    local wrapped_table = clicli.proxy.new(tbl, M.proxy_config, name)
     M.dont_wrap_this[wrapped_table] = true
     return wrapped_table
 end
@@ -179,7 +179,7 @@ M.proxy_config = {
             else
                 new_path = parent_path .. '.' .. tostring(key)
             end
-            return y3.proxy.new(value, M.proxy_config, new_path)
+            return clicli.proxy.new(value, M.proxy_config, new_path)
         elseif type(value) == 'function' then
             value = M.check_function_in_sandbox(parent_path, value)
             return value
@@ -219,10 +219,10 @@ function M.check_function_in_sandbox(name, func)
     return wrapped_func
 end
 
-M.sandbox = y3.proxy.new(_G, M.proxy_config, '')
+M.sandbox = clicli.proxy.new(_G, M.proxy_config, '')
 
-y3.reload.onAfterReload(function ()
-    M.sandbox = y3.proxy.new(_G, M.proxy_config, '')
+clicli.reload.onAfterReload(function ()
+    M.sandbox = clicli.proxy.new(_G, M.proxy_config, '')
 end)
 
 ---@param env table
@@ -234,16 +234,16 @@ end
 ---@class Player
 local Player = Class 'Player'
 
---在本地玩家环境中执行代码。  
---在开发模式中会阻止这些代码修改上值、修改全局变量、调用同步函数，因此也会产生额外的开销。（暂时失效）  
---在平台上不会检测，也不会有额外开销。
+--Execute code in the local player environment.
+--In development mode, this code is prevented from modifying upper values, modifying global variables, and calling synchronization functions, thus incurring additional overhead. (temporarily disabled)
+--There is no detection on the platform and no additional overhead.
 --
 ------
 --
 --```lua
---y3.player.with_local(function (local_player)
---    -- 在此回调函数中修改上值、修改全局变量、调用同步函数会给出警告
---    print(local_player)
+--clicli.player.with_local(function (local_player)
+--Modifying the upper value in this callback function, modifying global variables, and calling synchronous functions will give warnings
+--print(local_player)
 --end)
 --```
 ---@param callback fun(local_player: Player)
@@ -253,7 +253,7 @@ function Player.with_local(callback)
         return
     end
     if not can_use_debug
-    or not y3.game.is_debug_mode() then
+    or not clicli.game.is_debug_mode() then
         callback(M.LOCAL_PLAYER)
         return
     end

@@ -34,37 +34,37 @@ function Fix32Vec3(x, y, z) end
 ---@class py.Fixed
 ---@field float fun(self: self): number
 
----@alias y3.Const.EventType
----| y3.Const.GlobalEventType
----| y3.Const.UIEventType
----| y3.Const.UnitEventType
----| y3.Const.ItemEventType
----| y3.Const.AbilityEventType
----| y3.Const.ModifierEventType
----| y3.Const.ProjectileEventType
----| y3.Const.PlatformEventType
----| y3.Const.DestructibleEventType
+---@alias clicli.Const.EventType
+---| clicli.Const.GlobalEventType
+---| clicli.Const.UIEventType
+---| clicli.Const.UnitEventType
+---| clicli.Const.ItemEventType
+---| clicli.Const.AbilityEventType
+---| clicli.Const.ModifierEventType
+---| clicli.Const.ProjectileEventType
+---| clicli.Const.PlatformEventType
+---| clicli.Const.DestructibleEventType
 
 ---@param id integer
 ---@param name string
----@param event y3.Const.EventType | { [1]: y3.Const.EventType, [integer]: any }
+---@param event clicli.Const.EventType | { [1]: clicli.Const.EventType, [integer]: any }
 ---@param init_enabled boolean
 ---@param addition any
----@return {on_event: fun(trigger: table, event: y3.Const.EventType, actor, data)}
+---@return {on_event: fun(trigger: table, event: clicli.Const.EventType, actor, data)}
 function new_global_trigger(id, name, event, init_enabled, addition) end
 
--- 获取容器大小
+--Get container size
 ---@param obj py.DynamicTypeMeta | py.Tuple
 ---@return integer
 function python_len(obj) end
 
--- 获取容器元素
+--Get container element
 ---@param obj py.DynamicTypeMeta | py.Tuple
 ---@param index integer
 ---@return any
 function python_index(obj, index) end
 
--- 设置容器元素
+--Set container element
 ---@param obj py.DynamicTypeMeta
 ---@param index integer
 ---@param value any
@@ -148,19 +148,19 @@ function python.debug_ns_timestamp() end
 ---@field set_lifting_velocity       fun(lifting_velocity: py.Fixed)
 ---@field set_around_init_height     fun(around_init_height: py.Fixed)
 
--- 直线运动参数生成器
+--Linear motion parameter generator
 ---@return py.MoverLineBuilder
 function StraightMoverArgs() end
 
--- 追踪运动参数生成器
+--Trace motion parameter generator
 ---@return py.MoverTargetBuilder
 function ChasingMoverArgs() end
 
--- 曲线运动参数生成器
+--Curve motion parameter generator
 ---@return py.MoverCurveBuilder
 function CurvedMoverArgs() end
 
--- 环绕运动参数生成器
+--Wraparound motion parameter generator
 ---@return py.MoverRoundBuilder
 function RoundMoverArgs() end
 
@@ -256,7 +256,7 @@ function regist_object_event(handle, py_event_name, callback, ...) end
 ---@param seq integer
 function unregist_object_event(seq) end
 
----@alias y3.Number number | py.Fixed | XDouble
+---@alias clicli.Number number | py.Fixed | XDouble
 
 ---@class py.Tuple
 ---@field [integer] any
@@ -268,7 +268,7 @@ function pytuple(list) end
 ---@return py.Dict
 function pydict() end
 
--- TODO 先申明一下，后面再补充
+--TODO, state it first, and fill it in later
 
 ---@type any
 CreateMoverComponent = nil

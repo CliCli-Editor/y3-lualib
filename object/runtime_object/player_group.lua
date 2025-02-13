@@ -1,4 +1,4 @@
---玩家组
+--Player group
 ---@class PlayerGroup
 ---@field handle py.RoleGroup
 ---@field private _removed? boolean
@@ -35,31 +35,31 @@ function M.get_by_handle(py_role_group)
     return player_group
 end
 
-y3.py_converter.register_type_alias('py.RoleGroup', 'PlayerGroup')
-y3.py_converter.register_py_to_lua('py.RoleGroup', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.RoleGroup', function (lua_value)
+clicli.py_converter.register_type_alias('py.RoleGroup', 'PlayerGroup')
+clicli.py_converter.register_py_to_lua('py.RoleGroup', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.RoleGroup', function (lua_value)
     return lua_value.handle
 end)
 
---创建空玩家组
+--Create an empty player group
 ---@return PlayerGroup
 function M.create()
     return M.get_by_handle(GameAPI.create_role_group())
 end
 
---获取玩家组中玩家数量
+--Gets the number of players in the player group
 ---@return integer
 function M:count()
     return python_len(self.handle)
 end
 
---将玩家组转换为Lua的玩家数组
+--Converts the player group to Lua's player array
 ---@return Player[]
 function M:pick()
     local lua_table = {}
     for i = 1, python_len(self.handle) do
         local iter_player = python_index(self.handle,i-1)
-        table.insert(lua_table, y3.player.get_by_id(iter_player))
+        table.insert(lua_table, clicli.player.get_by_id(iter_player))
     end
     return lua_table
 end
@@ -86,24 +86,24 @@ function M:pairs()
             return
         end
         local id = python_index(self.handle, i)
-        local p = y3.player.get_by_id(id)
+        local p = clicli.player.get_by_id(id)
         return p
     end
 end
 
---添加玩家
+--Add a player
 ---@param player Player 玩家
 function M:add_player(player)
     GameAPI.add_role_to_group(player.handle, self.handle)
 end
 
---移除玩家
+--Remove the player
 ---@param player Player 玩家
 function M:remove_player(player)
     GameAPI.rem_role_from_group(player.handle, self.handle)
 end
 
---清空玩家组
+--Clear player group
 function M:clear()
     GlobalAPI.clear_group(self.handle)
 end

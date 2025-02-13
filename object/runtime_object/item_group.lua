@@ -1,4 +1,4 @@
---物品组
+--Item group
 ---@class ItemGroup
 ---@field handle py.ItemGroup
 ---@overload fun(py_item_group: py.ItemGroup): self
@@ -29,18 +29,18 @@ function M.get_by_handle(py_item_group)
     return M.create_lua_item_group_from_py(py_item_group)
 end
 
-y3.py_converter.register_py_to_lua('py.ItemGroup', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.ItemGroup', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.ItemGroup', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.ItemGroup', function (lua_value)
     return lua_value.handle
 end)
 
---遍历物品组中玩家做动作
+--Go through the item group and the player does the action
 ---@return Item[]
 function M:pick()
     local lua_table ={}
     for i = 0, python_len(self.handle)-1 do
         local iter_item = python_index(self.handle,i)
-        table.insert(lua_table,y3.item.get_by_id(iter_item))
+        table.insert(lua_table,clicli.item.get_by_id(iter_item))
     end
     return lua_table
 end
@@ -67,7 +67,7 @@ function M:pairs()
             return
         end
         local id = python_index(self.handle, i)
-        local it = y3.item.get_by_id(id)
+        local it = clicli.item.get_by_id(id)
         return it
     end
 end

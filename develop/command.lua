@@ -1,13 +1,13 @@
---作弊指令
+--Cheat instruction
 --
---该功能仅在开发模式有效
+--This feature is only available in development mode
 ---@class Develop.Command
 local M = Class 'Develop.Command'
 
 ---@class Develop.Command.ExecuteParam
----@field command string # 输入的命令（和输入一致，不保证大小写状态）
----@field args string[] # 命令参数
----@field player? Player # 调用命令的玩家
+---@field command string # Input command (same as input, case status is not guaranteed)
+---@field args string[] # Command parameter
+---@field player? Player # The player who invokes the command
 
 ---@class Develop.Command.InfoParam
 ---@field onCommand? fun(...)
@@ -25,7 +25,7 @@ local M = Class 'Develop.Command'
 ---@type table<string, Develop.Command.Info>
 M.commands = {}
 
--- 注册作弊指令（指令名称无视大小写）
+--Register cheat instruction (instruction name is case insensitive)
 ---@param command string
 ---@param info Develop.Command.InfoParam|function
 function M.register(command, info)
@@ -43,7 +43,7 @@ end
 
 ---@param reload Reload
 local function remove_all_triggers_in_include(reload)
-    local event_manager = y3.game:get_event_manager()
+    local event_manager = clicli.game:get_event_manager()
     for trigger in event_manager:pairs() do
         local name = trigger:get_include_name()
         if reload:isValidName(name) then
@@ -54,7 +54,7 @@ end
 
 ---@param reload Reload
 local function remove_all_custom_triggers_in_include(reload)
-    local event_manager = y3.game:get_custom_event_manager()
+    local event_manager = clicli.game:get_custom_event_manager()
     if not event_manager then
         return
     end
@@ -68,7 +68,7 @@ end
 
 ---@param reload Reload
 local function remove_all_timers_in_include(reload)
-    for timer in y3.timer.pairs() do
+    for timer in clicli.timer.pairs() do
         local name = timer:get_include_name()
         if reload:isValidName(name) then
             timer:remove()
@@ -78,7 +78,7 @@ end
 
 ---@param reload Reload
 local function remove_all_local_timers_in_include(reload)
-    for timer in y3.ltimer.pairs() do
+    for timer in clicli.ltimer.pairs() do
         local name = timer:get_include_name()
         if reload:isValidName(name) then
             timer:remove()
@@ -88,7 +88,7 @@ end
 
 ---@param reload Reload
 local function remove_all_client_timers_in_include(reload)
-    for timer in y3.ctimer.pairs() do
+    for timer in clicli.ctimer.pairs() do
         local name = timer:get_include_name()
         if reload:isValidName(name) then
             timer:remove()
@@ -101,15 +101,15 @@ M.register('RD', {
     priority = 100,
     desc = '重载所有使用 `include` 加载的脚本文件，并清理他们的全局计时器和触发器。',
     onCommand = function ()
-        y3.reload.reload()
+        clicli.reload.reload()
     end,
 })
 
 M.register('SS', {
     desc = '生成内存快照',
     onCommand = function (extraInfo)
-        y3.doctor.toString('onlylua', 'onlylua')
-        local reports = y3.doctor.report()
+        clicli.doctor.toString('onlylua', 'onlylua')
+        local reports = clicli.doctor.report()
         local lines = {}
         lines[#lines+1] = '===GCObject==='
         for _, report in ipairs(reports.report) do
@@ -151,7 +151,7 @@ M.register('SS', {
         lines[#lines+1] = '===Finish==='
         local content = table.concat(lines, '\n')
         ---@diagnostic disable-next-line: undefined-global
-        y3.fs.save('.log/snapshot.txt', content)
+        clicli.fs.save('.log/snapshot.txt', content)
         log.debug('快照已保存到 script/.log/snapshot.txt')
     end
 })
@@ -161,8 +161,8 @@ M.register('CT', {
     onCommand = function (...)
         collectgarbage()
         collectgarbage()
-        y3.doctor.toString('onlylua', 'onlylua')
-        local results = y3.doctor.catch(...)
+        clicli.doctor.toString('onlylua', 'onlylua')
+        local results = clicli.doctor.catch(...)
         local lines = {}
         for _, result in ipairs(results) do
             result[1] = 'root'
@@ -170,7 +170,7 @@ M.register('CT', {
         end
         local content = table.concat(lines, '\n')
         ---@diagnostic disable-next-line: undefined-global
-        y3.fs.save('.log/catch.txt', content)
+        clicli.fs.save('.log/catch.txt', content)
         log.debug('快照已保存到 script/.log/catch.txt')
     end
 })
@@ -178,20 +178,20 @@ M.register('CT', {
 M.register('RR', {
     desc = '重启游戏',
     onCommand = function ()
-        y3.sync.send('$restart')
+        clicli.sync.send('$restart')
     end
 })
 
 local hasRestartd = false
-y3.sync.onSync('$restart', function ()
+clicli.sync.onSync('$restart', function ()
     if hasRestartd then
         return
     end
     hasRestartd = true
-    y3.game.restart_game()
+    clicli.game.restart_game()
 end)
 
-y3.reload.onBeforeReload(function (reload, willReload)
+clicli.reload.onBeforeReload(function (reload, willReload)
     remove_all_triggers_in_include(reload)
     remove_all_custom_triggers_in_include(reload)
     remove_all_timers_in_include(reload)
@@ -199,19 +199,19 @@ y3.reload.onBeforeReload(function (reload, willReload)
     remove_all_client_timers_in_include(reload)
 end)
 
-y3.game:event('玩家-发送消息', function (trg, data)
+clicli.game:event('玩家-发送消息', function (trg, data)
     M.input('.', data.str1, data.player)
 end)
 
--- 输入作弊指令
+--Enter cheat instruction
 ---@param prefix string
 ---@param input string
 ---@param player? Player
 function M.input(prefix, input, player)
-    if not y3.game.is_debug_mode() then
+    if not clicli.game.is_debug_mode() then
         return
     end
-    if not y3.util.stringStartWith(input, prefix) then
+    if not clicli.util.stringStartWith(input, prefix) then
         return
     end
 
@@ -238,7 +238,7 @@ function M.input(prefix, input, player)
     }
 end
 
--- 执行作弊指令
+--Execute cheat instruction
 ---@param command string
 ---@param ... any
 function M.execute(command, ...)
@@ -248,7 +248,7 @@ function M.execute(command, ...)
     }
 end
 
--- 执行作弊指令
+--Execute cheat instruction
 ---@param param Develop.Command.ExecuteParam
 function M.executeEX(param)
     local command = param.command:lower()
@@ -272,7 +272,7 @@ end
 
 ---@return string[]
 function M.getAllCommands()
-    return y3.util.getTableKeys(M.commands, function (a, b)
+    return clicli.util.getTableKeys(M.commands, function (a, b)
         return M.getCommandInfo(a).priority > M.getCommandInfo(b).priority
     end)
 end

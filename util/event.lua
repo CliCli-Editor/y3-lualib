@@ -17,7 +17,7 @@ M.fire_lock = 0
 ---@return self
 function M:__init(event_name)
     self.event_name = event_name
-    self.triggers_common = y3.linked_table.create()
+    self.triggers_common = clicli.linked_table.create()
     return self
 end
 
@@ -57,7 +57,7 @@ function M:did_add_trigger(trigger)
             self.triggers_custom = {}
         end
         if not self.triggers_custom[target] then
-            self.triggers_custom[target] = y3.linked_table.create()
+            self.triggers_custom[target] = clicli.linked_table.create()
         end
         self.triggers_custom[target]:pushTail(trigger)
     elseif mode == 'array' then
@@ -65,7 +65,7 @@ function M:did_add_trigger(trigger)
             self.triggers_with_args = {}
         end
         if not self.triggers_with_args[target] then
-            self.triggers_with_args[target] = y3.linked_table.create()
+            self.triggers_with_args[target] = clicli.linked_table.create()
         end
         self.triggers_with_args[target]:pushTail(trigger)
     end
@@ -125,7 +125,7 @@ end
 ---@return 'none' | 'custom' | 'array'
 ---@return any
 function M:get_target_triggers(args)
-    local mode, target = y3.trigger.compute_event_args(args)
+    local mode, target = clicli.trigger.compute_event_args(args)
     if mode == 'none' then
         return self.triggers_common, mode, target
     elseif mode == 'custom' then

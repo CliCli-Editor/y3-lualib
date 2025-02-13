@@ -7,7 +7,7 @@ function M.win()
         return
     end
     M.finished = true
-    y3.player(1):display_message('游戏胜利!')
+    clicli.player(1):display_message('游戏胜利!')
 end
 
 function M.lose()
@@ -15,7 +15,7 @@ function M.lose()
         return
     end
     M.finished = true
-    y3.player(1):display_message('游戏失败!')
+    clicli.player(1):display_message('游戏失败!')
 end
 
 return M

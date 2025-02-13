@@ -1,6 +1,6 @@
 ---@alias Point.HandleType py.FVector3
 
---点
+--point
 ---@class Point
 ---@field handle Point.HandleType
 ---@field res_id? integer
@@ -60,13 +60,13 @@ function M.get_by_handle(py_point)
     return point
 end
 
-y3.py_converter.register_type_alias('py.Point', 'Point')
-y3.py_converter.register_py_to_lua('py.Point', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Point', function (lua_value)
+clicli.py_converter.register_type_alias('py.Point', 'Point')
+clicli.py_converter.register_py_to_lua('py.Point', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Point', function (lua_value)
     return lua_value.handle
 end)
-y3.py_converter.register_py_to_lua('py.Vector3', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Vector3', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Vector3', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Vector3', function (lua_value)
     return lua_value.handle
 end)
 
@@ -105,7 +105,7 @@ function M:get_point()
     return self
 end
 
--- 移动点
+--Moving point
 ---@param x number?
 ---@param y number?
 ---@param z number?
@@ -156,25 +156,25 @@ function M.get_point_in_path(path,index)
     return M.get_by_handle(py_point)
 end
 
--- 获取与另一个点的方向
+--Gets the direction with another point
 ---@param other Point
 ---@return number
 function M:get_angle_with(other)
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch, undefined-field
-    return y3.helper.tonumber(self.handle:get_angle_with(other.handle)) or 0.0
+    return clicli.helper.tonumber(self.handle:get_angle_with(other.handle)) or 0.0
 end
 
--- 获取与另一个点的距离
+--Gets the distance from another point
 ---@param other Point
 ---@return number
 function M:get_distance_with(other)
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch, undefined-field
-    return y3.helper.tonumber(self.handle:get_distance_with(other.handle)) or 0.0
+    return clicli.helper.tonumber(self.handle:get_distance_with(other.handle)) or 0.0
 end
 
---获取圆形范围内的随机点
+--Gets random points in a circle range
 function M:get_random_point(radius)
     ---@diagnostic disable-next-line: undefined-field
     local p = self.handle:get_random_point(radius)

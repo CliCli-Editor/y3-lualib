@@ -79,7 +79,7 @@ else
     json.null = function() end
 end
 
--- json.encode --
+--json.encode --
 local statusVisited
 local statusBuilder
 
@@ -268,7 +268,7 @@ end
 json._encode_map = encode_map
 json._encode_string = encode_string
 
--- json.decode --
+--json.decode --
 
 local statusBuf
 local statusPos

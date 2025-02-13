@@ -7,8 +7,8 @@ Extends('Game', 'CustomEvent')
 ---@private
 M.event_manager = New 'EventManager' ()
 
--- 注册引擎事件
----@param event_type y3.Const.EventType
+--Register engine event
+---@param event_type clicli.Const.EventType
 ---@param ... any
 ---@return Trigger
 function M:event(event_type, ...)
@@ -24,7 +24,7 @@ function M:get_event_manager()
     return self.event_manager
 end
 
----@param event_type y3.Const.EventType
+---@param event_type clicli.Const.EventType
 ---@param ... any
 ---@return any[]?
 ---@return Trigger.CallBack
@@ -44,10 +44,10 @@ function M:subscribe_event(event_type, ...)
         error('缺少回调函数！')
     end
 
-    y3.py_event_sub.event_register(event_type, extra_args)
+    clicli.py_event_sub.event_register(event_type, extra_args)
 
     local unsubscribe = function ()
-        y3.py_event_sub.event_unregister(event_type, extra_args)
+        clicli.py_event_sub.event_unregister(event_type, extra_args)
     end
 
     return extra_args, callback, unsubscribe

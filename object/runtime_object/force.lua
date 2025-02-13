@@ -26,14 +26,14 @@ function M:remove()
 end
 
 ---@class Force.Options
----@field target Unit | Point | number # 牵引的目标，可以是另一个单位、点或者角度
----@field speed number # 牵引速度
----@field max_speed? number # 最大牵引速度
----@field min_speed? number # 最小牵引速度
----@field accel? number # 牵引加速度
+---@field target Unit | Point | number # The target of traction can be another unit, point, or Angle
+---@field speed number # Traction speed
+---@field max_speed? number # Maximum traction speed
+---@field min_speed? number # Minimum traction speed
+---@field accel? number # Traction acceleration
 
----@param unit Unit # 被牵引的单位
----@param options Force.Options # 牵引选项
+---@param unit Unit # The unit being pulled
+---@param options Force.Options # Traction option
 ---@return Force
 function M.create(unit, options)
     ---@diagnostic disable: param-type-mismatch

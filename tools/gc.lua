@@ -9,11 +9,11 @@ function GCHost:__del()
     self._gccontainer:remove()
 end
 
--- 将一个对象的生命周期与自己绑定，
--- 当自己被移除时，也会移除该对象。
--- 如果调用此方法时自己已经被移除，
--- 则会立即移除该对象并返回 `nil`，
--- 否则会返回该对象。
+--Bind an object's life cycle to itself,
+--When it is removed, the object is also removed.
+--If you have already been removed when you call this method,
+--Removes the object immediately and returns' nil ',
+--Otherwise, the object is returned.
 ---@generic T: table
 ---@param obj T | function
 ---@return T

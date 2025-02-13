@@ -1,6 +1,6 @@
-local counter = y3.util.counter()
+local counter = clicli.util.counter()
 
---触发器
+--flip-flop
 ---@class Trigger
 ---@field private _event Event
 ---@field private _callback Trigger.CallBack
@@ -15,7 +15,7 @@ local M = Class 'Trigger'
 ---@alias Trigger.CallBack fun(trg: Trigger, ...): any, any, any, any
 
 
-M.all_triggers = setmetatable({}, y3.util.MODE_V)
+M.all_triggers = setmetatable({}, clicli.util.MODE_V)
 
 ---@param event Event
 ---@param event_args? any[]
@@ -53,7 +53,7 @@ function M:get_id()
     return self._id
 end
 
---禁用触发器
+--Disable trigger
 function M:disable()
     self._enable = false
 end
@@ -67,7 +67,7 @@ function M:is_enable()
     return self._enable
 end
 
---在本次事件中禁用此触发器
+--Disable this trigger in this event
 function M:disable_once()
     self._disable_once = true
     if self.event_manager then
@@ -106,8 +106,8 @@ function M.compute_event_args(event_args)
     end
 end
 
--- 检查事件的参数与触发器的参数是否匹配，
--- 允许事件的参数数量多余触发器的参数数量。
+--Check that the parameters of the event match the parameters of the trigger,
+--The number of allowed event parameters exceeds the number of trigger parameters.
 ---@param fire_args any[]?
 ---@param fire_mode 'custom' | 'array' | 'none'
 ---@param fire_target any
@@ -154,7 +154,7 @@ function M:is_match_args(fire_args, fire_mode, fire_target)
     return true
 end
 
--- 运行触发器，最多能返回4个返回值
+--Run the trigger to return up to 4 return values
 ---@param ... any
 ---@return any, any, any, any
 function M:execute(...)
@@ -178,7 +178,7 @@ end
 ---@return string?
 function M:get_include_name()
     if not self._include_name then
-        self._include_name = y3.reload.getIncludeName(self._callback) or false
+        self._include_name = clicli.reload.getIncludeName(self._callback) or false
     end
     return self._include_name or nil
 end
@@ -188,7 +188,7 @@ function M:on_remove(callback)
     self._on_remove = callback
 end
 
---添加标签
+--Add tag
 ---@param tag any
 function M:add_tag(tag)
     if not self._tags then
@@ -198,7 +198,7 @@ function M:add_tag(tag)
     self._tags[tag] = true
 end
 
---是否有标签
+--Label or not
 ---@param tag any
 ---@return boolean
 function M:has_tag(tag)
@@ -208,7 +208,7 @@ function M:has_tag(tag)
     return self._tags[tag] ~= nil
 end
 
---移除标签
+--Remove tag
 ---@param tag any
 function M:remove_tag(tag)
     if not self._tags then

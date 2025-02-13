@@ -28,7 +28,7 @@ function M:__decode(data)
     return pool
 end
 
--- 添加对象
+--Add object
 ---@param obj any
 ---@param w? integer
 function M:add(obj, w)
@@ -40,7 +40,7 @@ function M:add(obj, w)
     end
 end
 
--- 移除对象，请勿在遍历的过程中移除对象
+--Remove objects. Do not remove objects during traversal
 ---@param obj any
 function M:del(obj)
     self.pool[obj] = nil
@@ -53,7 +53,7 @@ function M:del(obj)
     end
 end
 
--- 是否包含对象
+--Include object or not
 ---@param obj any
 ---@return boolean
 function M:has(obj)
@@ -67,14 +67,14 @@ function M:merge(other)
     end
 end
 
--- 获取对象的权重
+--Gets the weight of the object
 ---@param obj any
 ---@return integer
 function M:get_weight(obj)
     return self.pool[obj] or 0
 end
 
--- 修改对象的权重
+--Modify the weight of an object
 ---@param obj any
 ---@param w integer
 function M:set_weight(obj, w)
@@ -82,7 +82,7 @@ function M:set_weight(obj, w)
     self.pool[obj] = w
 end
 
--- 增加对象的权重
+--Increases the weight of an object
 ---@param obj any
 ---@param w integer
 function M:add_weight(obj, w)
@@ -90,13 +90,13 @@ function M:add_weight(obj, w)
     self.pool[obj] = self.pool[obj] + w
 end
 
--- 清空池
+--Emptying tank
 function M:clear()
     self.pool = {}
     self.order = {}
 end
 
--- 随机抽取一个对象
+--Pick an object at random
 ---@param filter? fun(obj: any): boolean
 ---@return any
 function M:random(filter)
@@ -127,7 +127,7 @@ function M:random(filter)
     error('unreachable')
 end
 
--- 抽取多个随机对象，不重复
+--Multiple random objects are extracted without repetition
 ---@param num integer
 ---@param filter? fun(obj: any): boolean
 ---@return any[]
@@ -153,7 +153,7 @@ function M:random_n(num, filter)
     return results
 end
 
--- 显示池的内容，仅用于调试
+--Displays the contents of the pool for debugging purposes only
 ---@return string
 function M:dump()
     local buf = {}
@@ -163,7 +163,7 @@ function M:dump()
     return table.concat(buf, '\n')
 end
 
--- 遍历池的对象
+--Iterate over the pool object
 ---@return fun(): any, integer
 function M:pairs()
     local i = 0

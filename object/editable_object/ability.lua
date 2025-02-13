@@ -1,4 +1,4 @@
---技能
+--skill
 ---@class Ability
 ---@field handle py.Ability
 ---@field private _removed_by_py boolean
@@ -58,8 +58,8 @@ M.ref_manager = New 'Ref' ('Ability', function (id, py_ability)
 end)
 
 ---通过py层的技能实例获取lua层的技能实例
----@param py_ability py.Ability # py层的技能实例
----@return Ability? ability # 返回在lua层初始化后的lua层技能实例
+---@param py_ability py.Ability # py layer skill instance
+---@return Ability? ability # Returns the lua layer skill instance after being initialized at the lua layer
 function M.get_by_handle(py_ability)
     if not py_ability then
         return nil
@@ -75,8 +75,8 @@ function M.get_by_id(id)
     return M.ref_manager:fetch(id)
 end
 
-y3.py_converter.register_py_to_lua('py.Ability', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Ability', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Ability', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Ability', function (lua_value)
     return lua_value.handle
 end)
 
@@ -113,8 +113,8 @@ end
 ---@param item_key py.ItemKey
 ---@return string[]
 function M.get_tags_by_key(item_key)
-    local utags = y3.object.ability[item_key].data.tags
-    return y3.helper.unpack_list(utags)
+    local utags = clicli.object.ability[item_key].data.tags
+    return clicli.helper.unpack_list(utags)
 end
 
 ---技能类型是否具有标签
@@ -131,7 +131,7 @@ function M.has_tag_by_key(item_key, tag)
     return false
 end
 
---添加标签
+--Add tag
 ---@param tag string 标签
 function M:add_tag(tag)
     self.handle:api_add_tag(tag)
@@ -186,7 +186,7 @@ function M:set_level(level)
     self.handle:api_set_level(level)
 end
 
--- 获取技能等级
+--Gain skill level
 ---@return integer level 等级
 function M:get_level()
     return self.handle:api_get_level() or 0
@@ -209,17 +209,17 @@ function M:get_name()
 end
 
 ---设置实数属性
----@param key y3.Const.AbilityFloatAttr | string 属性key
+---@param key clicli.Const.AbilityFloatAttr | string 属性key
 ---@param value number 属性值
 function M:set_float_attr(key, value)
-    self.handle:api_set_float_attr(y3.const.AbilityFloatAttr[key] or key, Fix32(value))
+    self.handle:api_set_float_attr(clicli.const.AbilityFloatAttr[key] or key, Fix32(value))
 end
 
 ---设置整数属性
----@param key y3.Const.AbilityIntAttr | string 属性key
+---@param key clicli.Const.AbilityIntAttr | string 属性key
 ---@param value integer 属性值
 function M:set_int_attr(key, value)
-    self.handle:api_set_int_attr(y3.const.AbilityIntAttr[key] or key, value)
+    self.handle:api_set_int_attr(clicli.const.AbilityIntAttr[key] or key, value)
 end
 
 ---设置剩余冷却时间
@@ -274,7 +274,7 @@ function M:set_description(des)
     self.handle:api_set_str_attr("desc", des)
 end
 
---获取技能描述
+--Get skill description
 ---@return string
 function M:get_description()
     ---@diagnostic disable-next-line: param-type-mismatch
@@ -299,9 +299,9 @@ function M:set_range(value)
 end
 
 ---获取技能施法范围
----@return number # 施法范围
+---@return number # Scope of casting
 function M:get_range()
-    return y3.helper.tonumber(self.handle:api_get_ability_cast_range()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_ability_cast_range()) or 0.0
 end
 
 ---设置技能玩家属性消耗
@@ -368,7 +368,7 @@ function M:set_circle_radius(value)
 end
 
 ---设置技能指示器类型
----@param type y3.Const.AbilityPointerType 技能指示器类型
+---@param type clicli.Const.AbilityPointerType 技能指示器类型
 function M:set_pointer_type(type)
     self.handle:api_set_ability_pointer_type(type)
 end
@@ -376,17 +376,17 @@ end
 ---获取技能当前剩余充能时间
 ---@return number
 function M:get_charge_time()
-    return y3.helper.tonumber(self.handle:api_get_stack_cd_left_time()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_stack_cd_left_time()) or 0.0
 end
 
 ---获取技能种类
----@return y3.Const.AbilityType type 技能种类
+---@return clicli.Const.AbilityType type 技能种类
 function M:get_type()
     return self.handle:api_get_type() or 0
 end
 
 ---获取技能所在技能位
----@return y3.Const.AbilityIndex index 技能所在技能位
+---@return clicli.Const.AbilityIndex index 技能所在技能位
 function M:get_slot()
     return self.handle:api_get_ability_index() or 0
 end
@@ -398,11 +398,11 @@ function M:get_seq()
 end
 
 ---获取技能消耗的玩家属性值
----@param key y3.Const.PlayerAttr | string 属性key
+---@param key clicli.Const.PlayerAttr | string 属性key
 ---@return number cost 玩家属性值
 function M:get_player_attr_cost(key)
-    key = y3.const.PlayerAttr[key] or key
-    return y3.helper.tonumber(self.handle:api_get_ability_player_attr_cost(key)) or 0.0
+    key = clicli.const.PlayerAttr[key] or key
+    return clicli.helper.tonumber(self.handle:api_get_ability_player_attr_cost(key)) or 0.0
 end
 
 ---获取技能释放类型 AbilityCastType
@@ -421,21 +421,21 @@ end
 ---@param key string 键值key
 ---@return number value 值
 function M:get_formula_kv(key)
-    return y3.helper.tonumber(self.handle:api_calc_ability_formula_kv(key)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_calc_ability_formula_kv(key)) or 0.0
 end
 
 ---获取实数属性
----@param key y3.Const.AbilityFloatAttr | string 键值key
+---@param key clicli.Const.AbilityFloatAttr | string 键值key
 ---@return number value 值
 function M:get_float_attr(key)
-    return y3.helper.tonumber(self.handle:api_get_float_attr(y3.const.AbilityFloatAttr[key] or key)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_float_attr(clicli.const.AbilityFloatAttr[key] or key)) or 0.0
 end
 
 ---获取整数属性
----@param key y3.Const.AbilityIntAttr | string 键值key
+---@param key clicli.Const.AbilityIntAttr | string 键值key
 ---@return number value 值
 function M:get_int_attr(key)
-    return self.handle:api_get_int_attr(y3.const.AbilityIntAttr[key] or key) or 0
+    return self.handle:api_get_int_attr(clicli.const.AbilityIntAttr[key] or key) or 0
 end
 
 ---获取字符串属性
@@ -453,13 +453,13 @@ function M:get_owner()
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
 ---获取当前冷却时间
 ---@return number time 当前冷却时间
 function M:get_cd()
-    return y3.helper.tonumber(self.handle:api_get_cd_left_time()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_cd_left_time()) or 0.0
 end
 
 ---是否存在
@@ -473,22 +473,22 @@ end
 function M:get_target(cast)
     local unit = GameAPI.get_target_unit_in_ability(self.handle,cast)
     if unit then
-        return y3.unit.get_by_handle(unit)
+        return clicli.unit.get_by_handle(unit)
     end
 
     local dest = GameAPI.get_target_dest_in_ability(self.handle, cast)
     if dest then
-        return y3.destructible.get_by_handle(dest)
+        return clicli.destructible.get_by_handle(dest)
     end
 
     local item = GameAPI.get_target_item_in_ability(self.handle,cast)
     if item then
-        return y3.item.get_by_handle(item)
+        return clicli.item.get_by_handle(item)
     end
 
     local point = self.handle:api_get_release_position(cast)
     if point then
-        return y3.point.get_by_handle(point)
+        return clicli.point.get_by_handle(point)
     end
 
     return nil
@@ -523,18 +523,18 @@ function M.is_cd_reduce_by_key(ability_key)
     return GameAPI.api_get_influenced_by_cd_reduce(ability_key)
 end
 
---获取技能类型实数属性
---> 请使用 `y3.object.ability[ability_key].data` 代替
+--Gets the real attribute of the skill type
+--> Use 'clicli.object.ability[ability_key].data' instead
 ---@deprecated
 ---@param ability_key py.AbilityKey 技能类型id (物编id)
 ---@param key string 键值key
 ---@return number value 值
 function M.get_float_attr_by_key(ability_key, key)
-    return y3.helper.tonumber(GameAPI.get_ability_conf_float_attr(ability_key, key)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_ability_conf_float_attr(ability_key, key)) or 0.0
 end
 
---获取技能类型整数属性
---> 请使用 `y3.object.ability[ability_key].data` 代替
+--Gets the integer attribute of the skill type
+--> Use 'clicli.object.ability[ability_key].data' instead
 ---@deprecated
 ---@param ability_key py.AbilityKey 技能类型id (物编id)
 ---@param key string 键值key
@@ -570,7 +570,7 @@ function M.get_icon_by_key(ability_key)
     return GameAPI.get_icon_id_by_ability_type(ability_key) --[[@as py.Texture]]
 end
 
---获取技能图标
+--Get skill icon
 ---@return py.Texture id 图片ID
 function M:get_icon()
     return M.get_icon_by_key(self:get_key())
@@ -585,11 +585,11 @@ end
 ---@param unit_hp_cur number 单位当前生命
 ---@return number value 值
 function M.get_formula_attr_by_key(ability_id, attr_name, level, stack_count, unit_hp_max, unit_hp_cur)
-    return y3.helper.tonumber(GameAPI.get_ability_conf_formula_attr(ability_id, attr_name, level, stack_count, Fix32(unit_hp_max), Fix32(unit_hp_cur))) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_ability_conf_formula_attr(ability_id, attr_name, level, stack_count, Fix32(unit_hp_max), Fix32(unit_hp_cur))) or 0.0
 end
 
---获取技能类型字符串属性
---> 请改用 `y3.object.ability[ability_key].data` 代替
+--Gets the skill type string property
+--> Please use 'clicli.object.ability[ability_key].data' instead
 ---@deprecated
 ---@param ability_key py.AbilityKey 技能类型id (物编id)
 ---@param key py.AbilityStrAttr 键值key
@@ -598,7 +598,7 @@ function M.get_str_attr_by_key(ability_key, key)
     return GameAPI.get_ability_conf_str_attr(ability_key, key)
 end
 
---根据技能的key获取技能名字
+--Get the skill name based on the skill key
 ---@param ability_key py.AbilityKey
 ---@return string name 技能名字
 function M.get_name_by_key(ability_key)
@@ -606,7 +606,7 @@ function M.get_name_by_key(ability_key)
     return GameAPI.get_ability_conf_str_attr(ability_key, 'name')
 end
 
---根据技能的key获取技能描述
+--Obtain the skill description based on the skill key
 ---@param ability_key py.AbilityKey
 ---@return string des 描述
 function M.get_description_by_key(ability_key)
@@ -627,14 +627,14 @@ function M:set_build_rotate(angle)
 end
 
 ---获取技能的指示器类型
----@return y3.Const.AbilityPointerType
+---@return clicli.Const.AbilityPointerType
 function M:get_skill_pointer()
     return self.handle:api_get_ability_skill_pointer() or 0
 end
 
 ---获取技能类型的指示器类型
 ---@param name py.AbilityKey
----@return y3.Const.AbilityPointerType
+---@return clicli.Const.AbilityPointerType
 function M.get_skill_type_pointer(name)
     return GameAPI.get_ability_key_skill_pointer(name)
 end
@@ -645,7 +645,7 @@ function M:set_max_cd(value)
     self:set_float_attr("cold_down_time", value)
 end
 
---获取技能最大CD
+--Get the skill Max CD
 ---@return number
 function M:get_max_cd()
     return self:get_float_attr("cold_down_time")
@@ -662,18 +662,18 @@ function M:prevent_cast()
     self.handle:api_break_ability_in_cs()
 end
 
---获取技能绑定的物品（技能对象在哪个物品对象上）
+--Get the item that the skill is bound to (which item object the skill object is on)
 ---@return Item?
 function M:get_item()
     local py_item = self.handle:api_get_item()
     if not py_item then
         return nil
     end
-    return y3.item.get_by_handle(py_item)
+    return clicli.item.get_by_handle(py_item)
 end
 
---设置技能的建造目标类型(build_id)
----@param build_id py.UnitKey # 单位物编ID
+--Set the skill's build target type (build_id)
+---@param build_id py.UnitKey # Unit object ID
 function M:set_ability_build_id(build_id)
     self.handle:api_set_ability_build_id(build_id or 0)
 end

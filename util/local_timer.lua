@@ -1,7 +1,7 @@
---本地计时器
+--Local timer
 --
---支持异步创建或回调（只要你自己保证不会引发其他不同步的问题）
---如果是同步执行的，那么会确保同步回调
+--Support asynchronous creation or callbacks (as long as you promise not to cause other out-of-sync issues)
+--If it is executed synchronously, then synchronous callbacks are ensured
 ---@class LocalTimer
 ---@field private include_name? string
 ---@field package id integer
@@ -24,7 +24,7 @@ local M = Class 'LocalTimer'
 ---@alias LocalTimer.OnTimer fun(timer: LocalTimer, count: integer)
 
 ---@private
-M.all_timers = setmetatable({}, y3.util.MODE_V)
+M.all_timers = setmetatable({}, clicli.util.MODE_V)
 
 ---@private
 M.runned_count = 0
@@ -54,7 +54,7 @@ function M:__init(time, mode, count, on_timer)
     self.mode = mode
     self.count = count
     self.on_timer = on_timer
-    self.include_name = y3.reload.getCurrentIncludeName()
+    self.include_name = clicli.reload.getCurrentIncludeName()
     self.init_ms = cur_ms
     self.target_ms = cur_ms
     self.start_ms = cur_ms
@@ -80,7 +80,7 @@ function M:set_time_out()
     if self.mode == 'second' then
         next_time = self.time * (self.runned_count + 1) * 1000
     else
-        next_time = self.time * (self.runned_count + 1) * 1000 // y3.config.logic_frame
+        next_time = self.time * (self.runned_count + 1) * 1000 // clicli.config.logic_frame
     end
 
     self.target_ms = self.init_ms
@@ -94,7 +94,7 @@ function M:set_time_out()
         if self.mode == 'second' then
             once_time = self.time * 1000
         else
-            once_time = self.time * 1000 // y3.config.logic_frame
+            once_time = self.time * 1000 // clicli.config.logic_frame
         end
 
         local target_ms = cur_ms + once_time
@@ -346,7 +346,7 @@ end
 ---@return fun():LocalTimer?
 function M.pairs()
     local timers = {}
-    for _, timer in y3.util.sortPairs(M.all_timers) do
+    for _, timer in clicli.util.sortPairs(M.all_timers) do
         timers[#timers+1] = timer
     end
     local i = 0
@@ -356,7 +356,7 @@ function M.pairs()
     end
 end
 
---获取当前逻辑时间（毫秒）
+--Get current logic time (milliseconds)
 ---@return number
 function M.clock()
     return cur_ms
@@ -367,7 +367,7 @@ local desk = {}
 local function update_frame()
     cur_frame = cur_frame + 1
 
-    local target_ms = cur_frame * 1000 // y3.config.logic_frame
+    local target_ms = cur_frame * 1000 // clicli.config.logic_frame
     for ti = cur_ms, target_ms do
         local queue = timer_queues[ti]
         if queue then
@@ -399,6 +399,6 @@ function M.debug_fastward(frame_count)
 end
 
 ---@diagnostic disable-next-line: deprecated
-y3.timer.loop_frame(1, update_frame)
+clicli.timer.loop_frame(1, update_frame)
 
 return M

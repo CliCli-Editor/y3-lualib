@@ -3,15 +3,15 @@
  ]]
 
 
-require("y3.third_party.NPBehave")
--- 这个是内置的上下文, 可以按照格式自己实现一个独立的上下文
-local GameContext = require("y3.third_party.NPBehave.GameContext")
+require("clicli.third_party.NPBehave")
+--This is a built-in context, and you can implement your own independent context according to the format
+local GameContext = require("clicli.third_party.NPBehave.GameContext")
 local ClassName = NPBehave.ClassName
--- 事先声明行为树
+--Declare the behavior tree in advance
 ---@type NPBehave.Root
 local behaviorTree
 
--- 构造树
+--Construct tree
 local tree = New(ClassName.Service)(0.5,
     function()
         local v = not behaviorTree.Blackboard:Get("foo")
@@ -37,21 +37,21 @@ local tree = New(ClassName.Service)(0.5,
         )
     )
 )
--- 将树置入Root
+--Place the tree in Root
 behaviorTree = New(ClassName.Root)(tree)
 behaviorTree:Start()
 ---@type Timer
 local timer
-y3.game:event("键盘-按下", y3.const.KeyboardKey["NUM_4"], function(trg, data)
+clicli.game:event("键盘-按下", clicli.const.KeyboardKey["NUM_4"], function(trg, data)
     local player = data.player
-    timer        = y3.timer.loop(0.5, function()
+    timer        = clicli.timer.loop(0.5, function()
         -- 更新上下文时间, 树在在更新上下文时间时执行
         GameContext.Update(0.5)
     end)
 end)
 
 
-y3.game:event("键盘-按下", y3.const.KeyboardKey["NUM_5"], function(trg, data)
+clicli.game:event("键盘-按下", clicli.const.KeyboardKey["NUM_5"], function(trg, data)
     local player = data.player
     -- timer:remove()
     -- 停止行为树, 上下文仍然更新时间, 但是行为树不再执行

@@ -1,4 +1,4 @@
-local dattr = require 'y3.develop.attr'
+local dattr = require 'clicli.develop.attr'
 
 ---@class Develop.Helper.Attr
 local M = Class 'Develop.Helper.Attr'
@@ -9,11 +9,11 @@ local API = {}
 function M:__init()
     ---@type Develop.Helper.TreeNode[]
     self.childs = {}
-    self.root = y3.develop.helper.createTreeNode('属性监控', {
+    self.root = clicli.develop.helper.createTreeNode('属性监控', {
         icon = 'compass',
         childs = self.childs,
     })
-    self.tree = y3.develop.helper.createTreeView('属性监控', self.root)
+    self.tree = clicli.develop.helper.createTreeView('属性监控', self.root)
 end
 
 function M:__del()
@@ -21,9 +21,9 @@ function M:__del()
 end
 
 ---@param unit Unit
----@param attr y3.Const.UnitAttr
+---@param attr clicli.Const.UnitAttr
 ---@return Develop.Helper.TreeNode
----@return fun(value: Develop.Attr.Accept) # 设置断点
+---@return fun(value: Develop.Attr.Accept) # Set breakpoint
 function M:add(unit, attr)
     local core = dattr.create(unit, attr)
     local name = string.format('%s(%d): %s'
@@ -73,12 +73,12 @@ function M:add(unit, attr)
         break_point:bindGC(watch)
     end
 
-    break_point = y3.develop.helper.createTreeNode('断点', {
+    break_point = clicli.develop.helper.createTreeNode('断点', {
         icon = 'eye',
         check = true,
         onClick = function ()
             local prompt = '请输入表达式，如 “>= 100”，“<= `最大生命` / 2”'
-            y3.develop.helper.createInputBox {
+            clicli.develop.helper.createInputBox {
                 title = '监控属性变化',
                 value = watch and watch.conditionStr,
                 prompt = prompt,
@@ -96,9 +96,9 @@ function M:add(unit, attr)
         end,
     })
 
-    local node = y3.develop.helper.createTreeNode(name, {
+    local node = clicli.develop.helper.createTreeNode(name, {
         onInit = function (node)
-            node:bindGC(y3.ltimer.loop(0.5, function (timer, count)
+            node:bindGC(clicli.ltimer.loop(0.5, function (timer, count)
                 node.description = ('%.2f'):format(unit:get_attr(attr))
             end)):execute()
         end,
@@ -108,14 +108,14 @@ function M:add(unit, attr)
         childsGetter = function (node)
             return {
                 break_point,
-                y3.develop.helper.createTreeNode('详情', {
+                clicli.develop.helper.createTreeNode('详情', {
                     icon = 'info',
                     onInit = function (node)
                         local attrTypes = {'基础', '基础加成', '增益', '增益加成', '最终加成'}
                         local childs = {}
 
                         for _, attr_type in ipairs(attrTypes) do
-                            childs[#childs+1] = y3.develop.helper.createTreeNode(attr_type, {
+                            childs[#childs+1] = clicli.develop.helper.createTreeNode(attr_type, {
                                 onClick = function (node)
                                     API.show_modify(unit, attr, {
                                         attr_type = attr_type,
@@ -124,7 +124,7 @@ function M:add(unit, attr)
                             })
                         end
 
-                        node:bindGC(y3.ltimer.loop(0.5, function (timer, count)
+                        node:bindGC(clicli.ltimer.loop(0.5, function (timer, count)
                             for i, child in ipairs(childs) do
                                 local attrValue = unit:get_attr(attr, attrTypes[i])
                                 child.description = ('%.2f'):format(attrValue)
@@ -134,7 +134,7 @@ function M:add(unit, attr)
                         node.childs = childs
                     end,
                 }),
-                y3.develop.helper.createTreeNode('删除', {
+                clicli.develop.helper.createTreeNode('删除', {
                     icon = 'trash',
                     onClick = function ()
                         node:remove()
@@ -145,7 +145,7 @@ function M:add(unit, attr)
     })
     node:bindGC(core)
     node:bindGC(function ()
-        y3.util.arrayRemove(self.childs, node)
+        clicli.util.arrayRemove(self.childs, node)
         self.root:refresh()
     end)
 
@@ -155,7 +155,7 @@ function M:add(unit, attr)
 end
 
 ---@param unit Unit
----@param attr y3.Const.UnitAttr
+---@param attr clicli.Const.UnitAttr
 ---@param condition? Develop.Attr.Accept
 ---@return Develop.Helper.TreeNode
 function API.add(unit, attr, condition)
@@ -167,11 +167,11 @@ function API.add(unit, attr, condition)
 end
 
 ---@class Develop.Helper.Attr.ModifyOptions
----@field attr_type? y3.Const.UnitAttrType
+---@field attr_type? clicli.Const.UnitAttrType
 ---@field can_create_watch? boolean
 
 ---@param unit Unit
----@param attr y3.Const.UnitAttr
+---@param attr clicli.Const.UnitAttr
 ---@param options? Develop.Helper.Attr.ModifyOptions
 function API.show_modify(unit, attr, options)
     local attr_type = options and options.attr_type
@@ -180,7 +180,7 @@ function API.show_modify(unit, attr, options)
     if can_create_watch then
         prompt = prompt .. '使用 ~ 创建一个新的监视。使用表达式创建断点。'
     end
-    y3.develop.helper.createInputBox({
+    clicli.develop.helper.createInputBox({
         title = string.format('修改 "%s(%d)" 的 "%s"'
             , unit:get_name()
             , unit:get_id()
@@ -237,14 +237,14 @@ function API.show_modify(unit, attr, options)
             return
         end
         if op == '+' then
-            y3.develop.code.sync_run('unit:add_attr(name, num, attr_type)', {
+            clicli.develop.code.sync_run('unit:add_attr(name, num, attr_type)', {
                 unit = unit,
                 name = attr,
                 num = num,
                 attr_type = attr_type,
             })
         else
-            y3.develop.code.sync_run('unit:set_attr(name, num, attr_type)', {
+            clicli.develop.code.sync_run('unit:set_attr(name, num, attr_type)', {
                 unit = unit,
                 name = attr,
                 num = num,

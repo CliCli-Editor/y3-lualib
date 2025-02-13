@@ -9,13 +9,13 @@ local CUSTOM    = {'<CUSTOM>'}
 ---@alias Proxy.Getter fun(self: table, raw: any, key: any, config: Proxy.Config, custom: any): any
 
 ---@class Proxy.Config
----@field cache? boolean # 将读写的结果缓存起来，下次读写时不会再触发`setter`,`getter`（除非上次的结果是`nil`
----@field updateRaw? boolean # 是否将赋值写入到 `raw` 中
----@field recursive? boolean # 是否递归代理
+---@field cache? boolean # The result of the read/write is cached, and the next read/write will not trigger the setter, getter (unless the last result was nil)
+---@field updateRaw? boolean # Whether to write the assignment to 'raw'
+---@field recursive? boolean # Recursive proxy or not
 ---@field setter? { [any]: Proxy.Setter }
 ---@field getter? { [any]: Proxy.Getter }
----@field anySetter? Proxy.Setter # 只有没有对应的 `setter` 才会触发 `anySetter`
----@field anyGetter? Proxy.Getter # 只有没有对应的 `getter` 才会触发 `anyGetter`
+---@field anySetter? Proxy.Setter # anySetter is triggered only if there is no corresponding setter
+---@field anyGetter? Proxy.Getter # 'anyGetter' is triggered only if there is no corresponding 'getter'
 ---@field package _recursiveState? table
 local defaultConfig = {
     cache     = true,
@@ -84,9 +84,9 @@ local metatable = {
 local metaKV = { __mode = 'kv' }
 
 ---@generic T
----@param obj T # 要代理的对象
----@param config? Proxy.Config # 配置
----@param custom? any # 自定义数据
+---@param obj T # The object to proxy
+---@param config? Proxy.Config # disposition
+---@param custom? any # Custom data
 ---@return T
 function M.new(obj, config, custom)
     local tp = type(obj)

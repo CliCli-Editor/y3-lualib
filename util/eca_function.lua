@@ -1,9 +1,9 @@
 ---@class ECABind
 Bind = {}
 
---注册ECA函数
+--Register ECA functions
 --
---可以使用该功能让lua函数在ECA中被调用。
+--You can use this feature to have lua functions called in ECA.
 ---@class ECAFunction
 ---@field call_name string
 ---@field params {key: string, type: string, optional?: boolean}[]
@@ -29,7 +29,7 @@ function M:_unpack_params(error_handler, ...)
         if py_value == nil and not param.optional then
             error(('第 %d 个参数 %s 为空！'):format(i, param.key))
         end
-        local ok, lua_value = xpcall(y3.py_converter.py_to_lua, function (...)
+        local ok, lua_value = xpcall(clicli.py_converter.py_to_lua, function (...)
             error_handler('第【' .. i .. '】个参数【' .. param.key .. '】转换失败：\n', ...)
         end, param.type, py_value)
         if not ok then
@@ -52,7 +52,7 @@ function M:_pack_returns(error_handler, ok, ...)
     if #self.returns == 0 then
         return nil
     end
-    local ok2, ret_value = xpcall(y3.py_converter.lua_to_py, error_handler, self.returns[1].type, ...)
+    local ok2, ret_value = xpcall(clicli.py_converter.lua_to_py, error_handler, self.returns[1].type, ...)
     if not ok2 then
         return nil
     end
@@ -68,7 +68,7 @@ function M:__init(name)
     return self
 end
 
---添加参数
+--Add parameter
 ---@param key string
 ---@param type_name string
 ---@return self
@@ -80,28 +80,28 @@ function M:with_param(key, type_name)
     end
     table.insert(self.params, {
         key  = key,
-        type = y3.py_converter.get_py_type(type_name),
+        type = clicli.py_converter.get_py_type(type_name),
         optional = optional,
     })
     return self
 end
 
---添加返回值
+--Add return value
 ---@param key string
 ---@param type_name string
 ---@return self
 function M:with_return(key, type_name)
     table.insert(self.returns, {
         key  = key,
-        type = y3.py_converter.get_py_type(type_name),
+        type = clicli.py_converter.get_py_type(type_name),
     })
     return self
 end
 
---执行的函数
+--Executed function
 ---@param func function
 function M:call(func)
-    if Bind[self.call_name] and not y3.reload.isReloading() then
+    if Bind[self.call_name] and not clicli.reload.isReloading() then
         error(('不能重复定义绑定函数: %s'):format(self.call_name))
     end
     self.func = func

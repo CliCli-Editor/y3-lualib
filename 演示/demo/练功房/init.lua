@@ -1,9 +1,9 @@
-local monster_wave = require 'y3.演示.demo.练功房.刷怪'
+local monster_wave = require 'clicli.演示.demo.练功房.刷怪'
 
-y3.ltimer.wait(0.5, function ()
+clicli.ltimer.wait(0.5, function ()
     -- 给玩家1创建主控英雄并选中
-    local hero = y3.player(1):create_unit(134242543, y3.point.create(0, 0, 0), 180.0)
-    y3.player(1):select_unit(hero)
+    local hero = clicli.player(1):create_unit(134242543, clicli.point.create(0, 0, 0), 180.0)
+    clicli.player(1):select_unit(hero)
 
     -- 设置英雄属性
     hero:set_level(10)
@@ -17,7 +17,7 @@ y3.ltimer.wait(0.5, function ()
     hero:add_attr('冷却缩减', 50)
 
     -- 创建练功房区域
-    local circle_area = y3.area.create_circle_area(y3.point.create(-1000, -1000, 0), 800)
+    local circle_area = clicli.area.create_circle_area(clicli.point.create(-1000, -1000, 0), 800)
 
     -- 当英雄进入练功房时开始刷怪
     circle_area:event('区域-进入', function (trg, data)

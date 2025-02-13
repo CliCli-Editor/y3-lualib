@@ -8,7 +8,7 @@ function TMR.count()
     for _, mod in ipairs {'timer', 'ltimer', 'ctimer'} do
         local all = 0
         local alive = 0
-        for _, timer in pairs(y3[mod].all_timers) do
+        for _, timer in pairs(clicli[mod].all_timers) do
             all = all + 1
             if not timer.removed then
                 alive = alive + 1
@@ -28,7 +28,7 @@ function TRG.count()
     local all = 0
     local alive = 0
 
-    local triggerModule = require 'y3.util.trigger'
+    local triggerModule = require 'clicli.util.trigger'
 
     for _, trigger in pairs(triggerModule.all_triggers) do
         all = all + 1
@@ -40,7 +40,7 @@ function TRG.count()
     return { all = all, alive = alive }
 end
 
---开始监控触发器
+--Start monitor trigger
 function TRG.start()
     if TRG.activeWatcher then
         return
@@ -49,7 +49,7 @@ function TRG.start()
     TRG.activeWatcher = New 'Develop.TriggerWatcherInstance' ()
 end
 
---停止监控触发器
+--Stop monitor trigger
 function TRG.stop()
     if not TRG.activeWatcher then
         return
@@ -58,7 +58,7 @@ function TRG.stop()
     TRG.lastWatcher = TRG.activeWatcher
 end
 
---获取监控报告
+--Obtain monitoring report
 function TRG.report()
     local watcher = TRG.activeWatcher or TRG.lastWatcher
     if not watcher then
@@ -71,9 +71,9 @@ end
 local TRGI = Class 'Develop.TriggerWatcherInstance'
 
 function TRGI:__init()
-    local triggerModule = require 'y3.util.trigger'
+    local triggerModule = require 'clicli.util.trigger'
     --开始时间（毫秒）
-    self.startTime = y3.ltimer.clock()
+    self.startTime = clicli.ltimer.clock()
     self.originalExecute = triggerModule.execute
 
     local index = 0
@@ -85,7 +85,7 @@ function TRGI:__init()
     self.runnedCost     = runnedCost
     self.runnedCallback = runnedCallback
 
-    local ltimerClock = y3.ltimer.clock
+    local ltimerClock = clicli.ltimer.clock
     local osClock = os.clock_banned
 
     ---@diagnostic disable-next-line: duplicate-set-field
@@ -103,13 +103,13 @@ end
 
 function TRGI:__del()
     --结束时间（毫秒）
-    self.endTime = y3.ltimer.clock()
-    local triggerModule = require 'y3.util.trigger'
+    self.endTime = clicli.ltimer.clock()
+    local triggerModule = require 'clicli.util.trigger'
     triggerModule.execute = self.originalExecute
 end
 
----@param inTime? number # 只统计最后X秒的数据
----@param topCount? integer # 统计前X个耗时最长的函数位置
+---@param inTime? number # Only the last X seconds are counted
+---@param topCount? integer # The positions of the first X functions that take the longest time are counted
 ---@return { count: integer, cost: number, time: number, average: number, tops?: string[] }
 function TRGI:makeReport(inTime, topCount)
     local report = {}

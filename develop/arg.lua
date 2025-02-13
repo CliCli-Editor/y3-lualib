@@ -1,4 +1,4 @@
---启动参数
+--Startup parameter
 ---@class Develop.Arg
 local arg = {}
 

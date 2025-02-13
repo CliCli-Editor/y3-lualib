@@ -1,6 +1,6 @@
---单位
+--unit
 ---@class Unit
----@field handle py.Unit # py层的单位对象
+---@field handle py.Unit # Unit object of layer py
 ---@field id integer
 ---@field private _removed_by_py boolean
 ---@overload fun(py_unit_id: py.UnitID, py_unit: py.Unit): self
@@ -71,12 +71,12 @@ function M.get_by_handle(py_unit)
     return unit
 end
 
-y3.py_converter.register_py_to_lua('py.Unit', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Unit', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Unit', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Unit', function (lua_value)
     return lua_value.handle
 end)
 
--- 根据唯一ID获取单位。
+--Gets units based on unique ids.
 ---@param id py.UnitID
 ---@return Unit?
 function M.get_by_id(id)
@@ -84,7 +84,7 @@ function M.get_by_id(id)
     return unit
 end
 
--- 获取摆放在场景上的单位
+--Gets the units placed on the scene
 ---@param res_id integer
 ---@return Unit
 function M.get_by_res_id(res_id)
@@ -95,8 +95,8 @@ function M.get_by_res_id(res_id)
     return u
 end
 
---根据字符串获取单位，字符串是通过 `tostring(Unit)`
---或是使用ECA中的“任意变量转化为字符串”获得的。
+--Get the Unit from the string, which is via 'tostring(Unit)'
+--Or using the 'Convert any variable to string' in ECA.
 ---@param str string
 ---@return Unit?
 function M.get_by_string(str)
@@ -109,7 +109,7 @@ function M.get_by_string(str)
     return M.get_by_id(tonumber(id)--[[@as py.UnitID]])
 end
 
-y3.py_converter.register_py_to_lua('py.UnitID', M.get_by_id)
+clicli.py_converter.register_py_to_lua('py.UnitID', M.get_by_id)
 
 ---是否存在
 ---@return boolean is_exist 是否存在
@@ -117,38 +117,38 @@ function M:is_exist()
     return GameAPI.unit_is_exist(self.handle)
 end
 
--- 获取唯一ID
+--Get a unique ID
 ---@return integer
 function M:get_id()
     return self.id
 end
 
---移除技能(指定类型)
---> 拼错了，请改用 `Unit:remove_ability_by_key`
+--Remove skills (specified type)
+--> If you misspell it, use 'Unit:remove_ability_by_key' instead
 ---@deprecated
----@param type y3.Const.AbilityType | y3.Const.AbilityTypeAlias 技能类型
+---@param type clicli.Const.AbilityType | clicli.Const.AbilityTypeAlias 技能类型
 ---@param ability_key py.AbilityKey 物编id
 function M:remove_abilitiy_by_key(type, ability_key)
-    self.handle:api_remove_abilities_in_type(y3.const.AbilityType[type] or type, ability_key)
+    self.handle:api_remove_abilities_in_type(clicli.const.AbilityType[type] or type, ability_key)
 end
 
---移除技能(指定类型)
----@param type y3.Const.AbilityType | y3.Const.AbilityTypeAlias 技能类型
+--Remove skills (specified type)
+---@param type clicli.Const.AbilityType | clicli.Const.AbilityTypeAlias 技能类型
 ---@param ability_key py.AbilityKey 物编id
 function M:remove_ability_by_key(type, ability_key)
-    self.handle:api_remove_abilities_in_type(y3.const.AbilityType[type] or type, ability_key)
+    self.handle:api_remove_abilities_in_type(clicli.const.AbilityType[type] or type, ability_key)
 end
 
 ---单位添加物品
 ---@param item_id py.ItemKey 物品id
----@param slot_type? y3.Const.ShiftSlotTypeAlias 槽位类型
+---@param slot_type? clicli.Const.ShiftSlotTypeAlias 槽位类型
 ---@return Item?
 function M:add_item(item_id, slot_type)
-    local py_item = self.handle:api_add_item(item_id, y3.const.ShiftSlotType[slot_type])
+    local py_item = self.handle:api_add_item(item_id, clicli.const.ShiftSlotType[slot_type])
     if not py_item then
         return nil
     end
-    return y3.item.get_by_handle(py_item)
+    return clicli.item.get_by_handle(py_item)
 end
 
 ---单位移除物品
@@ -160,24 +160,24 @@ end
 
 ---移动物品
 ---@param item Item 物品
----@param type y3.Const.ShiftSlotTypeAlias
+---@param type clicli.Const.ShiftSlotTypeAlias
 ---@param index? integer 槽位
 ---@param force? boolean 是否强制移动，`true`: 如果目标有物品，则移动到另一个空格中；`false`: 如果目标有物品，则要移动的物品会掉落
 function M:shift_item(item, type, index, force)
-    self.handle:api_shift_item_new(item.handle, y3.const.ShiftSlotType[type], index or 0, force or false)
+    self.handle:api_shift_item_new(item.handle, clicli.const.ShiftSlotType[type], index or 0, force or false)
 end
 
--- 交换物品
--- 如果目标位置是空的，则相当于把物品移动了过去
+--barter
+--If the target location is empty, it is equivalent to moving the item
 ---@param item Item 物品
----@param type y3.Const.ShiftSlotTypeAlias
+---@param type clicli.Const.ShiftSlotTypeAlias
 ---@param index integer 槽位
 function M:exchange_item(item, type, index)
-    self.handle:api_shift_item(item.handle, y3.const.ShiftSlotType[type], index)
+    self.handle:api_shift_item(item.handle, clicli.const.ShiftSlotType[type], index)
 end
 
 ---获取指定类型的所有技能
----@param type y3.Const.AbilityType
+---@param type clicli.Const.AbilityType
 ---@return Ability[]
 function M:get_abilities_by_type(type)
     ---@type Ability[]
@@ -187,14 +187,14 @@ function M:get_abilities_by_type(type)
         return abilities
     end
     for i = 0, python_len(py_list) - 1 do
-        local lua_ability = y3.ability.get_by_handle(python_index(py_list, i))
+        local lua_ability = clicli.ability.get_by_handle(python_index(py_list, i))
         abilities[#abilities+1] = lua_ability
     end
     return abilities
 end
 
 ---获取单位身上的魔法效果
----@return Buff[] # 魔法效果表
+---@return Buff[] # Magic effect table
 function M:get_buffs()
     ---@type Buff[]
     local buffs = {}
@@ -203,7 +203,7 @@ function M:get_buffs()
         return buffs
     end
     for i = 0, python_len(py_list) - 1 do
-        local lua_buff = y3.buff.get_by_handle(python_index(py_list, i))
+        local lua_buff = clicli.buff.get_by_handle(python_index(py_list, i))
         buffs[#buffs+1] = lua_buff
     end
     return buffs
@@ -217,10 +217,10 @@ function M:switch_ability(ability_1, ability_2)
 end
 
 ---根据坑位交换技能
----@param type_1 y3.Const.AbilityType 第一个技能类型
----@param slot_1 y3.Const.AbilityIndex 第一个技能坑位
----@param type_2 y3.Const.AbilityType 第二个技能类型
----@param slot_2 y3.Const.AbilityIndex 第二个技能坑位
+---@param type_1 clicli.Const.AbilityType 第一个技能类型
+---@param slot_1 clicli.Const.AbilityIndex 第一个技能坑位
+---@param type_2 clicli.Const.AbilityType 第二个技能类型
+---@param slot_2 clicli.Const.AbilityIndex 第二个技能坑位
 function M:switch_ability_by_slot(type_1, slot_1, type_2, slot_2)
     self.handle:api_switch_ability_by_index(type_1, slot_1, type_2, slot_2)
 end
@@ -231,53 +231,53 @@ function M:stop_all_abilities()
 end
 
 ---添加技能
----@param type y3.Const.AbilityType | y3.Const.AbilityTypeAlias 技能类型
+---@param type clicli.Const.AbilityType | clicli.Const.AbilityTypeAlias 技能类型
 ---@param id py.AbilityKey 物编id
----@param slot? y3.Const.AbilityIndex 技能位
+---@param slot? clicli.Const.AbilityIndex 技能位
 ---@param level? integer 等级
 ---@return Ability?
 function M:add_ability(type, id, slot, level)
-    local py_ability = self.handle:api_add_ability(y3.const.AbilityType[type] or type, id, slot or -1, level or 1)
+    local py_ability = self.handle:api_add_ability(clicli.const.AbilityType[type] or type, id, slot or -1, level or 1)
     if not py_ability then
         return nil
     end
-    local ability = y3.ability.get_by_handle(py_ability)
+    local ability = clicli.ability.get_by_handle(py_ability)
     return ability
 end
 
 ---移除技能
----@param type y3.Const.AbilityType 技能类型
----@param slot y3.Const.AbilityIndex 技能位
+---@param type clicli.Const.AbilityType 技能类型
+---@param slot clicli.Const.AbilityIndex 技能位
 function M:remove_ability(type, slot)
     self.handle:api_remove_ability_by_index(type, slot)
 end
 
 ---通过技能名寻找技能
----@param type y3.Const.AbilityType | y3.Const.AbilityTypeAlias 技能类型
+---@param type clicli.Const.AbilityType | clicli.Const.AbilityTypeAlias 技能类型
 ---@param id py.AbilityKey 物编id
 ---@return Ability? ability 技能
 function M:find_ability(type, id)
-    local py_ability = self.handle:api_get_ability_by_type(y3.const.AbilityType[type] or type, id)
+    local py_ability = self.handle:api_get_ability_by_type(clicli.const.AbilityType[type] or type, id)
     if not py_ability then
         return nil
     end
-    return y3.ability.get_by_handle(py_ability)
+    return clicli.ability.get_by_handle(py_ability)
 end
 
 ---获得某个技能位的的技能
----@param type y3.Const.AbilityType | y3.Const.AbilityTypeAlias 技能类型
+---@param type clicli.Const.AbilityType | clicli.Const.AbilityTypeAlias 技能类型
 ---@param slot integer 技能位
 ---@return Ability? ability 技能
 function M:get_ability_by_slot(type, slot)
     ---@diagnostic disable-next-line: param-type-mismatch
-    local py_ability = self.handle:api_get_ability(y3.const.AbilityType[type] or type, slot)
+    local py_ability = self.handle:api_get_ability(clicli.const.AbilityType[type] or type, slot)
     if not py_ability then
         return nil
     end
-    return y3.ability.get_by_handle(py_ability)
+    return clicli.ability.get_by_handle(py_ability)
 end
 
---根据技能序号获取技能
+--Get skills according to skill number
 ---@param seq py.AbilitySeq
 ---@return Ability?
 function M:get_ability_by_seq(seq)
@@ -285,7 +285,7 @@ function M:get_ability_by_seq(seq)
     if not py_ability then
         return nil
     end
-    return y3.ability.get_by_handle(py_ability)
+    return clicli.ability.get_by_handle(py_ability)
 end
 
 ---comment 获取普攻技能
@@ -294,20 +294,20 @@ function M:get_common_attack()
     local py_ability = self.handle:api_get_common_atk_ability()
 
     if py_ability then
-        return y3.ability.get_by_handle(py_ability)
+        return clicli.ability.get_by_handle(py_ability)
     end
 end
 
 ---获取单位背包槽位上的物品
----@param type y3.Const.SlotType | y3.Const.ShiftSlotTypeAlias 槽位类型
+---@param type clicli.Const.SlotType | clicli.Const.ShiftSlotTypeAlias 槽位类型
 ---@param slot integer 位置
 ---@return Item? item 物品
 function M:get_item_by_slot(type, slot)
-    local py_item = self.handle:api_get_item_by_slot(y3.const.ShiftSlotType[type] or type, slot)
+    local py_item = self.handle:api_get_item_by_slot(clicli.const.ShiftSlotType[type] or type, slot)
     if not py_item then
         return nil
     end
-    return y3.item.get_by_handle(py_item)
+    return clicli.item.get_by_handle(py_item)
 end
 
 ---单位的所有物品
@@ -315,9 +315,9 @@ end
 function M:get_all_items()
     local py_item_group = self.handle:api_get_all_item_pids()
     if not py_item_group then
-        return y3.item_group.create()
+        return clicli.item_group.create()
     end
-    return y3.item_group.create_lua_item_group_from_py(py_item_group)
+    return clicli.item_group.create_lua_item_group_from_py(py_item_group)
 end
 
 ---单位获得科技
@@ -363,7 +363,7 @@ function M:get_casting_ability()
     if not py_ability then
         return nil
     end
-    return y3.ability.get_by_handle(py_ability)
+    return clicli.ability.get_by_handle(py_ability)
 end
 
 ---创建幻象
@@ -379,7 +379,7 @@ function M.create_illusion(illusion_unit, call_unit, player, point, direction, c
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
 ---删除单位
@@ -436,41 +436,41 @@ function M:remove_tag(tag)
 end
 
 ---添加状态
----@param state_enum integer|y3.Const.UnitEnumState 状态名
+---@param state_enum integer|clicli.Const.UnitEnumState 状态名
 function M:add_state(state_enum)
-    self.handle:api_add_state(y3.const.UnitEnumState[state_enum] or state_enum)
+    self.handle:api_add_state(clicli.const.UnitEnumState[state_enum] or state_enum)
 end
 
 ---移除状态
--- 只有移除次数等同添加次数时才能移除状态
----@param state_enum integer|y3.Const.UnitEnumState 状态名
+--The status can be removed only when the number of removals is the same as the number of additions
+---@param state_enum integer|clicli.Const.UnitEnumState 状态名
 function M:remove_state(state_enum)
-    self.handle:api_remove_state(y3.const.UnitEnumState[state_enum] or state_enum)
+    self.handle:api_remove_state(clicli.const.UnitEnumState[state_enum] or state_enum)
 end
 
 ---添加多个状态
----使用 `y3.const.UnitEnumState` 中的枚举值
+---使用 `clicli.const.UnitEnumState` 中的枚举值
 ---@param state_enum integer 状态
 function M:add_multi_state(state_enum)
     self.handle:api_add_multi_state(state_enum)
 end
 
 ---移除多个状态
----使用 `y3.const.UnitEnumState` 中的枚举值
+---使用 `clicli.const.UnitEnumState` 中的枚举值
 ---@param state_enum integer 状态
 function M:remove_multi_state(state_enum)
     self.handle:api_remove_multi_state(state_enum)
 end
 
 ---是否有某个状态
----@param state_enum integer|y3.Const.UnitEnumState 状态名
+---@param state_enum integer|clicli.Const.UnitEnumState 状态名
 ---@return boolean?
 function M:has_state(state_enum)
-    return self.handle:api_has_state(y3.const.UnitEnumState[state_enum] or state_enum)
+    return self.handle:api_has_state(clicli.const.UnitEnumState[state_enum] or state_enum)
 end
 
 ---添加状态
----@param state_enum integer|y3.Const.UnitEnumState 状态名
+---@param state_enum integer|clicli.Const.UnitEnumState 状态名
 ---@return GCNode
 function M:add_state_gc(state_enum)
     self:add_state(state_enum)
@@ -491,70 +491,70 @@ function M:command(command)
     self.handle:api_release_command(command)
 end
 
--- 命令移动
+--Command move
 ---@param point Point 点
 ---@param range? number 范围
----@return py.UnitCommand # 命令
+---@return py.UnitCommand # command
 function M:move_to_pos(point, range)
     local command = GameAPI.create_unit_command_move_to_pos(point.handle, Fix32(range or 0))
     self:command(command)
     return command
 end
 
--- 命令停止
----@return py.UnitCommand # 命令
+--Stop order
+---@return py.UnitCommand # command
 function M:stop()
     local command = GameAPI.create_unit_command_stop()
     self:command(command)
     return command
 end
 
--- 命令驻守
+--Command garrison
 ---@param point Point 点
----@return py.UnitCommand # 命令
+---@return py.UnitCommand # command
 function M:hold(point)
     local command = GameAPI.create_unit_command_hold(point.handle)
     self:command(command)
     return command
 end
 
--- 命令攻击移动
+--Command attack move
 ---@param point Point 点
 ---@param range? number 范围
----@return py.UnitCommand # 命令
+---@return py.UnitCommand # command
 function M:attack_move(point, range)
     local command = GameAPI.create_unit_command_attack_move(point.handle, Fix32(range or 0))
     self:command(command)
     return command
 end
 
--- 命令攻击目标
+--Command attack target
 ---@param target Unit 目标
 ---@param range number 范围
----@return py.UnitCommand # 命令
+---@return py.UnitCommand # command
 function M:attack_target(target, range)
     local command = GameAPI.create_unit_command_attack_target(target.handle, Fix32(range or 0))
     self:command(command)
     return command
 end
 
--- 命令沿路径移动
+--The command moves along the path
 ---@param road Road 路径
----@param patrol_mode y3.Const.RoadPatrolType 移动模式
+---@param patrol_mode clicli.Const.RoadPatrolType 移动模式
 ---@param can_attack boolean 是否自动攻击
 ---@param start_from_nearest boolean 就近选择起始点
 ---@param back_to_nearest boolean 偏离后就近返回
----@return py.UnitCommand # 命令
+---@return py.UnitCommand # command
 function M:move_along_road(road, patrol_mode, can_attack, start_from_nearest, back_to_nearest)
-    local command = GameAPI.create_unit_command_move_along_road(road.handle, y3.const.RoadPatrolType[patrol_mode] or patrol_mode, can_attack, start_from_nearest, back_to_nearest)
+    local command = GameAPI.create_unit_command_move_along_road(road.handle, clicli.const.RoadPatrolType[patrol_mode] or patrol_mode, can_attack, start_from_nearest, back_to_nearest)
     self:command(command)
     return command
 end
 
--- 命令发动技能
----@param ability Ability # 技能
----@param target? Point|Unit|Item|Destructible # 目标
----@param extra_target? Point # 额外目标
+--Command activation skill
+---@param ability Ability # skill
+---@param target? Point|Unit|Item|Destructible # goal
+---@param extra_target? Point # Extra target
 ---@return py.UnitCommand
 function M:cast(ability, target, extra_target)
     local tar_pos_1, tar_pos_2, tar_unit, tar_item, tar_dest
@@ -583,7 +583,7 @@ function M:cast(ability, target, extra_target)
     return command
 end
 
--- 命令拾取物品
+--Command to pick up items
 ---@param item Item
 ---@return py.UnitCommand
 function M:pick_item(item)
@@ -592,7 +592,7 @@ function M:pick_item(item)
     return command
 end
 
--- 命令丢弃物品
+--Order to discard items
 ---@param item Item
 ---@param point Point
 ---@return py.UnitCommand
@@ -602,7 +602,7 @@ function M:drop_item(item, point)
     return command
 end
 
--- 命令给予物品
+--Order to give goods
 ---@param item Item
 ---@param target Unit
 ---@return py.UnitCommand
@@ -612,7 +612,7 @@ function M:give_item(item, target)
     return command
 end
 
--- 命令使用物品
+--Command use item
 ---@param item Item
 ---@param target? Point|Unit|Item|Destructible
 ---@param extra_target? Point
@@ -646,7 +646,7 @@ function M:use_item(item, target, extra_target)
     return command
 end
 
--- 命令跟随单位
+--Command follower unit
 ---@param target Unit
 ---@param refresh_interval? number 刷新间隔
 ---@param near_offset? number 跟随距离
@@ -686,11 +686,11 @@ function M:set_description(description)
 end
 
 ---设置属性
----@param attr_name string | y3.Const.UnitAttr 属性名
+---@param attr_name string | clicli.Const.UnitAttr 属性名
 ---@param value number 属性值
----@param attr_type? string | y3.Const.UnitAttrType 属性类型，默认为“基础”
+---@param attr_type? string | clicli.Const.UnitAttrType 属性类型，默认为“基础”
 function M:set_attr(attr_name, value, attr_type)
-    attr_name = y3.const.UnitAttr[attr_name] or attr_name
+    attr_name = clicli.const.UnitAttr[attr_name] or attr_name
     if attr_name == 'main' then
         attr_name = self:get_main_attr()
         if not attr_name then
@@ -708,15 +708,15 @@ function M:set_attr(attr_name, value, attr_type)
     if attr_type == nil then
         attr_type = '基础'
     end
-    self.handle:api_set_attr_by_attr_element(y3.const.UnitAttr[attr_name] or attr_name, Fix32(value), y3.const.UnitAttrType[attr_type] or attr_type)
+    self.handle:api_set_attr_by_attr_element(clicli.const.UnitAttr[attr_name] or attr_name, Fix32(value), clicli.const.UnitAttrType[attr_type] or attr_type)
 end
 
 ---增加属性
----@param attr_name string | y3.Const.UnitAttr 属性名
+---@param attr_name string | clicli.Const.UnitAttr 属性名
 ---@param value number 属性值
----@param attr_type? string | y3.Const.UnitAttrType 属性类型，默认为“增益”
+---@param attr_type? string | clicli.Const.UnitAttrType 属性类型，默认为“增益”
 function M:add_attr(attr_name, value, attr_type)
-    attr_name = y3.const.UnitAttr[attr_name] or attr_name
+    attr_name = clicli.const.UnitAttr[attr_name] or attr_name
     if attr_name == 'main' then
         attr_name = self:get_main_attr()
         if not attr_name then
@@ -734,13 +734,13 @@ function M:add_attr(attr_name, value, attr_type)
     if attr_type == nil then
         attr_type = '增益'
     end
-    self.handle:api_add_attr_by_attr_element(attr_name, Fix32(value), y3.const.UnitAttrType[attr_type] or attr_type)
+    self.handle:api_add_attr_by_attr_element(attr_name, Fix32(value), clicli.const.UnitAttrType[attr_type] or attr_type)
 end
 
 ---增加属性
----@param attr_name string | y3.Const.UnitAttr 属性名
+---@param attr_name string | clicli.Const.UnitAttr 属性名
 ---@param value number 属性值
----@param attr_type string | y3.Const.UnitAttrType 属性类型
+---@param attr_type string | clicli.Const.UnitAttrType 属性类型
 ---@return GCNode
 function M:add_attr_gc(attr_name, value, attr_type)
     self:add_attr(attr_name, value, attr_type)
@@ -898,7 +898,7 @@ function M:set_armor_type(armor_type)
     self.handle:api_set_armor_type(armor_type)
 end
 
---************************残影优化
+--************************ Shadow optimization
 ---开启残影
 ---@param red number 红
 ---@param green number 绿
@@ -959,19 +959,19 @@ function M:set_blood_bar_type(bar_type)
 end
 
 ---设置血条文本
----@param node_name string # 血条命名
----@param text string # 文本
+---@param node_name string # Blood stripe naming
+---@param text string # text
 ---@param role? Player 可见玩家
----@param font? string # 字体
+---@param font? string # typeface
 function M:set_blood_bar_text(node_name, text, role, font)
     GameAPI.set_billboard_text(self.handle, node_name, text, role and role.handle or nil, font)
 end
 
 ---设置血条进度
----@param node_name string # 血条命名
----@param progress number # 进度
+---@param node_name string # Blood stripe naming
+---@param progress number # schedule
 ---@param role? Player 可见玩家
----@param transition_time? number # 过渡时间
+---@param transition_time? number # Transition time
 function M:set_billboard_progress(node_name, progress, role, transition_time)
     GameAPI.set_billboard_progress(self.handle, node_name, progress, role and role.handle or nil, transition_time or 0)
 end
@@ -982,7 +982,7 @@ function M:set_health_bar_display(bar_show_type)
     self.handle:api_set_blood_bar_show_type(bar_show_type)
 end
 
---***************敌我合并一条
+--*************** Merge one with the enemy
 ---设置单位小地图头像
 ---@param img_id py.Texture 单位小地图头像
 function M:set_minimap_icon(img_id)
@@ -995,8 +995,8 @@ function M:set_enemy_minimap_icon(img_id)
     self.handle:api_set_enemy_mini_map_icon(img_id)
 end
 
---设置单位选择框的可见性
----@param bool boolean # 布尔值
+--Sets the visibility of the unit selection box
+---@param bool boolean # Boolean value
 function M:set_select_effect_visible(bool)
     self.handle:api_set_unit_select_effect_visible(bool)
 end
@@ -1016,7 +1016,7 @@ function M:set_unit_scale(sx, sy, sz)
 end
 
 ---设置单位描边开启
----@param bool boolean # 布尔值
+---@param bool boolean # Boolean value
 function M:set_outline_visible(bool)
     self.handle:set_unit_outlined_enable(bool)
 end
@@ -1047,7 +1047,7 @@ function M:cancel_replace_model(model_id)
     self.handle:api_cancel_replace_model(model_id)
 end
 
---**********************这是啥
+--********************** What is this
 ---设置隐身可见时是否半透明
 ---@param is_visible boolean 是否半透明
 function M:set_transparent_when_invisible(is_visible)
@@ -1115,19 +1115,19 @@ function M:get_affect_techs()
 end
 
 
--- 设置白天的视野范围
+--Set the daytime field of view
 ---@param value number
 function M:set_day_vision(value)
     self.handle:api_set_unit_day_vision(value)
 end
 
--- 设置夜晚的视野范围
+--Set your view at night
 ---@param value number
 function M:set_night_value(value)
     self.handle:api_set_unit_night_vision(value)
 end
 
---*******************播放动画全局统一
+--******************* Playback animations are unified globally
 ---播放动画
 ---@param anim_name string 动画名
 ---@param speed? number 速度
@@ -1253,7 +1253,7 @@ function M:add_buff(data)
     if not py_buff then
         return nil
     end
-    return y3.buff.get_by_handle(py_buff)
+    return clicli.buff.get_by_handle(py_buff)
 end
 
 ---单位移除所有指定id的魔法效果
@@ -1263,7 +1263,7 @@ function M:remove_buffs_by_key(buff_key)
 end
 
 ---单位移除所有指定类型的魔法效果
----@param effect_type y3.Const.EffectType 影响类型的魔法效果
+---@param effect_type clicli.Const.EffectType 影响类型的魔法效果
 function M:remove_buffs_by_effect_type(effect_type)
     self.handle:api_delete_all_modifiers_by_effect_type(effect_type)
 end
@@ -1271,13 +1271,13 @@ end
 ---获取单位指定id的魔法效果
 ---@param buff_key py.ModifierKey 魔法效果id
 ---@param index? integer 第几个
----@return Buff? # 单位指定类型的魔法效果
+---@return Buff? # Unit specifies the type of magic effect
 function M:find_buff(buff_key, index)
     local py_modifier = self.handle:api_get_modifier(index or -1, buff_key)
     if not py_modifier then
         return nil
     end
-    return y3.buff.get_by_handle(py_modifier)
+    return clicli.buff.get_by_handle(py_modifier)
 end
 
 ---获取商店商品的库存间隔
@@ -1285,7 +1285,7 @@ end
 ---@param index integer 序号
 ---@return number cd 默认间隔时间
 function M:get_goods_cd(page, index)
-    return y3.helper.tonumber(self.handle:api_get_shop_item_default_cd(page, index)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_shop_item_default_cd(page, index)) or 0.0
 end
 
 ---获取商店商品的剩余恢复时间
@@ -1293,7 +1293,7 @@ end
 ---@param index integer 序号
 ---@return number recovery_time 剩余恢复时间
 function M:get_goods_remaining_cd(page, index)
-    return y3.helper.tonumber(self.handle:api_get_shop_item_residual_cd(page, index)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_shop_item_residual_cd(page, index)) or 0.0
 end
 
 ---获取所有的商店物品
@@ -1315,67 +1315,67 @@ end
 ---获取当前生命值
 ---@return number current_unit_hp 当前生命值
 function M:get_hp()
-    return y3.helper.tonumber(self.handle:api_get_float_attr("hp_cur")) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_float_attr("hp_cur")) or 0.0
 end
 
 ---获取当前魔法值
 ---@return number current_mp 当前魔法值
 function M:get_mp()
-    return y3.helper.tonumber(self.handle:api_get_float_attr("mp_cur")) or 0
+    return clicli.helper.tonumber(self.handle:api_get_float_attr("mp_cur")) or 0
 end
 
 ---获取最终属性
----@param attr_name string | y3.Const.UnitAttr 属性名
+---@param attr_name string | clicli.Const.UnitAttr 属性名
 ---@return number
 function M:get_final_attr(attr_name)
-    return y3.helper.tonumber(self.handle:api_get_float_attr(y3.const.UnitAttr[attr_name] or attr_name)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_float_attr(clicli.const.UnitAttr[attr_name] or attr_name)) or 0.0
 end
 
 ---获取属性（额外）
----@param attr_name string | y3.Const.UnitAttr 属性名
+---@param attr_name string | clicli.Const.UnitAttr 属性名
 ---@return number
 function M:get_attr_other(attr_name)
-    return y3.helper.tonumber(self.handle:api_get_attr_other(y3.const.UnitAttr[attr_name] or attr_name)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_attr_other(clicli.const.UnitAttr[attr_name] or attr_name)) or 0.0
 end
 
 ---获取单属性（基础）
----@param attr_name string | y3.Const.UnitAttr
+---@param attr_name string | clicli.Const.UnitAttr
 ---@return number attr_base 单位基础属性类型的属性
 function M:get_attr_base(attr_name)
-    return y3.helper.tonumber(self.handle:api_get_attr_base(y3.const.UnitAttr[attr_name] or attr_name)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_attr_base(clicli.const.UnitAttr[attr_name] or attr_name)) or 0.0
 end
 
 ---获取属性（基础加成）
----@param attr_name string | y3.Const.UnitAttr
+---@param attr_name string | clicli.Const.UnitAttr
 ---@return number
 function M:get_attr_base_ratio(attr_name)
-    return y3.helper.tonumber(self.handle:api_get_attr_base_ratio(y3.const.UnitAttr[attr_name] or attr_name)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_attr_base_ratio(clicli.const.UnitAttr[attr_name] or attr_name)) or 0.0
 end
 
 ---获取属性（增益）
----@param attr_name string | y3.Const.UnitAttr
+---@param attr_name string | clicli.Const.UnitAttr
 ---@return number
 function M:get_attr_bonus(attr_name)
-    return y3.helper.tonumber(self.handle:api_get_attr_bonus(y3.const.UnitAttr[attr_name] or attr_name)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_attr_bonus(clicli.const.UnitAttr[attr_name] or attr_name)) or 0.0
 end
 
 ---获取属性（最终加成）
----@param attr_name string | y3.Const.UnitAttr
+---@param attr_name string | clicli.Const.UnitAttr
 ---@return number
 function M:get_attr_all_ratio(attr_name)
-    return y3.helper.tonumber(self.handle:api_get_attr_all_ratio(y3.const.UnitAttr[attr_name] or attr_name)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_attr_all_ratio(clicli.const.UnitAttr[attr_name] or attr_name)) or 0.0
 end
 
 ---获取属性（增益加成）
----@param attr_name string | y3.Const.UnitAttr
+---@param attr_name string | clicli.Const.UnitAttr
 ---@return number
 function M:get_attr_bonus_ratio(attr_name)
-    return y3.helper.tonumber(self.handle:api_get_attr_bonus_ratio(y3.const.UnitAttr[attr_name] or attr_name)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_attr_bonus_ratio(clicli.const.UnitAttr[attr_name] or attr_name)) or 0.0
 end
 
 ---获取属性（默认为实际属性）
----@param attr_name y3.Const.UnitAttr
----@param attr_type? '实际' | '额外' | y3.Const.UnitAttrType
+---@param attr_name clicli.Const.UnitAttr
+---@param attr_type? '实际' | '额外' | clicli.Const.UnitAttrType
 ---@return number
 function M:get_attr(attr_name, attr_type)
     if attr_name == '主属性' then
@@ -1412,46 +1412,46 @@ end
 
 ---获取单位属性成长
 ---@param unit_key py.UnitKey
----@param attr_name string | y3.Const.UnitAttr
+---@param attr_name string | clicli.Const.UnitAttr
 ---@return number unit_attribute_growth 单位属性成长
 function M.get_attr_growth_by_key(unit_key, attr_name)
-    return y3.helper.tonumber(GameAPI.api_get_attr_growth(unit_key, y3.const.UnitAttr[attr_name] or attr_name)) or 0.0
+    return clicli.helper.tonumber(GameAPI.api_get_attr_growth(unit_key, clicli.const.UnitAttr[attr_name] or attr_name)) or 0.0
 end
 
 ---获取单位剩余生命周期
 ---@return number
 function M:get_life_cycle()
-    return y3.helper.tonumber(self.handle:api_get_life_cycle()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_life_cycle()) or 0.0
 end
 
 ---获取单位飞行高度
 ---@return number height 单位飞行高度
 function M:get_height()
-    return y3.helper.tonumber(self.handle:api_get_height()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_height()) or 0.0
 end
 
 ---获取单位转身速度
 ---@return number turning_speed 单位转身速度
 function M:get_turning_speed()
-    return y3.helper.tonumber(self.handle:api_get_turn_speed()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_turn_speed()) or 0.0
 end
 
 ---获取单位警戒范围
 ---@return number alert_range 单位警戒范围
 function M:get_alert_range()
-    return y3.helper.tonumber(self.handle:api_get_unit_alarm_range()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_unit_alarm_range()) or 0.0
 end
 
 ---获取单位取消警戒的范围
 ---@return number cancel_alert_range 单位取消警戒的范围
 function M:get_cancel_alert_range()
-    return y3.helper.tonumber(self.handle:api_get_unit_cancel_alarm_range()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_unit_cancel_alarm_range()) or 0.0
 end
 
 ---获取单位碰撞半径
 ---@return number collision_radius 单位碰撞半径
 function M:get_collision_radius()
-    return y3.helper.tonumber(self.handle:api_get_unit_collision_radius()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_unit_collision_radius()) or 0.0
 end
 
 ---设置单位碰撞半径
@@ -1467,9 +1467,9 @@ end
 function M:get_owner()
     local py_player = self.handle:api_get_role()
     if not py_player then
-        return y3.player(31)
+        return clicli.player(31)
     end
-    return y3.player.get_by_handle(py_player)
+    return clicli.player.get_by_handle(py_player)
 end
 
 ---获取建造此单位消耗的资源（玩家属性）
@@ -1484,19 +1484,19 @@ end
 ---@param player_attr_name py.RoleResKey 玩家属性名
 ---@return number player_attr 单位被击杀玩家属性
 function M:get_reward_res(player_attr_name)
-    return y3.helper.tonumber(self.handle:api_get_unit_reward_res(player_attr_name)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_unit_reward_res(player_attr_name)) or 0.0
 end
 
 ---获取单位缩放
 ---@return number model_scale 单位缩放
 function M:get_scale()
-    return y3.helper.tonumber(self.handle:api_get_model_scale()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_model_scale()) or 0.0
 end
 
 ---获取单位选择圈缩放
 ---@return number range_scale 选择圈缩放
 function M:get_unit_selection_range_scale()
-    return y3.helper.tonumber(GameAPI.get_select_circle_scale(self.handle)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_select_circle_scale(self.handle)) or 0.0
 end
 
 ---获取单位的X轴缩放
@@ -1520,7 +1520,7 @@ end
 ---获取商店的购买范围
 ---@return number purchase_range 购买范围
 function M:get_shop_range()
-    return y3.helper.tonumber(self.handle:api_get_shop_range()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_shop_range()) or 0.0
 end
 
 ---获取单位等级
@@ -1650,10 +1650,10 @@ end
 ---是否是英雄
 ---@returr boolean
 function M:is_hero()
-    return self.handle:api_get_type() == y3.const.UnitCategory['HERO']
+    return self.handle:api_get_type() == clicli.const.UnitCategory['HERO']
 end
 
---获取单位的头像
+--Get the unit's avatar
 ---@return py.Texture image 单位的头像
 function M:get_icon()
     return GameAPI.get_icon_id_by_unit_type(self:get_key()) --[[@as py.Texture]]
@@ -1662,7 +1662,7 @@ end
 ---是否是建筑
 ---@return boolean
 function M:is_building()
-    return self.handle:api_get_type() == y3.const.UnitCategory['BUILDING']
+    return self.handle:api_get_type() == clicli.const.UnitCategory['BUILDING']
 end
 
 ---获取单位类型的头像
@@ -1679,7 +1679,7 @@ function M.get_last_created_unit()
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
 ---获取单位的拥有者（单位）
@@ -1689,7 +1689,7 @@ function M:get_parent_unit()
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
 ---获取幻象的召唤者
@@ -1699,13 +1699,13 @@ function M:get_illusion_owner()
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
 ---获取单位的朝向
 ---@return number angle 单位的朝向
 function M:get_facing()
-    return y3.helper.tonumber(self.handle:get_face_angle()) or 0.0
+    return clicli.helper.tonumber(self.handle:get_face_angle()) or 0.0
 end
 
 ---获得护甲类型
@@ -1746,7 +1746,7 @@ function M:get_point()
     local py_point = self.handle:api_get_position()
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch
-    return y3.point.get_by_handle(py_point)
+    return clicli.point.get_by_handle(py_point)
 end
 
 ---获取单位最近的可通行点
@@ -1755,7 +1755,7 @@ function M:get_nearest_valid_point()
     local py_point = self.handle:api_find_nearest_valid_position()
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch
-    return y3.point.get_by_handle(py_point)
+    return clicli.point.get_by_handle(py_point)
 end
 
 ---获取单位的队伍
@@ -1834,7 +1834,7 @@ function M:is_in_battle()
 end
 
 ---是否有指定状态
---> 请改用 `has_state` 方法
+--> Use the has_state method instead
 ---@deprecated
 ---@param state_name integer 状态
 ---@return boolean has_buff_status 有指定状态
@@ -1871,7 +1871,7 @@ function M:has_buff_by_key(buff_key)
 end
 
 ---是否有指定类型的魔法效果
----@param effect_type y3.Const.EffectType 魔法效果类型
+---@param effect_type clicli.Const.EffectType 魔法效果类型
 ---@return boolean has_modifier_style 有指定类型的魔法效果
 function M:has_buff_by_effect_type(effect_type)
     return self.handle:api_has_modifier_type(effect_type) or false
@@ -1934,28 +1934,28 @@ function M:can_walk_to(start_point, end_point)
 end
 
 ---是否拥有指定碰撞类型
----@param collision_layer integer | y3.Const.CollisionLayers 碰撞类型
----@return boolean # 是否拥有指定碰撞类型
+---@param collision_layer integer | clicli.Const.CollisionLayers 碰撞类型
+---@return boolean # Whether the specified collision type exists
 function M:has_move_collision(collision_layer)
-    return self.handle:api_get_move_collision(y3.const.CollisionLayers[collision_layer] or collision_layer) or false
+    return self.handle:api_get_move_collision(clicli.const.CollisionLayers[collision_layer] or collision_layer) or false
 end
 
 ---设置单位是否计算某种碰撞类型
----@param collision_layer integer | y3.Const.CollisionLayers # 碰撞mask
----@param enable boolean # 开启状态
+---@param collision_layer integer | clicli.Const.CollisionLayers # Collision mask
+---@param enable boolean # On state
 function M:set_move_collision(collision_layer, enable)
     ---@diagnostic disable-next-line: undefined-field
-    self.handle:api_set_move_collision(y3.const.CollisionLayers[collision_layer] or collision_layer, enable)
+    self.handle:api_set_move_collision(clicli.const.CollisionLayers[collision_layer] or collision_layer, enable)
 end
 
--- 获取所属玩家
+--Get a player
 ---@return Player
 function M:get_owner_player()
     local role_id = self.handle:api_get_role_id()
     if not role_id then
-        return y3.player(31)
+        return clicli.player(31)
     end
-    return y3.player.get_by_id(role_id)
+    return clicli.player.get_by_id(role_id)
 end
 
 ---玩家是否可以购买商店的物品
@@ -1989,18 +1989,18 @@ end
 --- 造成伤害
 ---@class Unit.DamageData
 ---@field target Unit|Item|Destructible
----@field type y3.Const.DamageType | integer # 也可以传任意数字
+---@field type clicli.Const.DamageType | integer # You can also pass any number
 ---@field damage number
----@field ability? Ability # 关联技能
----@field text_type? y3.Const.DamageTextType | y3.Const.FloatTextType # 跳字类型
----@field text_track? y3.Const.FloatTextJumpType | integer # 跳字轨迹类型
----@field common_attack? boolean # 视为普攻
----@field critical? boolean # 必定暴击
----@field no_miss? boolean # 必定命中
----@field particle? py.SfxKey # 特效
----@field socket? string # 特效挂点
----@field attack_type? integer # 攻击类型
----@field pos_socket? string # 目标挂点
+---@field ability? Ability # Relevance skill
+---@field text_type? clicli.Const.DamageTextType | clicli.Const.FloatTextType # Hop type
+---@field text_track? clicli.Const.FloatTextJumpType | integer # Skip trace type
+---@field common_attack? boolean # Regarded as a general attack
+---@field critical? boolean # Certain critical strike
+---@field no_miss? boolean # Sure hit
+---@field particle? py.SfxKey # VFX
+---@field socket? string # Special effect peg
+---@field attack_type? integer # Attack type
+---@field pos_socket? string # Target hanging point
 
 ---@param data Unit.DamageData
 function M:damage(data)
@@ -2011,7 +2011,7 @@ function M:damage(data)
         -- TODO 参考问题3
         ---@diagnostic disable-next-line: param-type-mismatch
         data.target.handle,
-        y3.const.DamageTypeMap[data.type] or data.type,
+        clicli.const.DamageTypeMap[data.type] or data.type,
         Fix32(data.damage),
         data.text_type ~= nil,
         nil,
@@ -2021,8 +2021,8 @@ function M:damage(data)
         data.particle or nil,
         data.socket or '',
         ---@diagnostic disable-next-line: param-type-mismatch
-        y3.const.FloatTextType[data.text_type] or data.text_type or 'physics',
-        y3.const.FloatTextJumpType[data.text_track] or data.text_track or 0,
+        clicli.const.FloatTextType[data.text_type] or data.text_type or 'physics',
+        clicli.const.FloatTextJumpType[data.text_track] or data.text_track or 0,
         data.attack_type or 0,
         data.pos_socket or ''
     )
@@ -2035,15 +2035,15 @@ function M:get_main_attr()
 end
 
 ---设置单位的移动类型为地面
----@param land_limitation? boolean # 陆地限制
----@param item_limitation? boolean # 物件限制
----@param water_limitation? boolean # 海洋限制
+---@param land_limitation? boolean # Land restriction
+---@param item_limitation? boolean # Object restriction
+---@param water_limitation? boolean # Marine limitation
 function M:set_move_channel_land(land_limitation, item_limitation, water_limitation)
     self.handle:set_move_channel_land(land_limitation, item_limitation, water_limitation)
 end
 
 ---设置单位的移动类型为空中
----@param air_limitation? boolean # 空中限制
+---@param air_limitation? boolean # Air restriction
 function M:set_move_channel_air(air_limitation)
     self.handle:set_move_channel_air(air_limitation)
 end
@@ -2054,10 +2054,10 @@ function M:get_camp_id()
     return self.handle:api_get_camp_id() or 0
 end
 
----@param model py.ModelKey # 目标模型编号
----@param material integer # 材质 id
+---@param model py.ModelKey # Target model number
+---@param material integer # Material id
 ---@param layer integer # layer id
----@param texture py.Texture # 贴图
+---@param texture py.Texture # chartlet
 function M:change_model_texture(model, material, layer, texture)
     self.handle:change_model_texture(model, material, layer, texture)
 end

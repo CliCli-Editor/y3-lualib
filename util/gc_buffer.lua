@@ -5,8 +5,8 @@ local M = Class 'GCBuffer'
 ---@package
 M.passedTime = 0
 
----@param atLeast number # 至少等待这么长时间后再移除
----@param gcObject Class.Base # 要移除的对象
+---@param atLeast number # At least wait that long before removing it
+---@param gcObject Class.Base # The object to remove
 function M:__init(atLeast, gcObject)
     ---@package
     self.atLeast = atLeast
@@ -28,7 +28,7 @@ function M.startTimer()
     ---@package
     M.queue = {}
     ---@private
-    M.timer = y3.ltimer.loop(1, function ()
+    M.timer = clicli.ltimer.loop(1, function ()
         local c = 0
         for i, buffer in pairs(M.queue) do
             c = c + 1

@@ -17,7 +17,7 @@ end
 ---@class Await.API
 local API = {}
 
---当前协程休眠一会儿
+--The current coroutine sleeps for a while
 ---@async
 ---@param time number
 function API.sleep(time)
@@ -40,9 +40,9 @@ function API.sleep(time)
     coroutine.yield()
 end
 
---当前协程让出
+--Current coroutine relinquishes
 ---@async
----@param callback fun(resume: fun(...)) # 当前协程让出，直到 resume 被调用。调用 resume 传入的参数将作为当前协程的返回值。
+---@param callback fun(resume: fun(...)) # The current coroutine is relinquished until resume is called. The argument passed by calling resume will be the return value of the current coroutine.
 ---@return ...
 function API.yield(callback)
     local co = coroutine.running()
@@ -78,14 +78,14 @@ function API.call(callback)
     return co
 end
 
---设置错误处理器
----@param handler fun(traceback: string) # 当有错误发生时，会以错误堆栈为参数调用该函数
+--Set error handler
+---@param handler fun(traceback: string) # When an error occurs, this function is called with the error stack as an argument
 function API.setErrorHandler(handler)
     errorHandler = handler
 end
 
---设置唤醒器
----@param f fun(time: number, callback: fun()) # 需要传入一个计时器实现函数。当时间到达时，实现函数需要调用 callback。
+--Set the wakeup
+---@param f fun(time: number, callback: fun()) # You need to pass in a timer implementation function. When the time is up, the implementation function needs to call the callback.
 function API.setSleepWaker(f)
     waker = f
 end

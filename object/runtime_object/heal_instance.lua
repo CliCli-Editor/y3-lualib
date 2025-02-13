@@ -1,6 +1,6 @@
---治疗实例
+--Treatment instance
 --
---在治疗相关的事件中传递
+--Transmission during treatment-related events
 ---@class HealInstance
 ---@overload fun(data: EventParam.单位-受到治疗后, mode: string): self
 local M = Class 'HealInstance'
@@ -14,19 +14,19 @@ function M:__init(data, mode)
     self.mode = mode
 end
 
--- 获取关联技能
+--Acquire relevant skills
 ---@return Ability?
 function M:get_ability()
     return self.data.ability
 end
 
--- 获取当前治疗
+--Access to current treatment
 ---@return number
 function M:get_heal()
     return self.data.cured_value
 end
 
--- 修改当前治疗
+--Modify current treatment
 ---@param value number
 function M:set_heal(value)
     assert(self.mode ~= '治疗后', '不能在治疗后修改伤害')

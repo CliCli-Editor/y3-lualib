@@ -193,7 +193,7 @@ local function pairsRightNode(lt, current)
     return node
 end
 
---遍历链表，速度较快，但不支持改变当前节点
+--Traversing the linked list is fast, but does not support changing the current node
 ---@param start any
 ---@param revert? boolean
 ---@return fun():any
@@ -213,9 +213,9 @@ function M:pairsFast(start, revert)
     end
 end
 
---遍历链表，遍历到当前节点时已经确定下一个节点，
---因此改变当前节点（如删除当前节点）
---不会影响下一个要遍历的节点
+--Traversing the linked list, traversing to the current node has identified the next node,
+--So change the current node (for example, delete the current node)
+--Does not affect the next node to be traversed
 ---@param start any
 ---@param revert? boolean
 ---@return fun():any
@@ -249,9 +249,9 @@ function M:pairs(start, revert)
     end
 end
 
---遍历节点，遍历开始前会先复制一份链表，
---因此遍历过程中改变链表不会影响遍历结果，
---但速度较慢
+--We go through the nodes, we make a copy of the list before we start,
+--So changing the list during traversal does not affect the traversal result,
+--But at a slower pace
 function M:pairsSafe(start, revert)
     local nodes = {}
     for node in self:pairsFast(start, revert) do

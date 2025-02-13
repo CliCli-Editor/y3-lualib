@@ -113,7 +113,7 @@ end
 
 ---@protected
 ---virtual<br>
--- 处于非活动状态时调用, 目的是让装饰者删除任何正在等待的观察者.
+--Called when in an inactive state in order to have the decorator remove any waiting observers.
 ---@param composite NPBehave.Composite.Composite
 function Node:DoParentCompositeStopped(composite)
     -- 小心调用

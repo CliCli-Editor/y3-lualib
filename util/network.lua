@@ -10,10 +10,10 @@ M.state = 'new'
 M._send_buffer = ''
 
 ---@class Network.Options
----@field buffer_size? integer # 网络缓冲区大小（字节），默认为 2MB
----@field timeout? number # 连接超时时间（秒），默认为无限
----@field update_interval? number # 网络更新间隔（秒），默认为 0.2
----@field retry_interval? number # 重连间隔（秒），默认为 5
+---@field buffer_size? integer # Network buffer size (bytes), default is 2MB
+---@field timeout? number # Connection timeout (seconds), which is unlimited by default
+---@field update_interval? number # Network update interval (seconds), default is 0.2
+---@field retry_interval? number # Reconnection interval (seconds). The default value is 5
 
 ---@alias Network.OnConnected fun(self: Network)
 ---@alias Network.OnData fun(self: Network, data: string)
@@ -34,13 +34,13 @@ function M:__init(ip, port, options)
     log.debug('Network 初始化：', self)
 
     ---@private
-    self.update_timer = y3.ctimer.loop(self.options.update_interval, function ()
+    self.update_timer = clicli.ctimer.loop(self.options.update_interval, function ()
         self:update()
     end)
-    y3.ctimer.wait(0, function ()
+    clicli.ctimer.wait(0, function ()
         self:update()
     end)
-    self.retry_timer = y3.ltimer.loop(self.options.retry_interval, function (t)
+    self.retry_timer = clicli.ltimer.loop(self.options.retry_interval, function (t)
         self:update()
         if  self.state ~= 'started'
         and self.state ~= 'sleep' then
@@ -58,7 +58,7 @@ function M:__init(ip, port, options)
         self:update()
     end)
     if self.options.timeout and self.options.timeout > 0 then
-        y3.ltimer.wait(self.options.timeout, function ()
+        clicli.ltimer.wait(self.options.timeout, function ()
             self:update()
             if self.state ~= 'started' then
                 return
@@ -181,35 +181,35 @@ function M:callback(key, ...)
     xpcall(func, log.error, self, ...)
 end
 
---连接成功后的回调
+--Callback after successful connection
 ---@param on_connected Network.OnConnected
 function M:on_connected(on_connected)
     ---@private
     self._on_connected = on_connected
 end
 
---收到数据后的回调
+--Callback after receiving data
 ---@param on_data Network.OnData
 function M:on_data(on_data)
     ---@private
     self._on_data = on_data
 end
 
---创建一个“阻塞”式的数据读取器，会循环执行 `callback`
---> 与 `on_data` 互斥
+--Create a 'blocking' data reader that loops through the 'callback'
+--> is mutually exclusive with on_data
 --
---回调里会给你一个读取函数 `read`，下面是它的说明：
+--The callback will give you a read function 'read', here is its description:
 --
---按照传入的规则读取数据，如果数据不满足规则，
---那么读取器会休眠直到收到满足规则的数据再返回
---* 如果不传入任何参数：
---  读取所有已收到的数据，类似于 `on_data`
---* 如果传入整数：
---  读取指定字节数的数据。
---* 如果传入 `'l'`：
---  读取一行数据，不包括换行符。
---* 如果传入 `'L'`：
---  读取一行数据，包括换行符。
+--Read the data according to the incoming rules, and if the data does not meet the rules,
+--The reader then sleeps until it receives data that satisfies the rule and returns
+--* If no arguments are passed:
+--Read all received data, similar to 'on_data'
+--* If an integer is passed:
+--Reads a specified number of bytes of data.
+--* If passed 'l' :
+--Reads a row of data, excluding newlines.
+--* If passed 'L' :
+--Reads a row of data, including newlines.
 ---@param callback async fun(read: async fun(len: nil|integer|'l'|'L'): string)
 function M:data_reader(callback)
     local buffer = ''
@@ -298,21 +298,21 @@ function M:data_reader(callback)
     coroutine.resume(co, read)
 end
 
---断开连接后的回调
+--Callback after disconnection
 ---@param on_disconnected Network.OnDisconnected
 function M:on_disconnected(on_disconnected)
     ---@private
     self._on_disconnected = on_disconnected
 end
 
---发生错误后的回调
+--A callback after an error occurs
 ---@param on_error Network.OnError
 function M:on_error(on_error)
     ---@private
     self._on_error = on_error
 end
 
---是否已连接
+--Whether connected
 ---@return boolean
 function M:is_connecting()
     return self.handle:is_connecting()
@@ -329,10 +329,10 @@ end
 ---@class Network.API
 local API = {}
 
---建立一个socket客户端，连接到目标服务器上
----@param ip string # IP地址
----@param port integer # 端口号
----@param options? Network.Options # 配置
+--Create a socket client and connect to the target server
+---@param ip string # IP address
+---@param port integer # Port number
+---@param options? Network.Options # disposition
 ---@return Network
 function API.connect(ip, port, options)
     local network = New 'Network' (ip, port, options)

@@ -1,4 +1,4 @@
---投射物组
+--Projectile set
 ---@class ProjectileGroup
 ---@field handle py.ProjectileGroup
 ---@overload fun(py_projectile_group: py.ProjectileGroup): self
@@ -24,8 +24,8 @@ function M.create_lua_projectile_group_from_py(py_projectile_group)
     return projectile_group
 end
 
-y3.py_converter.register_py_to_lua('py.ProjectileGroup', M.create_lua_projectile_group_from_py)
-y3.py_converter.register_lua_to_py('py.ProjectileGroup', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.ProjectileGroup', M.create_lua_projectile_group_from_py)
+clicli.py_converter.register_lua_to_py('py.ProjectileGroup', function (lua_value)
     return lua_value.handle
 end)
 
@@ -56,7 +56,7 @@ function M:pick()
     local lua_table ={}
     for i = 0, python_len(self.handle)-1 do
         local id = python_index(self.handle,i)
-        table.insert(lua_table,y3.projectile.get_by_id(id))
+        table.insert(lua_table,clicli.projectile.get_by_id(id))
     end
     return lua_table
 end
@@ -83,7 +83,7 @@ function M:pairs()
             return
         end
         local id = python_index(self.handle, i)
-        local pr = y3.projectile.get_by_id(id)
+        local pr = clicli.projectile.get_by_id(id)
         return pr
     end
 end

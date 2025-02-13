@@ -1,6 +1,6 @@
-require 'y3.game.game_event'
+require 'clicli.game.game_event'
 
---游戏接口
+--Game interface
 ---@class Game
 local M = Class 'Game'
 
@@ -61,56 +61,56 @@ end
 
 ---字符串转单位命令类型
 ---@param str string 字符串
----@return py.UnitCommandType # 单位命令类型
+---@return py.UnitCommandType # Unit command type
 function M.str_to_unit_command_type(str)
     return GlobalAPI.str_to_unit_command_type(str)
 end
 
 ---字符串转技能释放类型
 ---@param str string 字符串
----@return py.AbilityCastType # 技能释放类型
+---@return py.AbilityCastType # Skill release type
 function M.str_to_ability_cast_type(str)
     return GlobalAPI.str_to_ability_cast_type(str)
 end
 
 ---字符串转链接特效
 ---@param str string 字符串
----@return py.SfxKey # 链接特效
+---@return py.SfxKey # Link effect
 function M.str_to_link_sfx_key(str)
     return GameAPI.str_to_link_sfx_key(str)
 end
 
 ---字符串转玩家关系
 ---@param str string 字符串
----@return py.RoleRelation # 玩家关系
+---@return py.RoleRelation # Player relationship
 function M.str_to_role_relation(str)
     return GlobalAPI.str_to_role_relation(str)
 end
 
 ---字符串转单位分类
 ---@param str string 字符串
----@return py.UnitType # 单位分类
+---@return py.UnitType # Unit classification
 function M.str_to_unit_type(str)
     return GlobalAPI.str_to_unit_type(str)
 end
 
 ---字符串转单位类型
 ---@param str string 字符串
----@return py.UnitKey # 单位类型
+---@return py.UnitKey # Unit type
 function M.str_to_unit_key(str)
     return GameAPI.str_to_unit_key(str)
 end
 
 ---字符串转单位属性
 ---@param str string 字符串
----@return string # 单位属性
+---@return string # Unit attribute
 function M.str_to_unit_name(str)
     return GameAPI.str_to_unit_attr(str)
 end
 
 ---字符串转物品类型
 ---@param str string 字符串
----@return py.ItemKey # 物品类型
+---@return py.ItemKey # Item type
 function M.str_to_item_key(str)
     return GameAPI.str_to_item_key(str)
 end
@@ -131,105 +131,105 @@ end
 
 ---字符串转玩家控制状态
 ---@param str string 字符串
----@return py.RoleType # 玩家控制状态
+---@return py.RoleType # Player control state
 function M.str_to_role_type(str)
     return GlobalAPI.str_to_role_type(str)
 end
 
 ---字符串转技能类型
 ---@param str string 字符串
----@return py.AbilityKey # 技能类型
+---@return py.AbilityKey # Skill type
 function M.str_to_ability_key(str)
     return GameAPI.str_to_ability_key(str)
 end
 
 ---字符串转技能槽位类型
 ---@param str string 字符串
----@return py.AbilityType # 技能槽位类型
+---@return py.AbilityType # Skill Slot type
 function M.str_to_ability_type(str)
     return GlobalAPI.str_to_ability_type(str)
 end
 
 ---字符串转可破坏物类型
 ---@param str string 字符串
----@return py.DestructibleKey # 可破坏物类型
+---@return py.DestructibleKey # Destructible type
 function M.str_to_dest_key(str)
     return GameAPI.str_to_dest_key(str)
 end
 
 ---字符串转投射物类型
 ---@param str string 字符串
----@return py.ProjectileKey # 投射物类型
+---@return py.ProjectileKey # Projectile type
 function M.str_to_project_key(str)
     return GameAPI.str_to_project_key(str)
 end
 
 ---字符串转特效
 ---@param str string 字符串
----@return py.SfxKey # 特效
+---@return py.SfxKey # VFX
 function M.str_to_particle_sfx_key(str)
     return GameAPI.str_to_particle_sfx_key(str)
 end
 
 ---字符串转科技类型
 ---@param str string 字符串
----@return py.TechKey # 科技类型
+---@return py.TechKey # Science and technology type
 function M.str_to_tech_key(str)
     return GameAPI.str_to_tech_key(str)
 end
 
 ---字符串转模型类型
 ---@param str string 字符串
----@return py.ModelKey # 模型类型
+---@return py.ModelKey # Model type
 function M.str_to_model_key(str)
     return GameAPI.str_to_model_key(str)
 end
 
 ---字符串转魔法效果类型
 ---@param str string 字符串
----@return py.ModifierKey # 魔法效果类型
+---@return py.ModifierKey # Magic effect type
 function M.str_to_modifier_key(str)
     return GameAPI.str_to_modifier_key(str)
 end
 
 ---字符串转魔法效果影响类型
 ---@param str string 字符串
----@return py.ModifierEffectType # 魔法效果影响类型
+---@return py.ModifierEffectType # Magic effects affect type
 function M.str_to_modifier_effect_type(str)
     return GlobalAPI.str_to_modifier_effect_type(str)
 end
 
 ---字符串转魔法效果类别
 ---@param str string 字符串
----@return py.ModifierType # 魔法效果类别
+---@return py.ModifierType # Magic effect categories
 function M.str_to_modifier_type(str)
     return GlobalAPI.str_to_modifier_type(str)
 end
 
 ---字符串转阵营
 ---@param str string 字符串
----@return py.Camp # 阵营
+---@return py.Camp # Factions
 function M.str_to_camp(str)
     return GameAPI.str_to_camp(str)
 end
 
 ---字符串转键盘按键
 ---@param str string 字符串
----@return py.KeyboardKey # 键盘按键
+---@return py.KeyboardKey # Keyboard key
 function M.str_to_keyboard_key(str)
     return GlobalAPI.str_to_keyboard_key(str)
 end
 
 ---字符串转鼠标按键
 ---@param str string 字符串
----@return py.MouseKey # 鼠标按键
+---@return py.MouseKey # Mouse button
 function M.str_to_mouse_key(str)
     return GlobalAPI.str_to_mouse_key(str)
 end
 
 ---字符串转鼠标滚轮
 ---@param str string 字符串
----@return py.MouseWheel # 鼠标滚轮
+---@return py.MouseWheel # Mouse wheel
 function M.str_to_mouse_wheel(str)
     return GlobalAPI.str_to_mouse_wheel(str)
 end
@@ -243,21 +243,21 @@ end
 
 ---字符串转伤害类型
 ---@param str string 字符串
----@return integer # 伤害类型
+---@return integer # Injury type
 function M.str_to_damage_type(str)
     return GlobalAPI.str_to_damage_type(str)
 end
 
 ---字符串转单位属性类型
 ---@param str string 字符串
----@return string # 单位属性类型
+---@return string # Unit attribute type
 function M.str_to_unit_attr_type(str)
     return GlobalAPI.str_to_unit_attr_type(str)
 end
 
 ---字符串转声音类型
 ---@param str string 字符串
----@return py.AudioKey # 声音类型
+---@return py.AudioKey # Sound type
 function M.str_to_audio_key(str)
     return GameAPI.str_to_audio_key(str)
 end
@@ -431,15 +431,15 @@ function M.resume_soft_pause()
 end
 
 ---切换至关卡
----@param level_id_str py.Map | string # 关卡ID
+---@param level_id_str py.Map | string # Level ID
 function M.switch_level(level_id_str)
-    M:event_notify('$Y3-即将切换关卡')
+    M:event_notify('$CliCli-即将切换关卡')
     ---@diagnostic disable-next-line: param-type-mismatch
     GameAPI.request_switch_level(level_id_str)
 end
 
 ---获取当前关卡
----@return py.Map # 当前关卡
+---@return py.Map # Current level
 function M.get_level()
     return GameAPI.get_current_level()
 end
@@ -465,7 +465,7 @@ end
 ---@param secondary_attr string 二级属性
 ---@return number coefficient 系数
 function M.get_compound_attributes(primary_attribute, secondary_attr)
-    return y3.helper.tonumber(GameAPI.get_slave_coeff(primary_attribute, secondary_attr)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_slave_coeff(primary_attribute, secondary_attr)) or 0.0
 end
 
 ---是否开启三维属性
@@ -522,13 +522,13 @@ end
 ---游戏已运行的时间
 ---@return number time  时间
 function M.current_game_run_time()
-    return y3.helper.tonumber(GameAPI.get_cur_game_time()) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_cur_game_time()) or 0.0
 end
 
 ---获取游戏当前昼夜时间
 ---@return number time 时间
 function M.get_day_night_time()
-    return y3.helper.tonumber(GameAPI.get_cur_day_and_night_time()) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_cur_day_and_night_time()) or 0.0
 end
 
 ---获取伤害系数
@@ -536,7 +536,7 @@ end
 ---@param area_type integer 护甲类型
 ---@return number factor 伤害系数
 function M.get_damage_ratio(attack_type, area_type)
-    return y3.helper.tonumber(GameAPI.get_damage_ratio(attack_type, area_type)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_damage_ratio(attack_type, area_type)) or 0.0
 end
 
 ---获取本局游戏环境
@@ -545,20 +545,20 @@ function M.get_start_mode()
     return GameAPI.api_get_start_mode()
 end
 
--- 是否是调试模式
----@param ignore_config? boolean # 是否忽略用户的设置
+--Debug mode or not
+---@param ignore_config? boolean # Whether to ignore user Settings
 ---@return boolean
 function M.is_debug_mode(ignore_config)
     if ignore_config then
         return M.get_start_mode() == 1
     end
-    if y3.config.debug == true then
+    if clicli.config.debug == true then
         return true
     end
-    if y3.config.debug == false then
+    if clicli.config.debug == false then
         return false
     end
-    if y3.config.debug == 'auto' then
+    if clicli.config.debug == 'auto' then
         return M.get_start_mode() == 1
     end
     return false
@@ -600,13 +600,13 @@ function M.get_game_init_time_stamp()
 end
 
 ---@class ServerTime: osdate
----@field timestamp integer # 时间戳
----@field time_zone_stamp integer # 计算过时区后的时间戳
----@field msec integer # 毫秒
----@field time_zone integer # 时区
+---@field timestamp integer # timestamp
+---@field time_zone_stamp integer # Calculate the timestamp after the obsolescence zone
+---@field msec integer # ms
+---@field time_zone integer # Time zone
 
---获取当前的服务器时间。为了保证结果的一致性需要你自己指定时区。
----@param time_zone? integer # 时区，默认为0。获取中国的时间请传入8。
+--Gets the current server time. In order to ensure the consistency of the results you need to specify your own time zone.
+---@param time_zone? integer # Time zone. The default value is 0. To get the time of China, please pass in 8.
 ---@return ServerTime
 function M.get_current_server_time(time_zone)
     local init_time_stamp = GameAPI.get_game_init_time_stamp()
@@ -622,7 +622,7 @@ function M.get_current_server_time(time_zone)
 end
 
 ---请求真实时间。为了保证结果的一致性需要你自己指定时区。
----@param time_zone integer # 时区，默认为0。获取中国的时间请传入8。
+---@param time_zone integer # Time zone. The default value is 0. To get the time of China, please pass in 8.
 ---@param callback fun(time: ServerTime)
 function M.request_time(time_zone, callback)
     local context = {}
@@ -669,21 +669,21 @@ end
 
 ---发送信号
 ---@param player Player 玩家
----@param signal_enum y3.Const.SignalType 信号枚举值
+---@param signal_enum clicli.Const.SignalType 信号枚举值
 ---@param point Point 点
----@param visible_enum y3.Const.VisibleType 可见性枚举值
+---@param visible_enum clicli.Const.VisibleType 可见性枚举值
 function M.send_signal(player, signal_enum, point, visible_enum)
     GameAPI.send_signal(
         player:get_id() --[[@as py.RoleID]],
-        y3.const.SignalType[signal_enum] or signal_enum,
+        clicli.const.SignalType[signal_enum] or signal_enum,
         -- TODO 见问题2
         ---@diagnostic disable-next-line: param-type-mismatch
         point.handle,
-        y3.const.VisibleType[visible_enum] or visible_enum
+        clicli.const.VisibleType[visible_enum] or visible_enum
     )
 end
 
--- 发送自定义事件给ECA
+--Send custom events to ECA
 ---@param id integer 事件id
 ---@param table table 事件数据
 function M.send_custom_event(id, table)
@@ -704,7 +704,7 @@ end
 function M.get_table(name, as_lua)
     local t = GameAPI.get_table(name)
     if as_lua then
-        t = y3.helper.as_lua(t, true)
+        t = clicli.helper.as_lua(t, true)
     end
     return t
 end
@@ -722,7 +722,7 @@ function M.clear_table(table)
     GameAPI.clear_table(table)
 end
 
--- 启用全图视野（总是可见的）
+--Enable Full view (always visible)
 ---@param enable boolean
 function M.set_globale_view(enable)
     GameAPI.enable_fow_for_player(enable)
@@ -730,11 +730,11 @@ end
 
 ---设置对象基础材质颜色
 ---@param obj Unit|Item|Destructible
----@param r integer # 红色（0~255）
----@param g integer # 绿色（0~255）
----@param b integer # 蓝色（0~255）
----@param a? integer # 强度（0~100）
----@param o? number # 不透明度（0~1）
+---@param r integer # Red (0~255)
+---@param g integer # Green (0 to 255)
+---@param b integer # Blue (0~255)
+---@param a? integer # Strength (0~100)
+---@param o? number # Opacity (0~1)
 function M.set_object_color(obj, r, g, b, a, o)
     ---@diagnostic disable-next-line: param-type-mismatch
     GameAPI.api_change_obj_base_color(obj.handle, r, g, b, a or 50, o or -1)
@@ -764,7 +764,7 @@ end
 ---@param fps integer 帧率
 function M.set_logic_fps(fps)
     GameAPI.api_change_logic_fps(fps)
-    y3.config.logic_frame = fps
+    clicli.config.logic_frame = fps
 end
 
 ---加密表
@@ -798,20 +798,20 @@ function M.unreg_sound_area(area)
     GameAPI.unreg_sound_area(area.handle)
 end
 
---设置附近语音的区域模式开关
+--Set the area mode switch for nearby voices
 ---@param switch boolean 是否关闭
 function M.set_nearby_voice_mode(switch)
     GameAPI.set_nearby_voice_mode(switch)
 end
 
---设置玩家的附近语音聊天收听开关
+--Set the player's nearby voice chat listening switch
 ---@param player Player 玩家
 ---@param switch boolean 是否关闭
 function M.set_nearby_sound_switch(player, switch)
     GameAPI.set_nearby_sound_switch(player.handle, switch)
 end
 
---设置玩家的附近语音聊天发言开关
+--Set the player's nearby voice chat speech switch
 ---@param player Player 玩家
 ---@param switch boolean 是否关闭
 function M.set_nearby_micro_switch(player, switch)
@@ -869,7 +869,7 @@ function M.world_pos_to_camera_pos(world_pos)
     local x = GlobalAPI.get_fixed_coord_index(pos, 0):float() / 100
     ---@diagnostic disable-next-line: param-type-mismatch
     local y = GlobalAPI.get_fixed_coord_index(pos, 2):float() / 100
-    y = y - 2 * (y - y3.ui:get_window_height() / 2)
+    y = y - 2 * (y - clicli.ui:get_window_height() / 2)
     return x, y
 end
 
@@ -884,28 +884,28 @@ function M.world_pos_to_screen_edge_pos(world_pos, delta_dis)
     local x = GlobalAPI.get_fixed_coord_index(pos, 0):float() / 100
     ---@diagnostic disable-next-line: param-type-mismatch
     local y = GlobalAPI.get_fixed_coord_index(pos, 2):float() / 100
-    y = y - 2 * (y - y3.ui.get_window_height() / 2)
+    y = y - 2 * (y - clicli.ui.get_window_height() / 2)
     return x, y
 end
 
 ---创建地形预设
----@param point Point # 点
----@param level_id string # 关卡ID，通过 `y3.game.get_level()` 获取
----@param rotate? integer # 旋转角度
----@param has_light? boolean # 是否携带灯光
----@param has_decoration? boolean # 是否携带装饰物
----@param has_fog? boolean # 是否携带雾效
----@param has_collision? boolean # 是否携带碰撞
+---@param point Point # point
+---@param level_id string # Level ID, obtained by 'clicli.game.get_level()'
+---@param rotate? integer # Rotation Angle
+---@param has_light? boolean # Carry lights or not
+---@param has_decoration? boolean # Whether to carry decorations
+---@param has_fog? boolean # Whether to carry fog effect
+---@param has_collision? boolean # Carry or not collision
 function M.load_sub_scene(point, level_id, rotate, has_light, has_decoration, has_fog, has_collision)
     ---@diagnostic disable-next-line: param-type-mismatch
     GameAPI.load_sub_scene(point.handle, level_id, rotate or 0, has_light or false, has_decoration or false, has_fog or false, has_collision or false)
 end
 
---本地客户端每帧回调此函数  
---只能注册一个回调，后注册的会覆盖之前的，
---如有需要请自己在回调中分发
+--The local client calls back this function every frame
+--Only one callback can be registered. The later one overwrites the earlier one.
+--Distribute it in the callback if necessary
 --
--->警告：回调函数是在本地玩家的客户端上执行的，注意避免产生不同步的问题。
+--> Warning: The callback function is executed on the local player's client, take care to avoid the problem of asynchronism.
 ---@param callback fun(local_player: Player)
 function M.on_client_tick(callback)
     if type(callback) ~= 'function' then
@@ -917,13 +917,13 @@ end
 
 
 ---@class HttpRequestOptions
----@field post? boolean # post 请求还是 get 请求
----@field port? integer # 端口号
----@field timeout? number # 超时时间，默认为2秒
----@field headers? table | py.Dict # 请求头
+---@field post? boolean # post request or get request
+---@field port? integer # Port number
+---@field timeout? number # The default timeout period is 2 seconds
+---@field headers? table | py.Dict # Request header
 
---发送 http 请求，成功或失败都会触发回调，
---成功时回调的参数是 http 返回的 body，失败时回调的参数是 `nil`
+--Sending an http request, success or failure triggers a callback,
+--The parameter of the callback is the body returned by http on success, and 'nil' on failure
 ---@param url string
 ---@param body? string
 ---@param callback? fun(body?: string)
@@ -931,7 +931,7 @@ end
 function M:request_url(url, body, callback, options)
     local headers = options and options.headers
     if type(headers) == 'table' then
-        headers = y3.helper.py_dict(headers)
+        headers = clicli.helper.py_dict(headers)
     end
     request_url(url
         , options and options.post or false
@@ -946,9 +946,9 @@ end
 local download_icon_queue = {}
 
 ---下载玩家平台头像，下载完毕后调用回调函数
----@param url string # 头像下载地址
----@param icon string # 头像路径，如果本地已有头像则不会下载而是立即调用回调函数
----@param callback fun(real_path: string) # 下载完毕后的回调函数
+---@param url string # Avatar download address
+---@param icon string # Avatar path, if the local avatar is not downloaded, but immediately call the callback function
+---@param callback fun(real_path: string) # After downloading the callback function
 function M.download_platform_icon(url, icon, callback)
     ---@diagnostic disable-next-line: undefined-field
     local download = GameAPI.download_avatar_head_url
@@ -1006,7 +1006,7 @@ function M.get_latest_game_version(callback)
     M._fetching_game_version = { callback }
     ---@diagnostic disable-next-line: undefined-field
     GameAPI.update_latest_game_version()
-    y3.ctimer.loop(0.1, function (timer)
+    clicli.ctimer.loop(0.1, function (timer)
         ---@diagnostic disable-next-line: missing-parameter
         local version = GameAPI.get_latest_game_version()
         if version == 0 then
@@ -1023,8 +1023,8 @@ end
 
 ---【异步】请求最新的存档排行榜数据。
 ---该接口有10分钟的频率限制\如果要配合上传排行榜数据使用，则两个逻辑最好间隔5分钟
----@param save_index integer # 存档栏位
----@param callback? fun() # 排行榜刷新完成后的回调函数
+---@param save_index integer # Archive field
+---@param callback? fun() # Callback function after refreshing the leaderboard
 function M.request_map_rank(save_index, callback)
     GameAPI.lua_request_get_map_rank(save_index, function ()
         if callback then
@@ -1041,9 +1041,9 @@ end
 
 _G['OnTick'] = function ()
     if M._client_tick_callback then
-        y3.player.with_local(M._client_tick_callback)
+        clicli.player.with_local(M._client_tick_callback)
     end
-    y3.ctimer.update_frame()
+    clicli.ctimer.update_frame()
 end
 
 return M

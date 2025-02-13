@@ -17,7 +17,7 @@ function M:__init(object)
     return self
 end
 
----@param event_name Event.Name # Lua框架使用的事件名
+---@param event_name Event.Name # The event name used by the Lua framework
 ---@param event_args? any[]
 ---@param callback Trigger.CallBack
 ---@return Trigger
@@ -67,7 +67,7 @@ end
 ---@param ... any
 function M:stack_notify(event_name, event_args, ...)
     if not self.stack_list then
-        self.stack_list = y3.linked_table.create()
+        self.stack_list = clicli.linked_table.create()
     end
     local box = table.pack(event_name, event_args, ...)
     self.stack_list:pushTail(box)

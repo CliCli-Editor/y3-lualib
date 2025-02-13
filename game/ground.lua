@@ -1,6 +1,6 @@
---地面
+--ground
 --
---地面碰撞相关方法
+--Ground collision correlation method
 ---@class Ground
 local M = Class 'Ground'
 

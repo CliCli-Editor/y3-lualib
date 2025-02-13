@@ -2,7 +2,7 @@
 ---@overload fun(): self
 local M = Class 'Storage'
 
--- 存储任意值
+--Store arbitrary values
 ---@param key any
 ---@param value any
 ---@return any
@@ -15,7 +15,7 @@ function M:storage_set(key, value)
     return value
 end
 
--- 获取存储的值
+--Gets the stored value
 ---@param key any
 ---@return any
 function M:storage_get(key)
@@ -25,7 +25,7 @@ function M:storage_get(key)
     return self.storage_table[key]
 end
 
--- 获取存储数据的容器
+--Gets the container for storing data
 ---@return table
 function M:storage_all()
     if not self.storage_table then

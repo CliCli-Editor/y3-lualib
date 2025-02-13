@@ -1,195 +1,195 @@
 ---@class Object.Ability
---技能特殊属性（暂不生效）  
+--Skills Special Attributes (not yet in effect)
 ---@field ability_attribute number
---当技能施法开始或施法出手阶段结束时，如果与施法目标的距离超过该值，会打断技能释放。
+--At the beginning of a skill cast or at the end of the cast shot phase, if the distance from the target of the cast exceeds this value, the skill release is interrupted.
 ---@field ability_break_cast_range any[]
---后摇时长  
---施法完成时间
+--Roll back time
+--Spell completion time
 ---@field ability_bw_point number
---前摇时长  
---施法开始时间
+--Front roll time
+--Spell start time
 ---@field ability_cast_point number
---释放范围  
---以角色为圆心，以该值为半径的圆形区域。是角色不需要移动即可释放技能的最远距离。
+--Release range
+--A circular area with the character as the center and the value as the radius. Is the furthest distance a character can release a skill without moving.
 ---@field ability_cast_range any[]
---技能的释放类型。
+--Skill release type.
 ---@field ability_cast_type number
---施法时长  
---施法出手时间
+--Spell duration
+--Time to cast a spell
 ---@field ability_channel_time number
---技能资源消耗值  
---释放技能消耗的MP(会根据单位自身的技能资源进行变化)数值
+--Skill resource consumption value
+--Release the MP cost of a skill (which varies according to the unit's own skill resources)
 ---@field ability_cost any[]
---技能伤害值  
---技能造成的伤害，可使用公式编辑，需在触发内引用才可生效
+--Skill damage
+--The damage caused by a skill can be edited using a formula and must be referenced within the trigger to take effect
 ---@field ability_damage any[]
---当前技能的影响范围，
+--The sphere of influence of current skills,
 ---@field ability_damage_range any[]
---使用该技能时会消耗的生命值
+--The amount of health consumed when using this skill
 ---@field ability_hp_cost any[]
---图标  
---技能的图标，会在编辑器和游戏的ui上显示
+--icon
+--ICONS of skills are displayed in the editor and on the game ui
 ---@field ability_icon number
---技能最大等级  
---技能的等级上限
+--Maximum skill level
+--The level limit for skills
 ---@field ability_max_level number
---最大充能层数  
---技能的最大充能数，必须满足充能数大于0且不在冷却状态才能施放该技能
+--Maximum number of charging layers
+--The maximum charge of the skill must be greater than 0 and not in a cooling state to cast the skill
 ---@field ability_max_stack_count any[]
---施法引导时间
+--Spell lead time
 ---@field ability_prepare_time number
---充能cd  
---每增加一层充能数所需的时间（单位为秒）
+--Charge cd
+--Time required for each additional layer of charge (in seconds)
 ---@field ability_stack_cd any[]
---是否允许无目标攻击  
+--Whether to allow untargeted attacks
 ---@field allow_none_target boolean
---动画
+--ANIMATIONS
 ---@field animation string
---动画速率
+--Animation rate
 ---@field animation_speed number
---箭头长度  
---箭头指示器的长度
+--Arrow length
+--Length of arrow indicator
 ---@field arrow_length any[]
---箭头宽度  
---箭头指示器的宽度
+--Arrow width
+--Width of the arrow indicator
 ---@field arrow_width any[]
 ---@field art_resource_btn any
---当采集到的资源是物品时，是否自动将物品拾取。如果不自动拾取则物品会创建在地面。
+--When the collected resource is an item, whether the item is automatically picked up. If not automatically picked up then the item will be created on the ground.
 ---@field auto_pick boolean
---后摇特效
+--Backshake effect
 ---@field bs_sfx_list any[]
---后摇音效
+--backshake
 ---@field bs_sound_effect any[]
---建造技能建造的单位类型
+--Build Skill Type of unit built
 ---@field build_list any[]
---技能施法完成阶段能否被其他技能或者移动打断
+--Can the completion phase of a skill spell be interrupted by another skill or move
 ---@field can_bs_interrupt boolean
---是否可以缓存  
---开启时，被控制时，控制结束 依旧可以继续释放（例如被禁止施法时发布施放命令，禁止施法解除后就会自动施放出来）
+--Whether it can be cached
+--When it is turned on, when it is controlled, it can continue to release when the control is over (for example, the casting command is issued when the cast is prohibited, and the cast will be automatically released after the forbidden cast is lifted).
 ---@field can_cache boolean
---技能施法出手阶段能否被其他技能或者移动打断
+--Ability to be interrupted by other skills or moves
 ---@field can_cast_interrupt boolean
---如果单位当前生命值不满足消耗时，能否施放技能
+--Ability to cast abilities if the unit's current health does not meet the cost
 ---@field can_cast_when_hp_insufficient boolean
---开启后可以配置消耗生命值相关的技能参数。如无需要请勿开启该配置，会增加系统消耗。
+--After this function is enabled, you can configure skill parameters related to health consumption. Do not enable this configuration if you do not need to. This will increase system consumption.
 ---@field can_cost_hp boolean
---释放该技能时候会尝试打断当前正在释放的技能
+--Releasing the skill attempts to interrupt the skill that is currently being released
 ---@field can_interrupt_others boolean
---技能施法引导阶段能否被其他技能或者移动打断
+--Can the spell lead phase be interrupted by other skills or moves
 ---@field can_prepare_interrupt boolean
---技能施法开始阶段能否被其他技能或者移动打断
+--Ability to be interrupted by other abilities or moves at the start of a spell
 ---@field can_ps_interrupt boolean
---圆形半径  
---圆形指示器的半径
+--Radius of circle
+--The radius of the circular indicator
 ---@field circle_radius any[]
---冷却时间  
---技能的冷却时间，释放一次技能后需要等待该时间才可继续释放（单位为秒）
+--Cooling time
+--The cooldown time of a skill, which is the amount of time to wait after a skill is released before it can be released again (in seconds).
 ---@field cold_down_time any[]
---使用采集技能时会播放的动画。会在技能施法开始时播放，施法停止时停止。
+--The animation that plays when using the Capture skill. Plays when a skill cast begins and stops when it stops.
 ---@field collection_animation string
---采集技能时播放的采集动画是否会循环播放。
+--Whether the capture animation played while collecting skills will loop.
 ---@field collection_animation_loop boolean
---是否在采集完成后继续采集（仅在技能冷却时间为0时生效）
+--Whether to continue collecting after collecting is complete (only if skill cooldown is 0)
 ---@field collection_continuously boolean
---技能索敌时只会搜索带有指定标签的可破坏物
+--The ability will only search for destructible objects with the specified label when seeking enemies
 ---@field collection_destructible_tags any[]
---如果单位当前生命值不满足消耗时施放技能，则该项为true时单位会死亡，为false时会保留1点生命值
+--If the unit's current health is not enough to cast at cost, the unit dies if true and retains 1 health if false
 ---@field cost_hp_can_die boolean
---施法特效
+--Magic effect
 ---@field cst_sfx_list any[]
---施法音效
+--Casting sound
 ---@field cst_sound_effect any[]
---描述  
---描述
+--Description
+--Description
 ---@field description number
---结束特效
+--End effect
 ---@field end_sfx_list any[]
---结束音效
+--End sound
 ---@field end_sound_effect any[]
---索敌条件 - 阵营  
---按阵营选取目标。
+--Condition of the enemy - Camp
+--Select the target by camp.
 ---@field filter_condition_camp number
---索敌条件 - 类型  
---按种类选取目标。
+--Condition - Type
+--Select the target by category.
 ---@field filter_condition_type number
---技能索敌时只会搜索带有指定标签的物品
+--The ability will only search for items with the specified tag when seeking enemies
 ---@field filter_item_tags any[]
---过滤效果单位  
+--Filter effect unit
 ---@field filter_modifier_unit number
---技能索敌时只会搜索带有指定标签的单位
+--Only units with the specified tag will be searched when a skill is seeking an enemy
 ---@field filter_unit_tags any[]
---受击特效
+--Hit effect
 ---@field hit_sfx_list any[]
---击中音效
+--Hit sound
 ---@field hit_sound_effect any[]
---技能受到单位属性中的冷却缩短的影响
+--Skills are affected by shortening of cooldown in unit attributes
 ---@field influenced_by_cd_reduce boolean
---勾选后移动会尝试打断当前技能，不勾选则可以实现移动施法
+--Moving after checking will attempt to interrupt the current skill, while unchecking will enable moving casting
 ---@field influenced_by_move boolean
---流程-是否持续施法  
+--Flow - Whether spells are cast continuously
 ---@field is_channel boolean
---蓄力技能专属，为true时，技能开始和引导时间会一起作为蓄力技能一阶段的引导时间
+--When true is true, the skill start time and the boot time are used together as the boot time of the skill phase
 ---@field is_charge_ability boolean
---流程-是否立刻施法  
---释放这个技能是否需要施法过程，开启时可以在单位存活的任何时期发动该技能，即使被禁止施法也可以正常释放。
+--Process - Whether to cast the spell immediately
+--Whether casting is required to release this ability, the ability can be activated at any time while the unit is alive, and can be released normally even if casting is prohibited.
 ---@field is_immediate boolean
---是否是近战攻击  
---开启时，标记这个技能造成的伤害为近战伤害
+--Whether it is a melee attack
+--When turned on, mark the damage dealt by this ability as melee damage
 ---@field is_meele boolean
---是否开关技能（暂不生效）  
+--Whether to switch skills (not currently effective)
 ---@field is_toggle boolean
---zh_value  
+--zh_value
 --ID
 ---@field key number
 ---@field kv Object.Ability.Kv
---魔法书中存放的技能list
+--list of skills stored in the Grimoire
 ---@field magicbook_list any[]
---名称  
---名称
+--name
+--name
 ---@field name string|integer
---开启时，技能释放后单位会自动转到技能释放的方向（转身速度为单位的转身速度）
+--When turned on, the unit will automatically turn to the direction of the skill release after the skill is released (turn speed is the turn speed in units).
 ---@field need_turn_to_target boolean
---每次使用采集技能时获取到的资源数量。如果采集的是玩家属性，则获得对应的玩家属性值，如果采集的是物品，则获得对应数量的物品。
+--The amount of resources obtained each time the collection skill is used. If the collection is a player attribute, the corresponding player attribute value is obtained, and if the collection is an item, the corresponding number of items is obtained.
 ---@field pick_count number
---施放技能消耗的玩家属性，技能拥有者的玩家该属性不足时无法施放技能
+--The player stat that costs a skill to cast, and the player who owns the skill cannot cast a skill when the player is low on this stat
 ---@field player_props_cost any[]
---释放技能的前置条件
+--Preconditions for releasing skills
 ---@field precondition_list any[]
---前摇特效
+--Front roll effect
 ---@field ps_sfx_list any[]
---前摇音效
+--Forward sound
 ---@field ps_sound_effect any[]
---如果技能目标点超出施法范围，会在施法范围内离目标最近的点施放
+--If the target point of the skill is out of cast range, it is cast at the point closest to the target within cast range
 ---@field release_immediately_out_of_range boolean
---允许学习等级  
---单位学习该技能所需要的等级
+--Allowable learning level
+--The level of the unit required to learn the skill
 ---@field required_level Object.Ability.RequiredLevel
---扇形指示器的角度
+--Angle of the sector indicator
 ---@field sector_angle any[]
---扇形半径  
---扇形指示器的边长
+--Sector radius
+--The length of the side of the sector indicator
 ---@field sector_radius any[]
---指示器类型  
---释放技能时的鼠标指示器的样式
+--Indicator type
+--The style of the mouse indicator when releasing the skill
 ---@field sight_type number
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list any[]
---开启时，会根据技能的施法时间显示相应的进度条
+--When turned on, a progress bar is displayed based on the spell time of the skill
 ---@field sp_count_down boolean
 ---@field sp_countdown boolean
---准备特效
+--Prepare special effects
 ---@field sp_sfx_list any[]
---准备音效
+--Prepare sound effects
 ---@field sp_sound_effect any[]
---编辑器后缀
+--Editor suffix
 ---@field suffix string
---标签  
---用于对技能的分类处理。为技能贴上标签后可以对其进行更方便的关系，例如编写游戏逻辑：所有拥有XX标签的技能等级+1
+--tag
+--Used to categorize skills. Labeling skills makes it easier to relate to them, such as writing game logic: All skills with XX labels are level +1
 ---@field tags any[]
---特殊筛选（只有尸体有效）  
---配置技能索敌时的特殊筛选规则（如排除自己、允许无敌等）
+--Special screening (Cadaver only)
+--Configure special filtering rules for skills seeking enemies (e.g., exclude yourself, allow invincibility, etc.)
 ---@field target_attribute number
---主题  
+--theme
 ---@field theme number
 --UID
 ---@field uid string
@@ -201,12 +201,12 @@
 ---@field annotation string
 ---@field desc string
 ---@field etype number
---zh_value  
+--zh_value
 --ID
 ---@field key string
 ---@field prop_cls string
 ---@field remark string
---主类型  
+--Master type
 ---@field type number
 ---@field value number
 
@@ -215,279 +215,279 @@
 ---@field required_levels any[]
 
 ---@class Object.AbilityOptions
---技能特殊属性（暂不生效）  
+--Skills Special Attributes (not yet in effect)
 ---@field ability_attribute? number
---当技能施法开始或施法出手阶段结束时，如果与施法目标的距离超过该值，会打断技能释放。
+--At the beginning of a skill cast or at the end of the cast shot phase, if the distance from the target of the cast exceeds this value, the skill release is interrupted.
 ---@field ability_break_cast_range? any[]
---后摇时长  
---施法完成时间
+--Roll back time
+--Spell completion time
 ---@field ability_bw_point? number
---前摇时长  
---施法开始时间
+--Front roll time
+--Spell start time
 ---@field ability_cast_point? number
---释放范围  
---以角色为圆心，以该值为半径的圆形区域。是角色不需要移动即可释放技能的最远距离。
+--Release range
+--A circular area with the character as the center and the value as the radius. Is the furthest distance a character can release a skill without moving.
 ---@field ability_cast_range? any[]
---技能的释放类型。
+--Skill release type.
 ---@field ability_cast_type? number
---施法时长  
---施法出手时间
+--Spell duration
+--Time to cast a spell
 ---@field ability_channel_time? number
---技能资源消耗值  
---释放技能消耗的MP(会根据单位自身的技能资源进行变化)数值
+--Skill resource consumption value
+--Release the MP cost of a skill (which varies according to the unit's own skill resources)
 ---@field ability_cost? any[]
---技能伤害值  
---技能造成的伤害，可使用公式编辑，需在触发内引用才可生效
+--Skill damage
+--The damage caused by a skill can be edited using a formula and must be referenced within the trigger to take effect
 ---@field ability_damage? any[]
---当前技能的影响范围，
+--The sphere of influence of current skills,
 ---@field ability_damage_range? any[]
---使用该技能时会消耗的生命值
+--The amount of health consumed when using this skill
 ---@field ability_hp_cost? any[]
---图标  
---技能的图标，会在编辑器和游戏的ui上显示
+--icon
+--ICONS of skills are displayed in the editor and on the game ui
 ---@field ability_icon? number
---技能最大等级  
---技能的等级上限
+--Maximum skill level
+--The level limit for skills
 ---@field ability_max_level? number
---最大充能层数  
---技能的最大充能数，必须满足充能数大于0且不在冷却状态才能施放该技能
+--Maximum number of charging layers
+--The maximum charge of the skill must be greater than 0 and not in a cooling state to cast the skill
 ---@field ability_max_stack_count? any[]
---施法引导时间
+--Spell lead time
 ---@field ability_prepare_time? number
---充能cd  
---每增加一层充能数所需的时间（单位为秒）
+--Charge cd
+--Time required for each additional layer of charge (in seconds)
 ---@field ability_stack_cd? any[]
---是否允许无目标攻击  
+--Whether to allow untargeted attacks
 ---@field allow_none_target? boolean
---动画
+--ANIMATIONS
 ---@field animation? string
---动画速率
+--Animation rate
 ---@field animation_speed? number
---箭头长度  
---箭头指示器的长度
+--Arrow length
+--Length of arrow indicator
 ---@field arrow_length? any[]
---箭头宽度  
---箭头指示器的宽度
+--Arrow width
+--Width of the arrow indicator
 ---@field arrow_width? any[]
 ---@field art_resource_btn? any
---当采集到的资源是物品时，是否自动将物品拾取。如果不自动拾取则物品会创建在地面。
+--When the collected resource is an item, whether the item is automatically picked up. If not automatically picked up then the item will be created on the ground.
 ---@field auto_pick? boolean
---后摇特效
+--Backshake effect
 ---@field bs_sfx_list? any[]
---后摇音效
+--backshake
 ---@field bs_sound_effect? any[]
---建造技能建造的单位类型
+--Build Skill Type of unit built
 ---@field build_list? any[]
---技能施法完成阶段能否被其他技能或者移动打断
+--Can the completion phase of a skill spell be interrupted by another skill or move
 ---@field can_bs_interrupt? boolean
---是否可以缓存  
---开启时，被控制时，控制结束 依旧可以继续释放（例如被禁止施法时发布施放命令，禁止施法解除后就会自动施放出来）
+--Whether it can be cached
+--When it is turned on, when it is controlled, it can continue to release when the control is over (for example, the casting command is issued when the cast is prohibited, and the cast will be automatically released after the forbidden cast is lifted).
 ---@field can_cache? boolean
---技能施法出手阶段能否被其他技能或者移动打断
+--Ability to be interrupted by other skills or moves
 ---@field can_cast_interrupt? boolean
---如果单位当前生命值不满足消耗时，能否施放技能
+--Ability to cast abilities if the unit's current health does not meet the cost
 ---@field can_cast_when_hp_insufficient? boolean
---开启后可以配置消耗生命值相关的技能参数。如无需要请勿开启该配置，会增加系统消耗。
+--After this function is enabled, you can configure skill parameters related to health consumption. Do not enable this configuration if you do not need to. This will increase system consumption.
 ---@field can_cost_hp? boolean
---释放该技能时候会尝试打断当前正在释放的技能
+--Releasing the skill attempts to interrupt the skill that is currently being released
 ---@field can_interrupt_others? boolean
---技能施法引导阶段能否被其他技能或者移动打断
+--Can the spell lead phase be interrupted by other skills or moves
 ---@field can_prepare_interrupt? boolean
---技能施法开始阶段能否被其他技能或者移动打断
+--Ability to be interrupted by other abilities or moves at the start of a spell
 ---@field can_ps_interrupt? boolean
---圆形半径  
---圆形指示器的半径
+--Radius of circle
+--The radius of the circular indicator
 ---@field circle_radius? any[]
---冷却时间  
---技能的冷却时间，释放一次技能后需要等待该时间才可继续释放（单位为秒）
+--Cooling time
+--The cooldown time of a skill, which is the amount of time to wait after a skill is released before it can be released again (in seconds).
 ---@field cold_down_time? any[]
---使用采集技能时会播放的动画。会在技能施法开始时播放，施法停止时停止。
+--The animation that plays when using the Capture skill. Plays when a skill cast begins and stops when it stops.
 ---@field collection_animation? string
---采集技能时播放的采集动画是否会循环播放。
+--Whether the capture animation played while collecting skills will loop.
 ---@field collection_animation_loop? boolean
---是否在采集完成后继续采集（仅在技能冷却时间为0时生效）
+--Whether to continue collecting after collecting is complete (only if skill cooldown is 0)
 ---@field collection_continuously? boolean
---技能索敌时只会搜索带有指定标签的可破坏物
+--The ability will only search for destructible objects with the specified label when seeking enemies
 ---@field collection_destructible_tags? any[]
---如果单位当前生命值不满足消耗时施放技能，则该项为true时单位会死亡，为false时会保留1点生命值
+--If the unit's current health is not enough to cast at cost, the unit dies if true and retains 1 health if false
 ---@field cost_hp_can_die? boolean
---施法特效
+--Magic effect
 ---@field cst_sfx_list? any[]
---施法音效
+--Casting sound
 ---@field cst_sound_effect? any[]
---描述  
---描述
+--Description
+--Description
 ---@field description? number
---结束特效
+--End effect
 ---@field end_sfx_list? any[]
---结束音效
+--End sound
 ---@field end_sound_effect? any[]
---索敌条件 - 阵营  
---按阵营选取目标。
+--Condition of the enemy - Camp
+--Select the target by camp.
 ---@field filter_condition_camp? number
---索敌条件 - 类型  
---按种类选取目标。
+--Condition - Type
+--Select the target by category.
 ---@field filter_condition_type? number
---技能索敌时只会搜索带有指定标签的物品
+--The ability will only search for items with the specified tag when seeking enemies
 ---@field filter_item_tags? any[]
---过滤效果单位  
+--Filter effect unit
 ---@field filter_modifier_unit? number
---技能索敌时只会搜索带有指定标签的单位
+--Only units with the specified tag will be searched when a skill is seeking an enemy
 ---@field filter_unit_tags? any[]
---受击特效
+--Hit effect
 ---@field hit_sfx_list? any[]
---击中音效
+--Hit sound
 ---@field hit_sound_effect? any[]
---技能受到单位属性中的冷却缩短的影响
+--Skills are affected by shortening of cooldown in unit attributes
 ---@field influenced_by_cd_reduce? boolean
---勾选后移动会尝试打断当前技能，不勾选则可以实现移动施法
+--Moving after checking will attempt to interrupt the current skill, while unchecking will enable moving casting
 ---@field influenced_by_move? boolean
---流程-是否持续施法  
+--Flow - Whether spells are cast continuously
 ---@field is_channel? boolean
---蓄力技能专属，为true时，技能开始和引导时间会一起作为蓄力技能一阶段的引导时间
+--When true is true, the skill start time and the boot time are used together as the boot time of the skill phase
 ---@field is_charge_ability? boolean
---流程-是否立刻施法  
---释放这个技能是否需要施法过程，开启时可以在单位存活的任何时期发动该技能，即使被禁止施法也可以正常释放。
+--Process - Whether to cast the spell immediately
+--Whether casting is required to release this ability, the ability can be activated at any time while the unit is alive, and can be released normally even if casting is prohibited.
 ---@field is_immediate? boolean
---是否是近战攻击  
---开启时，标记这个技能造成的伤害为近战伤害
+--Whether it is a melee attack
+--When turned on, mark the damage dealt by this ability as melee damage
 ---@field is_meele? boolean
---是否开关技能（暂不生效）  
+--Whether to switch skills (not currently effective)
 ---@field is_toggle? boolean
---zh_value  
+--zh_value
 --ID
 ---@field key? number
 ---@field kv? Object.Ability.Kv
---魔法书中存放的技能list
+--list of skills stored in the Grimoire
 ---@field magicbook_list? any[]
---名称  
---名称
+--name
+--name
 ---@field name? string|integer
---开启时，技能释放后单位会自动转到技能释放的方向（转身速度为单位的转身速度）
+--When turned on, the unit will automatically turn to the direction of the skill release after the skill is released (turn speed is the turn speed in units).
 ---@field need_turn_to_target? boolean
---每次使用采集技能时获取到的资源数量。如果采集的是玩家属性，则获得对应的玩家属性值，如果采集的是物品，则获得对应数量的物品。
+--The amount of resources obtained each time the collection skill is used. If the collection is a player attribute, the corresponding player attribute value is obtained, and if the collection is an item, the corresponding number of items is obtained.
 ---@field pick_count? number
---施放技能消耗的玩家属性，技能拥有者的玩家该属性不足时无法施放技能
+--The player stat that costs a skill to cast, and the player who owns the skill cannot cast a skill when the player is low on this stat
 ---@field player_props_cost? any[]
---释放技能的前置条件
+--Preconditions for releasing skills
 ---@field precondition_list? any[]
---前摇特效
+--Front roll effect
 ---@field ps_sfx_list? any[]
---前摇音效
+--Forward sound
 ---@field ps_sound_effect? any[]
---如果技能目标点超出施法范围，会在施法范围内离目标最近的点施放
+--If the target point of the skill is out of cast range, it is cast at the point closest to the target within cast range
 ---@field release_immediately_out_of_range? boolean
---允许学习等级  
---单位学习该技能所需要的等级
+--Allowable learning level
+--The level of the unit required to learn the skill
 ---@field required_level? Object.Ability.RequiredLevel
---扇形指示器的角度
+--Angle of the sector indicator
 ---@field sector_angle? any[]
---扇形半径  
---扇形指示器的边长
+--Sector radius
+--The length of the side of the sector indicator
 ---@field sector_radius? any[]
---指示器类型  
---释放技能时的鼠标指示器的样式
+--Indicator type
+--The style of the mouse indicator when releasing the skill
 ---@field sight_type? number
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list? any[]
---开启时，会根据技能的施法时间显示相应的进度条
+--When turned on, a progress bar is displayed based on the spell time of the skill
 ---@field sp_count_down? boolean
 ---@field sp_countdown? boolean
---准备特效
+--Prepare special effects
 ---@field sp_sfx_list? any[]
---准备音效
+--Prepare sound effects
 ---@field sp_sound_effect? any[]
---编辑器后缀
+--Editor suffix
 ---@field suffix? string
---标签  
---用于对技能的分类处理。为技能贴上标签后可以对其进行更方便的关系，例如编写游戏逻辑：所有拥有XX标签的技能等级+1
+--tag
+--Used to categorize skills. Labeling skills makes it easier to relate to them, such as writing game logic: All skills with XX labels are level +1
 ---@field tags? any[]
---特殊筛选（只有尸体有效）  
---配置技能索敌时的特殊筛选规则（如排除自己、允许无敌等）
+--Special screening (Cadaver only)
+--Configure special filtering rules for skills seeking enemies (e.g., exclude yourself, allow invincibility, etc.)
 ---@field target_attribute? number
---主题  
+--theme
 ---@field theme? number
 --UID
 ---@field uid? string
 
 
 ---@class Object.Buff
---挂接模型列表
+--List of attached models
 ---@field attach_model_list string
---每隔多长时间触发一次循环周期到期事件
+--How often is a cycle expiration event triggered
 ---@field cycle_time number
---描述  
---描述
+--Description
+--Description
 ---@field description number
---死亡时是否销毁这个魔法效果。永久型的魔法效果不要勾选该选项。
+--Whether to destroy this magic effect upon death. Permanent Magic effects Do not check this option.
 ---@field disappear_when_dead boolean
 ---@field effect_button any
---获得特效列表  
+--Get the list of effects
 ---@field gain_list any[]
 ---@field get_effect_list any[]
---光环会对附近符合条件的单位添加该光环效果
+--The halo will apply this halo effect to nearby eligible units
 ---@field halo_effect number
---不会对拥有指定标签的单位施加光环效果。  
---只有满足所有判断条件时，单位才会获得光环效果。
+--A halo effect is not applied to units with the specified label.
+--The halo effect is achieved only when all criteria are met.
 ---@field ign_inf_unit_tag any[]
---不会对指定类型的单位施加光环效果。  
---只有满足所有判断条件时，单位才会获得光环效果。
+--A halo effect is not applied to units of the specified type.
+--The halo effect is achieved only when all criteria are met.
 ---@field ign_inf_unit_type number
---对多大范围内的单位添加光环效果
+--What range of units to add a halo effect to
 ---@field influence_rng number
---是否对光环的拥有者添加光环效果
+--Whether to add a halo effect to the halo owner
 ---@field is_influence_self boolean
---zh_value  
+--zh_value
 --ID
 ---@field key number
 ---@field kv Object.Buff.Kv
---不变会保留旧的魔法效果对象（事件中获取），覆盖会保留新的对象。 
+--Immutable retains the old magic effect object (acquired during the event), and overwriting retains the new object.
 ---@field layer_change_of_cover number
---魔法效果的最大层数，如果最大层数为1则魔法效果在局内的属性面板中不会显示层数
+--The maximum number of layers for a magic effect. If the maximum number of layers is 1, the number of layers for a magic effect is not displayed in the internal properties panel
 ---@field layer_max number
 ---@field lose_effect_list any[]
---失去特效列表  
+--Lost effects list
 ---@field lose_list any[]
 ---@field material_alpha number
---影响魔法效果携带者的材质
+--Material that affects the bearer of magic effects
 ---@field material_change number
 ---@field material_color any[]
 ---@field material_color_intensity number
---模型  
---模型
+--model
+--model
 ---@field model number
---用于决定单位获得相同的魔法效果时，是否进行覆盖以及如何进行覆盖。
+--Used to determine whether and how to override units when they have the same magic effect.
 ---@field modifier_cover_type number
---仅用于标记，用来进行效果分类，在ECA中可以对单位身上同一分类的魔法效果统一处理
+--It is used only for marking and for effect classification. In ECA, magic effects of the same class can be treated uniformly on units
 ---@field modifier_effect number
---效果图标  
+--Effect icon
 ---@field modifier_icon number
---不同类别的魔法效果将会有
+--Different categories of magic effects will be available
 ---@field modifier_type number
---名称  
---名称
+--name
+--name
 ---@field name string|integer
---“同源”指覆盖发生时2个魔法效果的关联技能类型和来源单位相同  
+--'Homology' refers to the same ability type and source unit for both magic effects when overwriting occurs
 --  
---当同源覆盖要求为是，2个不同源的魔法效果不会发生覆盖，走不覆盖规则
+--When the same origin override requirement is Yes, magic effects from 2 different sources will not be overwritten, so the no override rule applies
 ---@field same_origin_cover boolean
---护盾发生覆盖时的护盾值的处理方式
+--How the shield value is handled when the shield is overwritten
 ---@field shield_change_of_cover number
---通用类可以抵挡物理或法术伤害，物理和法术护盾只能抵挡对应的伤害
+--The universal class can defend against physical or spell damage, while the physical and spell shields can only defend against the corresponding damage
 ---@field shield_type number
---护盾可以抵挡的伤害值
+--The amount of damage that shields can withstand
 ---@field shield_value number
---勾选后会在局内单位的魔法效果栏中显示该魔法效果
+--When selected, the magic effect will be displayed in the Magic effect bar of the intra-office unit
 ---@field show_on_ui boolean
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list any[]
---编辑器后缀
+--Editor suffix
 ---@field suffix string
---标签  
+--tag
 ---@field tags any[]
---根据敌我关系决定是否对单位施加光环效果
+--Decide whether to apply halo effects to units based on the relationship between friend and foe
 ---@field target_allow number
---若覆盖类型为覆盖时，不变会保留旧的持续时间，覆盖会保留新的持续时间，若覆盖类型为叠加时，规则相反。
+--If the overlay type is overlay, the old duration is retained and the new duration is retained. If the overlay type is overlay, the rule is reversed.
 ---@field time_change_of_cover number
 --UID
 ---@field uid string
@@ -495,692 +495,692 @@
 ---@class Object.Buff.Kv
 
 ---@class Object.BuffOptions
---挂接模型列表
+--List of attached models
 ---@field attach_model_list? string
---每隔多长时间触发一次循环周期到期事件
+--How often is a cycle expiration event triggered
 ---@field cycle_time? number
---描述  
---描述
+--Description
+--Description
 ---@field description? number
---死亡时是否销毁这个魔法效果。永久型的魔法效果不要勾选该选项。
+--Whether to destroy this magic effect upon death. Permanent Magic effects Do not check this option.
 ---@field disappear_when_dead? boolean
 ---@field effect_button? any
---获得特效列表  
+--Get the list of effects
 ---@field gain_list? any[]
 ---@field get_effect_list? any[]
---光环会对附近符合条件的单位添加该光环效果
+--The halo will apply this halo effect to nearby eligible units
 ---@field halo_effect? number
---不会对拥有指定标签的单位施加光环效果。  
---只有满足所有判断条件时，单位才会获得光环效果。
+--A halo effect is not applied to units with the specified label.
+--The halo effect is achieved only when all criteria are met.
 ---@field ign_inf_unit_tag? any[]
---不会对指定类型的单位施加光环效果。  
---只有满足所有判断条件时，单位才会获得光环效果。
+--A halo effect is not applied to units of the specified type.
+--The halo effect is achieved only when all criteria are met.
 ---@field ign_inf_unit_type? number
---对多大范围内的单位添加光环效果
+--What range of units to add a halo effect to
 ---@field influence_rng? number
---是否对光环的拥有者添加光环效果
+--Whether to add a halo effect to the halo owner
 ---@field is_influence_self? boolean
---zh_value  
+--zh_value
 --ID
 ---@field key? number
 ---@field kv? Object.Buff.Kv
---不变会保留旧的魔法效果对象（事件中获取），覆盖会保留新的对象。 
+--Immutable retains the old magic effect object (acquired during the event), and overwriting retains the new object.
 ---@field layer_change_of_cover? number
---魔法效果的最大层数，如果最大层数为1则魔法效果在局内的属性面板中不会显示层数
+--The maximum number of layers for a magic effect. If the maximum number of layers is 1, the number of layers for a magic effect is not displayed in the internal properties panel
 ---@field layer_max? number
 ---@field lose_effect_list? any[]
---失去特效列表  
+--Lost effects list
 ---@field lose_list? any[]
 ---@field material_alpha? number
---影响魔法效果携带者的材质
+--Material that affects the bearer of magic effects
 ---@field material_change? number
 ---@field material_color? any[]
 ---@field material_color_intensity? number
---模型  
---模型
+--model
+--model
 ---@field model? number
---用于决定单位获得相同的魔法效果时，是否进行覆盖以及如何进行覆盖。
+--Used to determine whether and how to override units when they have the same magic effect.
 ---@field modifier_cover_type? number
---仅用于标记，用来进行效果分类，在ECA中可以对单位身上同一分类的魔法效果统一处理
+--It is used only for marking and for effect classification. In ECA, magic effects of the same class can be treated uniformly on units
 ---@field modifier_effect? number
---效果图标  
+--Effect icon
 ---@field modifier_icon? number
---不同类别的魔法效果将会有
+--Different categories of magic effects will be available
 ---@field modifier_type? number
---名称  
---名称
+--name
+--name
 ---@field name? string|integer
---“同源”指覆盖发生时2个魔法效果的关联技能类型和来源单位相同  
+--'Homology' refers to the same ability type and source unit for both magic effects when overwriting occurs
 --  
---当同源覆盖要求为是，2个不同源的魔法效果不会发生覆盖，走不覆盖规则
+--When the same origin override requirement is Yes, magic effects from 2 different sources will not be overwritten, so the no override rule applies
 ---@field same_origin_cover? boolean
---护盾发生覆盖时的护盾值的处理方式
+--How the shield value is handled when the shield is overwritten
 ---@field shield_change_of_cover? number
---通用类可以抵挡物理或法术伤害，物理和法术护盾只能抵挡对应的伤害
+--The universal class can defend against physical or spell damage, while the physical and spell shields can only defend against the corresponding damage
 ---@field shield_type? number
---护盾可以抵挡的伤害值
+--The amount of damage that shields can withstand
 ---@field shield_value? number
---勾选后会在局内单位的魔法效果栏中显示该魔法效果
+--When selected, the magic effect will be displayed in the Magic effect bar of the intra-office unit
 ---@field show_on_ui? boolean
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list? any[]
---编辑器后缀
+--Editor suffix
 ---@field suffix? string
---标签  
+--tag
 ---@field tags? any[]
---根据敌我关系决定是否对单位施加光环效果
+--Decide whether to apply halo effects to units based on the relationship between friend and foe
 ---@field target_allow? number
---若覆盖类型为覆盖时，不变会保留旧的持续时间，覆盖会保留新的持续时间，若覆盖类型为叠加时，规则相反。
+--If the overlay type is overlay, the old duration is retained and the new duration is retained. If the overlay type is overlay, the rule is reversed.
 ---@field time_change_of_cover? number
 --UID
 ---@field uid? string
 
 
 ---@class Object.Item
---敏捷  
---为物品携带者提供的额外敏捷
+--Agility
+--Extra agility for item carriers
 ---@field agility number
---主动技能  
---使用该物品的时释放的主动技能
+--Active skill
+--The active skill that is released when using the item
 ---@field attached_ability number
---敏捷  
---为物品携带者提供的额外敏捷
+--Agility
+--Extra agility for item carriers
 ---@field attached_agility any[]
---法术攻击力  
---为物品携带者提供的额外魔法攻击力的数值
+--Spell damage
+--The amount of extra magic attack power provided to item carriers
 ---@field attached_attack_mag any[]
---物理攻击力  
---为物品携带者提供的额外物理攻击力的数值
+--Physical attack
+--The amount of extra physical attack power provided to item carriers
 ---@field attached_attack_phy any[]
---攻击速度(%)  
---为物品携带者提供的额外攻击速度的倍数值
+--Attack speed (%)
+--The number of times the additional attack speed provided to item carriers
 ---@field attached_attack_speed any[]
 ---@field attached_buffs any[]
---冷却缩减(%)  
---为物品携带者提供的额外冷却缩短的百分比
+--Cooling reduction (%)
+--The percentage of additional cooling reduction provided to the item carrier
 ---@field attached_cd_reduce any[]
---暴击率(%)  
---为物品携带者提供的额外暴击率
+--Critical hit rate (%)
+--Additional critical hit rate for item carriers
 ---@field attached_critical_chance any[]
---暴击伤害(%)  
---为物品携带者提供的额外暴击伤害的倍率。发生暴击时，造成的暴击伤害倍数
+--Critical strike damage (%)
+--The multiplier of additional critical damage that is provided to item carriers. The amount of critical damage dealt when a critical strike occurs
 ---@field attached_critical_dmg any[]
 ---@field attached_custom_1 number
---法术防御力  
---为物品携带者提供的额外法术防御力的数值
+--Spell defense
+--The amount of extra spell defense provided to item carriers
 ---@field attached_defense_mag any[]
---物理防御力  
---为物品携带者提供的额外物理防御力的数值
+--Physical defense
+--The number of additional physical defenses provided to the item carrier
 ---@field attached_defense_phy any[]
---伤害减免(%)  
---为物品携带者提供的额外伤害减免
+--Damage reduction (%)
+--Additional damage relief for item carriers
 ---@field attached_dmg_reduction any[]
---躲避率(%)  
---为物品携带者提供的额外闪避率
+--Avoidance rate (%)
+--Additional evasion rates for item carriers
 ---@field attached_dodge_rate any[]
---所有伤害加成(%)  
---为物品携带者提供的额外伤害加成
+--All damage bonus (%)
+--Additional damage bonus for item carriers
 ---@field attached_extra_dmg any[]
---技能伤害加成(%)  
---该字段并无实际效果
+--Ability Damage Bonus (%)
+--This field has no actual effect
 ---@field attached_gainvalue any[]
---被治疗效果提升(%)  
---为物品携带者提供的额外受到治疗增益加成
+--Improved by treatment (%)
+--The extra for item carriers is given a healing bonus
 ---@field attached_heal_effect any[]
---命中率(%)  
---为物品携带者提供的额外命中率
+--Hit rate (%)
+--Additional hit rate for item carriers
 ---@field attached_hit_rate any[]
---最大生命值  
---为物品携带者提供的额外最大生命值
+--Max health
+--Additional maximum health for item carriers
 ---@field attached_hp_max any[]
---生命恢复  
---为物品携带者提供的额外每秒恢复生命值
+--Life recovery
+--Extra health per second for item carriers
 ---@field attached_hp_rec any[]
---智力  
---为物品携带者提供的额外智力
+--intelligence
+--Extra intelligence for the object carrier
 ---@field attached_intelligence any[]
---最大技能资源  
---为物品携带者提供的额外最大法力值
+--Maximum skill resource
+--Additional maximum mana for item carriers
 ---@field attached_mp_max any[]
---技能资源恢复  
---为物品携带者提供的额外的每秒法力恢复值
+--Skill resource recovery
+--Additional mana regeneration per second for item carriers
 ---@field attached_mp_rec any[]
---移动速度  
---为物品携带者提供的额外移动速度
+--Moving speed
+--Additional movement speed for item carriers
 ---@field attached_ori_speed any[]
---携带该物品时会获得的被动技能
+--Passive skill gained while carrying the item
 ---@field attached_passive_abilities any[]
---法穿数值  
---为物品携带者提供的额外法术穿透。先计算固定穿透，再计算百分比穿透
+--Normal penetration value
+--Additional spell penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field attached_pene_mag any[]
---法术穿透(%)  
---为物品携带者提供的额外百分比法术穿透。先计算固定穿透，再计算百分比穿透
+--Spell penetration (%)
+--Additional percentage of spell penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field attached_pene_mag_ratio any[]
---物穿数值  
---为物品携带者提供的额外物理穿透。先计算固定穿透，再计算百分比穿透
+--Object penetration number
+--Additional physical penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field attached_pene_phy any[]
---物理穿透(%)  
---为物品携带者提供的额外百分比物理穿透。先计算固定穿透，再计算百分比穿透
+--Physical penetration (%)
+--Additional percentage of physical penetration provided to item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field attached_pene_phy_ratio any[]
---该字段并无实际效果
+--This field has no actual effect
 ---@field attached_resilience any[]
---力量  
---为物品携带者提供的额外力量
+--strength
+--Extra power for item carriers
 ---@field attached_strength any[]
---法术吸血(%)  
---为物品携带者提供的额外法术吸血
+--Spell Vampire (%)
+--Additional spell sucking for item carriers
 ---@field attached_vampire_mag any[]
---物理吸血(%)  
---为物品携带者提供的额外物理吸血
+--Physical blood feeding (%)
+--Additional physical bloodsucking for item carriers
 ---@field attached_vampire_phy any[]
---为物品携带者提供的额外真实视野
+--Extra realistic vision for item carriers
 ---@field attached_vision_true any[]
---法攻数值  
---为物品携带者提供的额外魔法攻击力的数值
+--Normal attack value
+--The amount of extra magic attack power provided to item carriers
 ---@field attack_mag number
---物攻数值  
---为物品携带者提供的额外物理攻击力的数值
+--Physical attack value
+--The amount of extra physical attack power provided to item carriers
 ---@field attack_phy number
---攻速数值  
---为物品携带者提供的额外攻击速度的倍数值
+--Attack rate value
+--The number of times the additional attack speed provided to item carriers
 ---@field attack_speed number
---自动使用  
---勾选后获得该物品时会自动使用该物品，如果不满足该物品的主动技能消耗条件则无法拾取
+--Automatic use
+--The item is automatically used when it is selected and cannot be picked up if the item's active skill cost condition is not met
 ---@field auto_use boolean
 ---@field base_color_mod number
 ---@field base_tint_color any[]
---尺寸  
---物品模型的缩放比例
+--dimension
+--Scale of the item model
 ---@field body_size number
---购买所需资源  
---从商店里购买这件物品所需要的资源
+--Purchase required resources
+--The resources needed to purchase this item from the store
 ---@field buy_res_list any[]
 ---@field can_sell boolean
---冷却缩减  
---为物品携带者提供的额外冷却缩短的百分比
+--Cooling reduction
+--The percentage of additional cooling reduction provided to the item carrier
 ---@field cd_reduce number
---CD组  
---该物品所在的CD组，物品使用时会使单位持有的相同CD组内所有物品进入使用物品的主动技能冷却
+--CD set
+--When the item is used in the CD group, the active ability of using the item cools down all items in the same CD group held by the unit
 ---@field cd_type string
---合成素材  
---合成这件物品所需要的材料，拥有所有合成原料后会自动合成该物品
+--Composite material
+--The materials needed to synthesize this item will be automatically synthesized when all the synthetic materials are available
 ---@field compose_list any[]
 ---@field compose_sfx number
---暴击率  
---为物品携带者提供的额外暴击率
+--Critical Hit Chance
+--Additional critical hit rate for item carriers
 ---@field critical_chance number
---暴击效果数值  
---为物品携带者提供的额外暴击伤害的倍率。发生暴击时，造成的暴击伤害倍数
+--Critical impact value
+--The multiplier of additional critical damage that is provided to item carriers. The amount of critical damage dealt when a critical strike occurs
 ---@field critical_dmg number
---物品创建后的初始充能层数
+--The initial charge level of the item after creation
 ---@field cur_charge number
---物品创建后的初始堆叠层数
+--The initial number of stacked layers after the item was created
 ---@field cur_stack number
 ---@field custom_1 number
---法防数值  
---为物品携带者提供的额外法术防御力的数值
+--Normal defense value
+--The amount of extra spell defense provided to item carriers
 ---@field defense_mag number
---物防数值  
---为物品携带者提供的额外物理防御力的数值
+--Physical defense value
+--The number of additional physical defenses provided to the item carrier
 ---@field defense_phy number
---物品在地面上是否会自动销毁
+--Whether items will self-destruct on the ground
 ---@field delete_on_discard boolean
---描述  
---描述
+--Description
+--Description
 ---@field description number
---开启后物品与物品之间会发生碰撞，可以防止物品堆叠在一起。碰撞范围设置在游戏规则-通用-物品碰撞范围中。
+--After opening, there will be a collision between items, which can prevent items from stacking together. The collision range is set in the game Rules - Universal - Item collision range.
 ---@field disable_overlapping boolean
---可以遗弃  
---玩家是否可以将物品丢弃到地面
+--desertability
+--Whether the player can drop items to the ground
 ---@field discard_enable boolean
---持有者死亡时掉落  
---物品是否会在携带者死亡时掉落地面
+--Drops when the holder dies
+--Whether items fall to the ground when the carrier dies
 ---@field discard_when_dead boolean
---受到伤害减免比例  
---为物品携带者提供的额外伤害减免
+--Percentage of injury relief
+--Additional damage relief for item carriers
 ---@field dmg_reduction number
---躲避率  
---为物品携带者提供的额外闪避率
+--Dodge rate
+--Additional evasion rates for item carriers
 ---@field dodge_rate number
---消失时间  
---掉落在地面上的消失时间
+--Vanishing time
+--Lost time on the ground
 ---@field drop_stay_time number
---合成效果编辑按钮  
+--Composite effect edit button
 ---@field effect_button any
---获得特效列表
+--Get the list of effects
 ---@field effect_list any[]
---所有伤害加成(%)  
---为物品携带者提供的额外伤害加成
+--All damage bonus (%)
+--Additional damage bonus for item carriers
 ---@field extra_dmg number
 ---@field fresnel_exp number
 ---@field gold_cost number
---被治疗效果提升(%)  
---为物品携带者提供的额外受到治疗增益加成
+--Improved by treatment (%)
+--The extra for item carriers is given a healing bonus
 ---@field heal_effect number
---命中率  
---为物品携带者提供的额外命中率
+--Hit rate
+--Additional hit rate for item carriers
 ---@field hit_rate number
---最大生命值  
---生命值
+--Max health
+--Vitality
 ---@field hp_max number
---生命恢复  
---为物品携带者提供的额外每秒恢复生命值
+--Life recovery
+--Extra health per second for item carriers
 ---@field hp_rec number
---图标  
---物品的头像
+--icon
+--Item avatar
 ---@field icon number
---初始库存  
---物品作为商品时在商店中的初始可购买数
+--Initial inventory
+--The initial number of purchases an item can make in a store as a commodity
 ---@field init_stock number
---智力  
---为物品携带者提供的额外智力
+--intelligence
+--Extra intelligence for the object carrier
 ---@field intelligence number
---鼠标悬浮到物品上时显示的名称样式
+--The name style that appears when the mouse hovers over the item
 ---@field item_billboard_type number
---zh_value  
+--zh_value
 --ID
 ---@field key number
---玩家自定义  
+--Player custom
 ---@field kv Object.Item.Kv
---等级  
---物品的等级
+--Lv.
+--Level of item
 ---@field level number
 ---@field material_color any[]
 ---@field material_color_intensity number
---最大库存  
---物品作为商品时在商店中的最大可购买数
+--Maximum inventory
+--The maximum number of purchases an item can make in a store as a commodity
 ---@field max_stock number
---最大充能数  
---物品可以设置的最大充能层数
+--Maximum charge number
+--The maximum number of charge layers an item can be set to
 ---@field maximum_charging number
---最大堆叠  
---物品可以叠加的最大堆叠层数。重复获得物品时，在不大于该值的情况下物品会自动堆叠。
+--Maximum stack
+--The maximum number of stacks an item can stack. When items are obtained repeatedly, items will automatically stack if they are not greater than this value.
 ---@field maximum_stacking number
---模型  
---模型
+--model
+--model
 ---@field model number
 ---@field model_opacity number
---最大技能资源  
---为物品携带者提供的额外最大法力值
+--Maximum skill resource
+--Additional maximum mana for item carriers
 ---@field mp_max number
---技能资源恢复  
---为物品携带者提供的额外的每秒法力恢复值
+--Skill resource recovery
+--Additional mana regeneration per second for item carriers
 ---@field mp_rec number
---名称  
---名称
+--name
+--name
 ---@field name string|integer
 ---@field non_zero_stacking boolean
---法穿数值  
---为物品携带者提供的额外法术穿透。先计算固定穿透，再计算百分比穿透
+--Normal penetration value
+--Additional spell penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag number
---法术穿透(%)  
---为物品携带者提供的额外百分比法术穿透。先计算固定穿透，再计算百分比穿透
+--Spell penetration (%)
+--Additional percentage of spell penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag_ratio number
---物穿数值  
---为物品携带者提供的额外物理穿透。先计算固定穿透，再计算百分比穿透
+--Object penetration number
+--Additional physical penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy number
---无视目标物抗百分比  
---为物品携带者提供的额外百分比物理穿透。先计算固定穿透，再计算百分比穿透
+--Ignore target reactance percentage
+--Additional percentage of physical penetration provided to item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy_ratio number
---前置条件  
---只有满足对应条件之后物品才会在商店中可购买。
+--precondition
+--Items will only be available for purchase in the store if the conditions are met.
 ---@field precondition_list any[]
---库存恢复间隔  
---当前物品作为商品时，商店库存增加的间隔时间
+--Inventory recovery interval
+--The interval at which the store's inventory increases while the current item is a commodity
 ---@field refresh_interval number
---可以被抵押  
---是否可以将该物品出售到商店
+--mortgageable
+--Whether the item can be sold to the store
 ---@field sale_enable boolean
 ---@field sell_gold number
---出售获得资源  
---出售到商店时获得的资源
+--Sale for resources
+--Resources obtained when sold to the store
 ---@field sell_res_list any[]
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list any[]
 ---@field source_player_prop string
---堆叠类型  
---物品的堆叠或者充能逻辑。
+--Stack type
+--Stacking or charging logic for items.
 ---@field stack_type number
---购买开始时间  
---游戏开始后多长时间才能购买该类物品
+--Purchase start time
+--How long after the game starts to buy this item
 ---@field start_rft number
---力量  
---力量
+--strength
+--strength
 ---@field strength number
---编辑器后缀  
---编辑器后缀
+--Editor suffix
+--Editor suffix
 ---@field suffix string
---标签  
---用于对物体的分类处理。为单位贴上标签后可以对其进行更方便的关系，例如编写游戏逻辑：杀死所有拥有XX标签的单位
+--tag
+--It is used to classify objects. Labeling units allows for more convenient relationships, such as writing game logic: Kill all units with XX labels
 ---@field tags any[]
---UID  
+--UID
 --UID
 ---@field uid string
---使用消耗次数  
---物品是堆叠类型时，每次使用该物品消耗的堆叠层数
+--Number of service consumption
+--When an item is a stack type, the number of stacks consumed per use of the item
 ---@field use_consume number
 
 ---@class Object.Item.Kv
 
 ---@class Object.ItemOptions
---敏捷  
---为物品携带者提供的额外敏捷
+--Agility
+--Extra agility for item carriers
 ---@field agility? number
---主动技能  
---使用该物品的时释放的主动技能
+--Active skill
+--The active skill that is released when using the item
 ---@field attached_ability? number
---敏捷  
---为物品携带者提供的额外敏捷
+--Agility
+--Extra agility for item carriers
 ---@field attached_agility? any[]
---法术攻击力  
---为物品携带者提供的额外魔法攻击力的数值
+--Spell damage
+--The amount of extra magic attack power provided to item carriers
 ---@field attached_attack_mag? any[]
---物理攻击力  
---为物品携带者提供的额外物理攻击力的数值
+--Physical attack
+--The amount of extra physical attack power provided to item carriers
 ---@field attached_attack_phy? any[]
---攻击速度(%)  
---为物品携带者提供的额外攻击速度的倍数值
+--Attack speed (%)
+--The number of times the additional attack speed provided to item carriers
 ---@field attached_attack_speed? any[]
 ---@field attached_buffs? any[]
---冷却缩减(%)  
---为物品携带者提供的额外冷却缩短的百分比
+--Cooling reduction (%)
+--The percentage of additional cooling reduction provided to the item carrier
 ---@field attached_cd_reduce? any[]
---暴击率(%)  
---为物品携带者提供的额外暴击率
+--Critical hit rate (%)
+--Additional critical hit rate for item carriers
 ---@field attached_critical_chance? any[]
---暴击伤害(%)  
---为物品携带者提供的额外暴击伤害的倍率。发生暴击时，造成的暴击伤害倍数
+--Critical strike damage (%)
+--The multiplier of additional critical damage that is provided to item carriers. The amount of critical damage dealt when a critical strike occurs
 ---@field attached_critical_dmg? any[]
 ---@field attached_custom_1? number
---法术防御力  
---为物品携带者提供的额外法术防御力的数值
+--Spell defense
+--The amount of extra spell defense provided to item carriers
 ---@field attached_defense_mag? any[]
---物理防御力  
---为物品携带者提供的额外物理防御力的数值
+--Physical defense
+--The number of additional physical defenses provided to the item carrier
 ---@field attached_defense_phy? any[]
---伤害减免(%)  
---为物品携带者提供的额外伤害减免
+--Damage reduction (%)
+--Additional damage relief for item carriers
 ---@field attached_dmg_reduction? any[]
---躲避率(%)  
---为物品携带者提供的额外闪避率
+--Avoidance rate (%)
+--Additional evasion rates for item carriers
 ---@field attached_dodge_rate? any[]
---所有伤害加成(%)  
---为物品携带者提供的额外伤害加成
+--All damage bonus (%)
+--Additional damage bonus for item carriers
 ---@field attached_extra_dmg? any[]
---技能伤害加成(%)  
---该字段并无实际效果
+--Ability Damage Bonus (%)
+--This field has no actual effect
 ---@field attached_gainvalue? any[]
---被治疗效果提升(%)  
---为物品携带者提供的额外受到治疗增益加成
+--Improved by treatment (%)
+--The extra for item carriers is given a healing bonus
 ---@field attached_heal_effect? any[]
---命中率(%)  
---为物品携带者提供的额外命中率
+--Hit rate (%)
+--Additional hit rate for item carriers
 ---@field attached_hit_rate? any[]
---最大生命值  
---为物品携带者提供的额外最大生命值
+--Max health
+--Additional maximum health for item carriers
 ---@field attached_hp_max? any[]
---生命恢复  
---为物品携带者提供的额外每秒恢复生命值
+--Life recovery
+--Extra health per second for item carriers
 ---@field attached_hp_rec? any[]
---智力  
---为物品携带者提供的额外智力
+--intelligence
+--Extra intelligence for the object carrier
 ---@field attached_intelligence? any[]
---最大技能资源  
---为物品携带者提供的额外最大法力值
+--Maximum skill resource
+--Additional maximum mana for item carriers
 ---@field attached_mp_max? any[]
---技能资源恢复  
---为物品携带者提供的额外的每秒法力恢复值
+--Skill resource recovery
+--Additional mana regeneration per second for item carriers
 ---@field attached_mp_rec? any[]
---移动速度  
---为物品携带者提供的额外移动速度
+--Moving speed
+--Additional movement speed for item carriers
 ---@field attached_ori_speed? any[]
---携带该物品时会获得的被动技能
+--Passive skill gained while carrying the item
 ---@field attached_passive_abilities? any[]
---法穿数值  
---为物品携带者提供的额外法术穿透。先计算固定穿透，再计算百分比穿透
+--Normal penetration value
+--Additional spell penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field attached_pene_mag? any[]
---法术穿透(%)  
---为物品携带者提供的额外百分比法术穿透。先计算固定穿透，再计算百分比穿透
+--Spell penetration (%)
+--Additional percentage of spell penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field attached_pene_mag_ratio? any[]
---物穿数值  
---为物品携带者提供的额外物理穿透。先计算固定穿透，再计算百分比穿透
+--Object penetration number
+--Additional physical penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field attached_pene_phy? any[]
---物理穿透(%)  
---为物品携带者提供的额外百分比物理穿透。先计算固定穿透，再计算百分比穿透
+--Physical penetration (%)
+--Additional percentage of physical penetration provided to item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field attached_pene_phy_ratio? any[]
---该字段并无实际效果
+--This field has no actual effect
 ---@field attached_resilience? any[]
---力量  
---为物品携带者提供的额外力量
+--strength
+--Extra power for item carriers
 ---@field attached_strength? any[]
---法术吸血(%)  
---为物品携带者提供的额外法术吸血
+--Spell Vampire (%)
+--Additional spell sucking for item carriers
 ---@field attached_vampire_mag? any[]
---物理吸血(%)  
---为物品携带者提供的额外物理吸血
+--Physical blood feeding (%)
+--Additional physical bloodsucking for item carriers
 ---@field attached_vampire_phy? any[]
---为物品携带者提供的额外真实视野
+--Extra realistic vision for item carriers
 ---@field attached_vision_true? any[]
---法攻数值  
---为物品携带者提供的额外魔法攻击力的数值
+--Normal attack value
+--The amount of extra magic attack power provided to item carriers
 ---@field attack_mag? number
---物攻数值  
---为物品携带者提供的额外物理攻击力的数值
+--Physical attack value
+--The amount of extra physical attack power provided to item carriers
 ---@field attack_phy? number
---攻速数值  
---为物品携带者提供的额外攻击速度的倍数值
+--Attack rate value
+--The number of times the additional attack speed provided to item carriers
 ---@field attack_speed? number
---自动使用  
---勾选后获得该物品时会自动使用该物品，如果不满足该物品的主动技能消耗条件则无法拾取
+--Automatic use
+--The item is automatically used when it is selected and cannot be picked up if the item's active skill cost condition is not met
 ---@field auto_use? boolean
 ---@field base_color_mod? number
 ---@field base_tint_color? any[]
---尺寸  
---物品模型的缩放比例
+--dimension
+--Scale of the item model
 ---@field body_size? number
---购买所需资源  
---从商店里购买这件物品所需要的资源
+--Purchase required resources
+--The resources needed to purchase this item from the store
 ---@field buy_res_list? any[]
 ---@field can_sell? boolean
---冷却缩减  
---为物品携带者提供的额外冷却缩短的百分比
+--Cooling reduction
+--The percentage of additional cooling reduction provided to the item carrier
 ---@field cd_reduce? number
---CD组  
---该物品所在的CD组，物品使用时会使单位持有的相同CD组内所有物品进入使用物品的主动技能冷却
+--CD set
+--When the item is used in the CD group, the active ability of using the item cools down all items in the same CD group held by the unit
 ---@field cd_type? string
---合成素材  
---合成这件物品所需要的材料，拥有所有合成原料后会自动合成该物品
+--Composite material
+--The materials needed to synthesize this item will be automatically synthesized when all the synthetic materials are available
 ---@field compose_list? any[]
 ---@field compose_sfx? number
---暴击率  
---为物品携带者提供的额外暴击率
+--Critical Hit Chance
+--Additional critical hit rate for item carriers
 ---@field critical_chance? number
---暴击效果数值  
---为物品携带者提供的额外暴击伤害的倍率。发生暴击时，造成的暴击伤害倍数
+--Critical impact value
+--The multiplier of additional critical damage that is provided to item carriers. The amount of critical damage dealt when a critical strike occurs
 ---@field critical_dmg? number
---物品创建后的初始充能层数
+--The initial charge level of the item after creation
 ---@field cur_charge? number
---物品创建后的初始堆叠层数
+--The initial number of stacked layers after the item was created
 ---@field cur_stack? number
 ---@field custom_1? number
---法防数值  
---为物品携带者提供的额外法术防御力的数值
+--Normal defense value
+--The amount of extra spell defense provided to item carriers
 ---@field defense_mag? number
---物防数值  
---为物品携带者提供的额外物理防御力的数值
+--Physical defense value
+--The number of additional physical defenses provided to the item carrier
 ---@field defense_phy? number
---物品在地面上是否会自动销毁
+--Whether items will self-destruct on the ground
 ---@field delete_on_discard? boolean
---描述  
---描述
+--Description
+--Description
 ---@field description? number
---开启后物品与物品之间会发生碰撞，可以防止物品堆叠在一起。碰撞范围设置在游戏规则-通用-物品碰撞范围中。
+--After opening, there will be a collision between items, which can prevent items from stacking together. The collision range is set in the game Rules - Universal - Item collision range.
 ---@field disable_overlapping? boolean
---可以遗弃  
---玩家是否可以将物品丢弃到地面
+--desertability
+--Whether the player can drop items to the ground
 ---@field discard_enable? boolean
---持有者死亡时掉落  
---物品是否会在携带者死亡时掉落地面
+--Drops when the holder dies
+--Whether items fall to the ground when the carrier dies
 ---@field discard_when_dead? boolean
---受到伤害减免比例  
---为物品携带者提供的额外伤害减免
+--Percentage of injury relief
+--Additional damage relief for item carriers
 ---@field dmg_reduction? number
---躲避率  
---为物品携带者提供的额外闪避率
+--Dodge rate
+--Additional evasion rates for item carriers
 ---@field dodge_rate? number
---消失时间  
---掉落在地面上的消失时间
+--Vanishing time
+--Lost time on the ground
 ---@field drop_stay_time? number
---合成效果编辑按钮  
+--Composite effect edit button
 ---@field effect_button? any
---获得特效列表
+--Get the list of effects
 ---@field effect_list? any[]
---所有伤害加成(%)  
---为物品携带者提供的额外伤害加成
+--All damage bonus (%)
+--Additional damage bonus for item carriers
 ---@field extra_dmg? number
 ---@field fresnel_exp? number
 ---@field gold_cost? number
---被治疗效果提升(%)  
---为物品携带者提供的额外受到治疗增益加成
+--Improved by treatment (%)
+--The extra for item carriers is given a healing bonus
 ---@field heal_effect? number
---命中率  
---为物品携带者提供的额外命中率
+--Hit rate
+--Additional hit rate for item carriers
 ---@field hit_rate? number
---最大生命值  
---生命值
+--Max health
+--Vitality
 ---@field hp_max? number
---生命恢复  
---为物品携带者提供的额外每秒恢复生命值
+--Life recovery
+--Extra health per second for item carriers
 ---@field hp_rec? number
---图标  
---物品的头像
+--icon
+--Item avatar
 ---@field icon? number
---初始库存  
---物品作为商品时在商店中的初始可购买数
+--Initial inventory
+--The initial number of purchases an item can make in a store as a commodity
 ---@field init_stock? number
---智力  
---为物品携带者提供的额外智力
+--intelligence
+--Extra intelligence for the object carrier
 ---@field intelligence? number
---鼠标悬浮到物品上时显示的名称样式
+--The name style that appears when the mouse hovers over the item
 ---@field item_billboard_type? number
---zh_value  
+--zh_value
 --ID
 ---@field key? number
---玩家自定义  
+--Player custom
 ---@field kv? Object.Item.Kv
---等级  
---物品的等级
+--Lv.
+--Level of item
 ---@field level? number
 ---@field material_color? any[]
 ---@field material_color_intensity? number
---最大库存  
---物品作为商品时在商店中的最大可购买数
+--Maximum inventory
+--The maximum number of purchases an item can make in a store as a commodity
 ---@field max_stock? number
---最大充能数  
---物品可以设置的最大充能层数
+--Maximum charge number
+--The maximum number of charge layers an item can be set to
 ---@field maximum_charging? number
---最大堆叠  
---物品可以叠加的最大堆叠层数。重复获得物品时，在不大于该值的情况下物品会自动堆叠。
+--Maximum stack
+--The maximum number of stacks an item can stack. When items are obtained repeatedly, items will automatically stack if they are not greater than this value.
 ---@field maximum_stacking? number
---模型  
---模型
+--model
+--model
 ---@field model? number
 ---@field model_opacity? number
---最大技能资源  
---为物品携带者提供的额外最大法力值
+--Maximum skill resource
+--Additional maximum mana for item carriers
 ---@field mp_max? number
---技能资源恢复  
---为物品携带者提供的额外的每秒法力恢复值
+--Skill resource recovery
+--Additional mana regeneration per second for item carriers
 ---@field mp_rec? number
---名称  
---名称
+--name
+--name
 ---@field name? string|integer
 ---@field non_zero_stacking? boolean
---法穿数值  
---为物品携带者提供的额外法术穿透。先计算固定穿透，再计算百分比穿透
+--Normal penetration value
+--Additional spell penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag? number
---法术穿透(%)  
---为物品携带者提供的额外百分比法术穿透。先计算固定穿透，再计算百分比穿透
+--Spell penetration (%)
+--Additional percentage of spell penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag_ratio? number
---物穿数值  
---为物品携带者提供的额外物理穿透。先计算固定穿透，再计算百分比穿透
+--Object penetration number
+--Additional physical penetration for item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy? number
---无视目标物抗百分比  
---为物品携带者提供的额外百分比物理穿透。先计算固定穿透，再计算百分比穿透
+--Ignore target reactance percentage
+--Additional percentage of physical penetration provided to item carriers. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy_ratio? number
---前置条件  
---只有满足对应条件之后物品才会在商店中可购买。
+--precondition
+--Items will only be available for purchase in the store if the conditions are met.
 ---@field precondition_list? any[]
---库存恢复间隔  
---当前物品作为商品时，商店库存增加的间隔时间
+--Inventory recovery interval
+--The interval at which the store's inventory increases while the current item is a commodity
 ---@field refresh_interval? number
---可以被抵押  
---是否可以将该物品出售到商店
+--mortgageable
+--Whether the item can be sold to the store
 ---@field sale_enable? boolean
 ---@field sell_gold? number
---出售获得资源  
---出售到商店时获得的资源
+--Sale for resources
+--Resources obtained when sold to the store
 ---@field sell_res_list? any[]
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list? any[]
 ---@field source_player_prop? string
---堆叠类型  
---物品的堆叠或者充能逻辑。
+--Stack type
+--Stacking or charging logic for items.
 ---@field stack_type? number
---购买开始时间  
---游戏开始后多长时间才能购买该类物品
+--Purchase start time
+--How long after the game starts to buy this item
 ---@field start_rft? number
---力量  
---力量
+--strength
+--strength
 ---@field strength? number
---编辑器后缀  
---编辑器后缀
+--Editor suffix
+--Editor suffix
 ---@field suffix? string
---标签  
---用于对物体的分类处理。为单位贴上标签后可以对其进行更方便的关系，例如编写游戏逻辑：杀死所有拥有XX标签的单位
+--tag
+--It is used to classify objects. Labeling units allows for more convenient relationships, such as writing game logic: Kill all units with XX labels
 ---@field tags? any[]
---UID  
+--UID
 --UID
 ---@field uid? string
---使用消耗次数  
---物品是堆叠类型时，每次使用该物品消耗的堆叠层数
+--Number of service consumption
+--When an item is a stack type, the number of stacks consumed per use of the item
 ---@field use_consume? number
 
 
 ---@class Object.Projectile
---区分敌我特效显示  
---开启后可以配置该特效在所属单位的敌人眼中的表现。通常用于处理不同颜色的警示圈或不对敌方显示特效。
+--Distinguish between friend and foe special effects display
+--When enabled, you can configure the performance of the special effect in the eyes of the unit's enemies. It is usually used to handle different colored warning circles or to not display special effects to enemies.
 ---@field async_effect boolean
---描述  
---描述
+--Description
+--Description
 ---@field description number
---开启后，当投射物被销毁时会立即移除表现
+--When turned on, displays are removed immediately when the projectile is destroyed
 ---@field effect_destroy_way_is_immediately boolean
---敌方特效  
+--Enemy effects
 ---@field effect_foes any[]
---特效配置  
+--Special effect configuration
 ---@field effect_friend any[]
 ---@field icon number
---zh_value  
+--zh_value
 --ID
 ---@field key number
 ---@field kv Object.Projectile.Kv
---投射物会在到达最大持续时间后强制删除。摆放在场景上的投射物不会受到限制。
+--Projectiles are forced to delete after reaching their maximum duration. Projectiles placed on the scene are not restricted.
 ---@field max_duration number
---影响可用的可移动通道。
+--Affects the removable channels available.
 ---@field move_channel number
---当投射物作为运动器的运动对象且开启地形阻挡时，作为是否会触发碰撞静态碰撞事件的条件。
+--When the projectile is the moving object of the motor and the terrain block is turned on, as the condition of whether the collision static collision event will be triggered.
 ---@field move_limitation number
---名称  
---名称
+--name
+--name
 ---@field name string|integer
---勾选后投射物会在播放完成后重复播放
+--When checked, the projectile will play again after the playback is complete
 ---@field sfx_loop boolean
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list any[]
---编辑器后缀
+--Editor suffix
 ---@field suffix string
---标签  
+--tag
 ---@field tags any[]
 --UID
 ---@field uid string
@@ -1188,182 +1188,182 @@
 ---@class Object.Projectile.Kv
 
 ---@class Object.ProjectileOptions
---区分敌我特效显示  
---开启后可以配置该特效在所属单位的敌人眼中的表现。通常用于处理不同颜色的警示圈或不对敌方显示特效。
+--Distinguish between friend and foe special effects display
+--When enabled, you can configure the performance of the special effect in the eyes of the unit's enemies. It is usually used to handle different colored warning circles or to not display special effects to enemies.
 ---@field async_effect? boolean
---描述  
---描述
+--Description
+--Description
 ---@field description? number
---开启后，当投射物被销毁时会立即移除表现
+--When turned on, displays are removed immediately when the projectile is destroyed
 ---@field effect_destroy_way_is_immediately? boolean
---敌方特效  
+--Enemy effects
 ---@field effect_foes? any[]
---特效配置  
+--Special effect configuration
 ---@field effect_friend? any[]
 ---@field icon? number
---zh_value  
+--zh_value
 --ID
 ---@field key? number
 ---@field kv? Object.Projectile.Kv
---投射物会在到达最大持续时间后强制删除。摆放在场景上的投射物不会受到限制。
+--Projectiles are forced to delete after reaching their maximum duration. Projectiles placed on the scene are not restricted.
 ---@field max_duration? number
---影响可用的可移动通道。
+--Affects the removable channels available.
 ---@field move_channel? number
---当投射物作为运动器的运动对象且开启地形阻挡时，作为是否会触发碰撞静态碰撞事件的条件。
+--When the projectile is the moving object of the motor and the terrain block is turned on, as the condition of whether the collision static collision event will be triggered.
 ---@field move_limitation? number
---名称  
---名称
+--name
+--name
 ---@field name? string|integer
---勾选后投射物会在播放完成后重复播放
+--When checked, the projectile will play again after the playback is complete
 ---@field sfx_loop? boolean
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list? any[]
---编辑器后缀
+--Editor suffix
 ---@field suffix? string
---标签  
+--tag
 ---@field tags? any[]
 --UID
 ---@field uid? string
 
 
 ---@class Object.Unit
---应用科技  
---单位的可应用科技（会受到该科技的影响）
+--Applied technology
+--The available technology of the unit (will be affected by the technology)
 ---@field affect_techs any[]
---敏捷  
---敏捷
+--Agility
+--Agility
 ---@field agility number
---敏捷  
---敏捷
+--Agility
+--Agility
 ---@field agility_grow number
---锁敌范围  
---单位的警戒范围(AI)
+--Locked range
+--Unit Warning Area (AI)
 ---@field alarm_range number
---允许移动的角度差  
---当单位转向时，如果转向角度小于该值，则会直接朝目标方向移动；反之会边转向，边移动。
+--The Angle difference allowed to move
+--When the unit turns, if the turning Angle is less than this value, it will move directly towards the target direction; Instead, it turns and moves.
 ---@field angle_tolerance number
---防御类型  
---单位的护甲类型，具体效果可在游戏规则中查看
+--Defense type
+--The armor type of the unit, the specific effect can be viewed in the game rules
 ---@field armor_type number
---攻击间隔  
---单位两次普通攻击之前间隔的秒数，当普攻技能替换为自定义类型时，会使用技能的冷却时间
+--Attack interval
+--The number of seconds between two normal attacks on a unit. The cooldown of a skill is used when the skill is replaced with a custom type
 ---@field attack_interval number
---两次普通攻击之间的间隔时间
+--The interval between two normal attacks
 ---@field attack_interval_grow number
---法攻数值  
---单位的法术攻击力
+--Normal attack value
+--Unit spell damage
 ---@field attack_mag number
---法术攻击力  
---单位的法术攻击力
+--Spell damage
+--Unit spell damage
 ---@field attack_mag_grow number
---物攻数值  
---单位的物理攻击力
+--Physical attack value
+--The unit's physical attack power
 ---@field attack_phy number
---物理攻击力  
---单位的物理攻击力
+--Physical attack
+--The unit's physical attack power
 ---@field attack_phy_grow number
---攻击范围  
---单位可以攻击攻击范围内的可见单位，当普攻技能替换为自定义类型时，会使用技能的释放范围
+--Attack range
+--Units can attack visible units within the attack range, and when a general attack skill is replaced with a custom type, the skill's release range is used
 ---@field attack_range number
---普通攻击的攻击范围
+--The attack range of a common attack
 ---@field attack_range_grow number
---攻速数值  
---单位的攻击速度百分比，局内显示的实际攻速为:1/单位当前普通攻击技能冷却时间*攻击速度
+--Attack rate value
+--The actual attack speed displayed in the office is :1/ Unit's current cooldown time of common attack skills * Attack speed
 ---@field attack_speed number
---攻击速度(%)  
---攻击速度(倍数)
+--Attack speed (%)
+--Attack speed (multiples)
 ---@field attack_speed_grow number
---攻击类型  
---单位的攻击类型，具体效果可在游戏规则中查看
+--Attack type
+--The attack type of the unit, the specific effect can be viewed in the game rules
 ---@field attack_type number
 ---@field back_range number
---头顶名称显示方式  
---影响游戏内物体上方的文本显示内容。
+--Overhead name display mode
+--Affects the text display above in-game objects.
 ---@field bar_show_name string|integer
---是否显示血条刻度  
---单位血条上是否会出现刻度线
+--Whether the blood bar scale is displayed
+--Whether a scale line will appear on the unit blood bar
 ---@field bar_show_scale boolean
 ---@field bar_show_title boolean
---物品栏  
---单位的物品栏格数
+--Inventory Panel
+--The number of inventory boxes in a unit
 ---@field bar_slot_size number
 ---@field bar_title_style number
 ---@field base_tint_color any[]
---单位血条高度偏移  
+--Unit blood stripe height deviation
 ---@field billboard_height_offset number
---头顶名称字体  
---在单位头顶显示的文字字体
+--Overhead name font
+--The text font displayed above the unit
 ---@field billboard_name_font string
---x轴缩放  
+--X-axis scaling
 ---@field billboard_scale_x number
---y轴缩放  
+--Y-axis scaling
 ---@field billboard_scale_y number
---血条样式  
---该单位在游戏内的血条样式
+--Blood stripe pattern
+--The unit in the game blood bar style
 ---@field blood_bar number
---血条显示模式  
---该单位在游戏内的血条的显示时机
+--Blood bar display mode
+--The unit in the game blood bar display time
 ---@field blood_show_type number
---模型缩放  
---对当前物体模型的缩放倍数，用于调整模型大小。
+--Model scaling
+--The scaling factor of the current object model, used to resize the model.
 ---@field body_size number
---夹角  
+--Included Angle
 ---@field box_angle number
---盒子长度  
+--Box length
 ---@field box_length1 number
---盒子宽度  
+--Box width
 ---@field box_length2 number
---半径  
+--radius
 ---@field box_r number
---点击盒类型  
+--Click box type
 ---@field box_type number
 ---@field build_precondition_list any[]
---资源消耗  
---单位作为建筑时建造会消耗的资源
+--Resource consumption
+--Resources that are consumed when units are constructed as buildings
 ---@field build_res_cost_list any[]
 ---@field building_rotatable boolean
---购买所需资源  
---单位作为商品的购买所需资源
+--Purchase required resources
+--Unit of resources required for the purchase of goods
 ---@field buy_res_list any[]
---无法反击时会逃跑  
---当单位受到伤害且自身无法反击时，会向伤害来源的相反方向移动一段距离，仅在警戒状态下生效
+--Run when you can't fight back
+--When a unit takes damage and is unable to fight back, it moves a certain distance in the opposite direction of the source of the damage, effective only when on alert
 ---@field can_flee boolean
---解除锁定范围  
---单位的取消警戒范围(AI)，敌方离开取消警戒范围后会不再主动攻击敌方
+--Unlocking range
+--The unit's de-warning area (AI), when the enemy leaves the de-warning area, it will no longer actively attack the enemy
 ---@field cancel_alarm_range number
---冷却缩减  
---单位技能进入cd时减少部分冷却时间
+--Cooling reduction
+--Reduces part of cooldown when unit skills enter cd
 ---@field cd_reduce number
---冷却缩减(%)  
---单位技能进入cd时减少部分冷却时间
+--Cooling reduction (%)
+--Reduces part of cooldown when unit skills enter cd
 ---@field cd_reduce_grow number
---碰撞  
+--collision
 ---@field collision number
---静态碰撞跟随面向  
---仅对建筑类型单位生效。勾选时，单位改变朝向时会使静态碰撞跟随旋转。
+--Static collision follow orientation
+--Valid for building type units only. When checked, static collisions follow rotation when units change orientation.
 ---@field collision_box_turning_enable boolean
 ---@field collision_points any[]
 ---@field combat_range number
---通用技能  
---单位的通用技能。在默认UI界面中，会显示在前6个技能栏内，超出的不显示但依然生效。
+--Universal skill
+--Unit of common skills. In the default UI interface, it will be displayed in the first 6 skill bars, and the other skills will not be displayed but still take effect.
 ---@field common_ability_list any[]
---普攻  
---单位的普通攻击，唯一，单位对目标普通攻击时释放的技能
+--Normal Attack
+--Unit's Normal Attack, unique, the ability released when a unit is normal attack on a target
 ---@field common_atk any[]
---单位普通攻击的类型，选择自定义需要绑定技能
+--Unit Common attack type. Select Custom to bind skills
 ---@field common_atk_type number
 ---@field copper_coin number
---暴击率  
---单位普通攻击有概率造成额外伤害
+--Critical Hit Chance
+--Unit Normal attacks have a chance to deal extra damage
 ---@field critical_chance number
---暴击率(%)  
---单位普通攻击有概率造成额外伤害
+--Critical hit rate (%)
+--Unit Normal attacks have a chance to deal extra damage
 ---@field critical_chance_grow number
---暴击效果数值  
---发生暴击时，造成的暴击伤害倍数
+--Critical impact value
+--The amount of critical damage dealt when a critical strike occurs
 ---@field critical_dmg number
---暴击伤害(%)  
---发生暴击时，造成的暴击伤害倍数
+--Critical strike damage (%)
+--The amount of critical damage dealt when a critical strike occurs
 ---@field critical_dmg_grow number
 ---@field custom_1 number
 ---@field custom_1_grow number
@@ -1375,263 +1375,263 @@
 ---@field custom_6_grow number
 ---@field custom_7 number
 ---@field custom_7_grow number
---默认行为  
---单位默认状态下会执行的行为
+--Default behavior
+--The default behavior of the unit
 ---@field default_behaviour_type string
---法防数值  
---单位的法术防御力
+--Normal defense value
+--Unit spell defense
 ---@field defense_mag number
---法术防御力  
---单位的法术防御力
+--Spell defense
+--Unit spell defense
 ---@field defense_mag_grow number
---物防数值  
---单位的物理防御力
+--Physical defense value
+--The physical defense of the unit
 ---@field defense_phy number
---物理防御力  
---单位的物理防御力
+--Physical defense
+--The physical defense of the unit
 ---@field defense_phy_grow number
---描述  
---单位的介绍说明，用在编辑器内和游戏内的Tips显示上
+--Description
+--An introductory description of the unit, used in the editor and in-game Tips display
 ---@field description number
---死亡后是否销毁单位  
---死亡后是否会把单位完全销毁。（会在尸体消失时间结束后进行销毁，销毁后将无法再获取单位相关信息）
+--Whether to destroy the unit after death
+--Whether the unit will be completely destroyed after death. (The body will be destroyed after the end of the disappearance time, after the destruction will no longer be able to obtain the relevant information of the unit)
 ---@field destroy_after_die boolean
---死亡  
---死亡状态下会播放的动画
+--Death
+--An animation that plays when you are dead
 ---@field die_anim string
 ---@field disk_shadow_size number
---受到伤害减免比例  
---百分比降低受到的伤害
+--Percentage of injury relief
+--% reduced damage taken
 ---@field dmg_reduction number
---伤害减免(%)  
---百分比降低受到的伤害
+--Damage reduction (%)
+--% reduced damage taken
 ---@field dmg_reduction_grow number
---躲避率  
---单位躲避其他单位普通攻击的概率
+--Dodge rate
+--The probability of a unit evading ordinary attacks from other units
 ---@field dodge_rate number
---躲避率(%)  
---单位躲避其他单位普通攻击的概率
+--Avoidance rate (%)
+--The probability of a unit evading ordinary attacks from other units
 ---@field dodge_rate_grow number
---死亡后掉落物品  
+--Drop items after death
 ---@field drop_item any[]
---掉落物品  
---单位死亡后会掉落的物品
+--Dropped item
+--Items that drop when a unit dies
 ---@field drop_items_tuple any[]
---换色颜色  
+--Alternate color
 ---@field dye_color string
---换色方式  
+--Color change mode
 ---@field dye_color_plan number
---碰撞动态半径  
---碰撞动态半径，每50为1个标准格。
+--Collision dynamic radius
+--The dynamic radius of the collision is 1 standard lattice every 50.
 ---@field dynamic_collision_r number
---动态碰撞类型  
+--Dynamic collision type
 ---@field dynamic_collision_type number
---碰撞宽度  
+--Collision width
 ---@field dynamic_collision_x number
---碰撞长度  
+--Collision length
 ---@field dynamic_collision_z number
---敌方小地图头像  
+--Enemy minimap avatar
 ---@field enemy_mini_map_icon number
---所有伤害加成(%)  
---百分比提高造成的伤害
+--All damage bonus (%)
+--Percentage increase in damage caused
 ---@field extra_dmg number
---所有伤害加成(%)  
---百分比提高造成的伤害
+--All damage bonus (%)
+--Percentage increase in damage caused
 ---@field extra_dmg_grow number
---强制显示在小地图  
---勾选后单位将强制显示在小地图上，无视战争阴影
+--Force display in minimap
+--When checked, units will be forcibly displayed on the minimap, ignoring the war shadow
 ---@field force_show_on_mini_map boolean
 ---@field fresnel_exp number
---技能伤害加成(%)  
---该字段并无实际效果
+--Ability Damage Bonus (%)
+--This field has no actual effect
 ---@field gainvalue number
---技能伤害加成(%)  
---该字段并无实际效果
+--Ability Damage Bonus (%)
+--This field has no actual effect
 ---@field gainvalue_grow number
 ---@field gold_coin number
---是否有技能资源条  
---该单位是否有可以用来释放技能的能量
+--Whether there is a skill resource bar
+--Whether the unit has energy that can be used to release skills
 ---@field has_mp boolean
---是否显示白色护盾值  
+--Whether to display the white shield value
 ---@field has_shield boolean
---被治疗效果加成(%)  
---提高接受治疗时受到的治疗效果
+--Bonus by healing effect (%)
+--Improve the effectiveness of treatment when receiving treatment
 ---@field heal_effect number
---被治疗效果提升(%)  
---提高接受治疗时受到的治疗效果
+--Improved by treatment (%)
+--Improve the effectiveness of treatment when receiving treatment
 ---@field heal_effect_grow number
---当单位受到治疗效果时，提升治疗量
+--Increase the amount of healing when the unit takes effect
 ---@field healing_effect number
 ---@field healing_effect_grow number
---英雄技能  
---单位的英雄技能，可以通过学习升级，每次学习需要消耗一个技能点（升级时获取）。在默认UI界面中，会显示在后6个技能栏内，超出的不显示但依然生效。
+--Hero skill
+--The unit's hero skills can be upgraded through learning, and each learning costs one skill point (earned when leveling up). In the default UI interface, it will be displayed in the last 6 skill bars, and the other skills will not be displayed but still take effect.
 ---@field hero_ability_list any[]
---命中率  
---单位普通攻击命中其他单位的概率
+--Hit rate
+--The probability that a unit hits another unit in a normal attack
 ---@field hit_rate number
---命中率(%)  
---单位普通攻击命中其他单位的概率
+--Hit rate (%)
+--The probability that a unit hits another unit in a normal attack
 ---@field hit_rate_grow number
---最大生命值  
---单位的最大生命值
+--Max health
+--Maximum health of a unit
 ---@field hp_max number
---最大生命值  
---单位的最大生命值
+--Max health
+--Maximum health of a unit
 ---@field hp_max_grow number
---生命恢复  
---单位的每秒生命恢复数值
+--Life recovery
+--Health regeneration per second
 ---@field hp_rec number
---生命恢复  
---单位的每秒生命恢复数值
+--Life recovery
+--Health regeneration per second
 ---@field hp_rec_grow number
---头像  
---单位在游戏中显示的头像
+--avatar
+--Avatar of the unit displayed in the game
 ---@field icon number
---默认状态  
---默认状态下会播放的动画
+--Default state
+--Animations that play by default
 ---@field idle_anim string
---初始库存  
---单位作为商品的初始库存
+--Initial inventory
+--Initial inventory of units as goods
 ---@field init_stock number
---智力  
---智力
+--intelligence
+--intelligence
 ---@field intelligence number
---智力  
---智力
+--intelligence
+--intelligence
 ---@field intelligence_grow number
---是否应用玩家颜色光圈  
+--Whether to apply the player color aperture
 ---@field is_apply_role_color boolean
---是否在小地图显示  
---单位是否会在小地图上显示出来
+--Whether to show in the minimap
+--Whether units will be displayed on the minimap
 ---@field is_mini_map_show boolean
---勾选后如果该单位被遮挡，会看到该单位的描边
+--When checked, if the unit is obscured, you will see the stroke of the unit
 ---@field is_open_Xray boolean
---是否开启描边  
+--Whether to turn on stroke
 ---@field is_open_outline_pass boolean
---是否做为商店  
---开启后单位可以作为商店编辑出售的物品
+--Whether to shop
+--After opening the unit can be sold as a shop edit item
 ---@field is_shop boolean
---尸体消失时间  
---尸体消失时间
+--Body disappearance time
+--Body disappearance time
 ---@field keep_dead_body_time number
---无法移动时仍然保持目标  
---该字段未勾选时，在目标移动出自身的警戒范围后，且自身不能移动时，会立即开始寻找一个新的攻击目标。多用于定点守卫。
+--Stay on target when you can't move
+--If this field is not checked, after the target moves out of its warning range and cannot move itself, it will immediately start to find a new attack target. Mostly used for spot guards.
 ---@field keep_target boolean
---zh_value  
---单位的唯一表示
+--zh_value
+--A unique representation of a unit
 ---@field key number
---玩家自定义  
+--Player custom
 ---@field kv Object.Unit.Kv
---等级  
---单位的默认等级
+--Lv.
+--The default level of the unit
 ---@field level number
 ---@field logic_rotate_speed_valid boolean
 ---@field logic_upper_rotate_speed_valid boolean
---主属性  
---英雄单位的主要属性，一般主属性的提升会对英雄有额外加成
+--Primary attribute
+--The main attribute of the hero unit, the general main attribute upgrade will have an extra bonus for the hero
 ---@field main_attr string
---最大库存  
---单位作为商品的最大库存
+--Maximum inventory
+--Unit as the maximum inventory of goods
 ---@field max_stock number
---小地图头像  
---单位在小地图上的头像
+--Minimap avatar
+--The unit's avatar on the minimap
 ---@field mini_map_icon number
---小地图头像缩放  
---单位在小地图上的头像的缩放
+--Small map avatar zoom
+--Zoom the avatar of the unit on the minimap
 ---@field mini_map_icon_scale number
---模型  
---当前单位所使用的的模型
+--model
+--The model used by the current unit
 ---@field model number
---离地高度  
---单位的离地高度
+--Ground lift
+--The height of the unit above the ground
 ---@field model_height number
 ---@field model_opacity number
---移动类型  
---单位的移动类型，决定单位究竟是在地面移动还是在空中移动。
+--Movement type
+--The type of movement of the unit determines whether the unit is moving on the ground or in the air.
 ---@field move_channel number
---可移动通道  
---对单位移动类型的补充，决定单位究竟是在哪些通道移动。任意通道被碰撞阻挡该单位均无法通过。
+--Movable channel
+--Complements the type of unit movement by determining which channels the unit is moving in. The unit cannot pass through any channel blocked by collision.
 ---@field move_limitation number
---移动类型  
---影响可用的可移动通道。
+--Movement type
+--Affects the removable channels available.
 ---@field move_type number
---技能资源条颜色  
---该单位用来释放技能的能量的颜色
+--Skill resource bar color
+--The color of the unit used to release the energy of the skill
 ---@field mp_color string
---技能资源类型标识  
---该单位用来释放技能的能量的名称
+--Identifier of the skill resource type
+--The name of the unit used to release the energy of the skill
 ---@field mp_key string
---最大技能资源  
---单位的最大技能资源
+--Maximum skill resource
+--The unit's maximum skill resource
 ---@field mp_max number
---最大技能资源  
---单位的最大技能资源
+--Maximum skill resource
+--The unit's maximum skill resource
 ---@field mp_max_grow number
---技能资源恢复  
---单位的每秒技能资源恢复数值
+--Skill resource recovery
+--Skill resource recovery per second
 ---@field mp_rec number
---技能资源恢复  
---单位的每秒技能资源恢复数值
+--Skill resource recovery
+--Skill resource recovery per second
 ---@field mp_rec_grow number
---名称  
---当前单位的名称
+--name
+--Name of the current unit
 ---@field name string|integer
 ---@field need_preview_billboard boolean
---单位状态  
---进入游戏时,为单位附加的初始状态  
---状态会记录层数，初始为1层。每次添加/移除状态会增加/减少一层。
+--Unit state
+--The initial state attached to the unit when entering the game
+--The status records the number of layers, starting with one layer. Each add/remove state adds/subsides one layer.
 ---@field ori_bits number
---移速数值  
---单位每秒移动的距离。
+--Velocity value
+--The distance traveled per second.
 ---@field ori_speed number
---移动速度  
---单位每秒移动的距离。
+--Moving speed
+--The distance traveled per second.
 ---@field ori_speed_grow number
---被动技能列表  
---隐藏技能，放在这类技能位中的技能将不会被显示在游戏中。
+--Passive skill list
+--Hidden skills, skills placed in this skill position will not be displayed in the game.
 ---@field passive_ability_list any[]
---法穿数值  
---穿透敌人法术防御力。先计算固定穿透，再计算百分比穿透
+--Normal penetration value
+--Penetrate enemy spell defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag number
---法术穿透  
---穿透敌人法术防御力。先计算固定穿透，再计算百分比穿透
+--Spell penetration
+--Penetrate enemy spell defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag_grow number
---法术穿透(%)  
---百分比穿透敌人法术防御力。先计算固定穿透，再计算百分比穿透
+--Spell penetration (%)
+--Percentage penetration of enemy spell defense. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag_ratio number
---法术穿透(%)  
---百分比穿透敌人法术防御力。先计算固定穿透，再计算百分比穿透
+--Spell penetration (%)
+--Percentage penetration of enemy spell defense. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag_ratio_grow number
---物穿数值  
---穿透敌人物理防御力。先计算固定穿透，再计算百分比穿透
+--Object penetration number
+--Penetrate enemy physical defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy number
---物理穿透  
---穿透敌人物理防御力。先计算固定穿透，再计算百分比穿透
+--Physical penetration
+--Penetrate enemy physical defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy_grow number
---无视目标物抗百分比  
---百分比穿透敌人物理防御力。先计算固定穿透，再计算百分比穿透
+--Ignore target reactance percentage
+--Percentage penetration of enemy physical defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy_ratio number
---物理穿透(%)  
---百分比穿透敌人物理防御力。先计算固定穿透，再计算百分比穿透
+--Physical penetration (%)
+--Percentage penetration of enemy physical defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy_ratio_grow number
---背包栏  
---单位的背包栏格数
+--Backpack rail
+--Number of backpack bars per unit
 ---@field pkg_slot_size number
---前置条件  
---训练、购买、建造该单位的前置条件
+--precondition
+--Pre-conditions for training, purchasing, and building the unit
 ---@field precondition_list any[]
 ---@field preview_billboard_health_value number
---库存恢复间隔  
---单位作为商品的库存恢复间隔
+--Inventory recovery interval
+--Unit as commodity inventory recovery interval
 ---@field refresh_interval number
---可研发科技  
---这些科技，可以在单位身上研发、升级。
+--Developable technology
+--These technologies can be developed and upgraded on the unit.
 ---@field research_techs any[]
---韧性(%)  
---该字段并无实际效果
+--Toughness (%)
+--This field has no actual effect
 ---@field resilience number
---韧性(%)  
---该字段并无实际效果
+--Toughness (%)
+--This field has no actual effect
 ---@field resilience_grow number
 ---@field reward_custom_res_1 number
 ---@field reward_custom_res_2 number
@@ -1639,67 +1639,67 @@
 ---@field reward_custom_res_4 number
 ---@field reward_custom_res_5 number
 ---@field reward_custom_res_6 number
---该单位被击杀后提供的经验奖励
+--An experience bonus given to the unit after it is killed
 ---@field reward_exp number
 ---@field reward_official_res_1 number
 ---@field reward_official_res_2 number
---玩家颜色缩放  
+--Player color scaling
 ---@field role_color_scale number
---转身速度(弧度)  
---单位的转身速度
+--Turn speed (radian)
+--Unit of turn speed
 ---@field rotate_speed number
 ---@field scale number
---出售列表  
---单位作为商店时的出售列表
+--List for sale
+--A list of units for sale when they are stores
 ---@field sell_list any[]
---出售获得资源  
---单位作为商品的出售获得资源
+--Sale for resources
+--Units are sold as commodities to obtain resources
 ---@field sell_res_list any[]
---是否敌友方显示不同头像  
+--Whether friends and foes display different avatars
 ---@field separate_enemy_icon boolean
---出售阵营参数  
+--Selling camp parameter
 ---@field shop_camp_args number
---商店组件  
+--Shop component
 ---@field shop_key any[]
---出售范围  
+--Range of sale
 ---@field shop_range number
---打开同时选中  
+--Open and select
 ---@field shop_select boolean
---出售阵营类型  
+--Selling camp type
 ---@field shop_sell_type number
---悬浮信息显示  
---开启后鼠标悬浮到单位身上时会显示单位名称和等级的文本框
+--Levitation information display
+--When turned on, the mouse hover over the unit displays a text box with the unit name and level
 ---@field show_y3_extra_info boolean
 ---@field silver_coin number
 ---@field simple_common_atk Object.Unit.SimpleCommonAtk
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list any[]
---特殊状态  
---特殊状态下会播放的动画
+--Special state
+--An animation that plays in a special state
 ---@field special_idle_anim string
---转向时移动速度系数  
---当单位转向时，移动速度会受到一定的影响。
+--Coefficient of moving speed when turning
+--When the unit turns, the movement speed will be affected.
 ---@field speed_ratio_in_turn number
---移动动画播放速率系数  
---单位移动时动画的播放速度
+--Moving animation playback rate coefficient
+--The speed at which the animation plays when the unit moves
 ---@field standard_walk_rate number
---购买开始时间  
---单位作为商品的可购买时间(游戏开始多久后可以购买）
+--Purchase start time
+--How long units are available for purchase as goods (how long after the game starts)
 ---@field start_rft number
---力量  
---力量
+--strength
+--strength
 ---@field strength number
---力量  
---力量
+--strength
+--strength
 ---@field strength_grow number
---编辑器后缀  
---给使用编辑器的用户看的备注，无实际作用
+--Editor suffix
+--Note for users using the editor, no practical effect
 ---@field suffix string
 ---@field support_range number
---标签  
---用于对物体的分类处理。为单位贴上标签后可以对其进行更方便的关系，例如编写游戏逻辑：杀死所有拥有XX标签的单位
+--tag
+--It is used to classify objects. Labeling units allows for more convenient relationships, such as writing game logic: Kill all units with XX labels
 ---@field tags any[]
---主题  
+--theme
 ---@field theme number
 ---@field title_bg_opacity number
 ---@field title_bg_scale number
@@ -1707,74 +1707,74 @@
 ---@field title_scale number
 ---@field title_text_size number
 ---@field turn_speed number
---主类型  
---单位类型决定了这类单位的一些特性，包括其可编辑的属性和某些属性的默认值。
+--Master type
+--The unit type determines some of the characteristics of the unit, including its editable properties and the default values of some properties.
 ---@field type number
---UID  
+--UID
 ---@field uid string
 ---@field unit_hold_angle_speed number
 ---@field unit_title string
 ---@field use_base_tint_color boolean
---使用简易小地图头像  
---简易小地图头像的表现为一个小点。简易小地图头像的绘制性能消耗相比普通小地图头像更小，如果地图上会出现大量的该类型单位，建议使用简易小地图头像。
+--Use simple mini map avatar
+--Simple mini map avatar is represented as a small dot. The drawing performance consumption of simple minimap avatar is smaller than that of ordinary minimap avatar. If a large number of units of this type appear on the map, it is recommended to use a simple minimap avatar.
 ---@field use_simple_mini_map_icon boolean
---法术吸血数值  
---造成法术伤害后可以恢复自身生命值
+--Spell blood count
+--Restores health after dealing spell damage
 ---@field vampire_mag number
---法术吸血(%)  
---造成法术伤害后可以恢复自身生命值
+--Spell Vampire (%)
+--Restores health after dealing spell damage
 ---@field vampire_mag_grow number
---物理吸血数值  
---造成物理伤害后可以恢复自身生命值
+--Physical bloodsucking number
+--Restores health after dealing physical damage
 ---@field vampire_phy number
---物理吸血(%)  
---造成物理伤害后可以恢复自身生命值
+--Physical blood feeding (%)
+--Restores health after dealing physical damage
 ---@field vampire_phy_grow number
---立绘  
+--portrait
 ---@field vect_drawing number
---视野类型  
---单位与战争迷雾相关的一些属性
+--Visual field type
+--Some attributes of units related to the Fog of War
 ---@field view_type number
---夜晚视野  
---单位在夜晚可以看到（驱散战争迷雾）的范围
+--Night vision
+--The range of units that can be seen at night (dispel the fog of war)
 ---@field vision_night number
 ---@field vision_night_grow number
---白天视野  
---单位在白天可以看到（驱散战争迷雾）的范围
+--Daytime visual field
+--The range of units that can be seen during the day (dispel the fog of war)
 ---@field vision_rng number
 ---@field vision_rng_grow number
---扇形视野白天夹角  
---单位在白天拥有的扇形视野夹角。
+--Fan field of view daytime Angle
+--The Angle of the fan-shaped field of view that the unit has during the day.
 ---@field vision_sector_angle_day number
 ---@field vision_sector_angle_day_grow number
---扇形视野夜晚夹角  
---单位在夜晚拥有的扇形视野夹角。
+--Fan view Angle at night
+--The Angle at which the unit has a fan field of view at night.
 ---@field vision_sector_angle_night number
 ---@field vision_sector_angle_night_grow number
---扇形视野夜晚半径  
---单位在夜晚拥有的扇形视野半径。
+--Fan view night radius
+--The radius of the fan field of view that the unit has at night.
 ---@field vision_sector_night number
 ---@field vision_sector_night_grow number
---扇形视野白天半径  
---单位在白天拥有的扇形视野半径。
+--Fan-field daytime radius
+--The radius of the fan-shaped field of view the unit has during the day.
 ---@field vision_sector_rng number
 ---@field vision_sector_rng_grow number
---真实视野  
---单位所能侦测到隐身单位的范围
+--True field of view
+--The range of stealth units that a unit can detect
 ---@field vision_true number
---单位所能侦测到隐身单位的范围
+--The range of stealth units that a unit can detect
 ---@field vision_true_grow number
---行走  
---行走状态下会播放的动作
+--walk
+--Actions that are played while walking
 ---@field walk_anim string
 
 ---@class Object.Unit.Kv
 
 ---@class Object.Unit.SimpleCommonAtk
 ---@field ability_animations any[]
---后摇时长  
+--Roll back time
 ---@field ability_bw_point number
---前摇时长  
+--Front roll time
 ---@field ability_cast_point number
 ---@field attack_trajectory Object.Unit.SimpleCommonAtk.AttackTrajectory
 ---@field cast_effect_list any[]
@@ -1782,9 +1782,9 @@
 ---@field critical_anim string
 ---@field damage any[]
 ---@field damage_type number
---索敌条件 - 阵营  
+--Condition of the enemy - Camp
 ---@field filter_condition_camp number
---索敌条件 - 类型  
+--Condition - Type
 ---@field filter_condition_type number
 ---@field hit_effect Object.Unit.SimpleCommonAtk.HitEffect
 ---@field hit_sound number
@@ -1806,143 +1806,143 @@
 ---@field socket string
 
 ---@class Object.UnitOptions
---应用科技  
---单位的可应用科技（会受到该科技的影响）
+--Applied technology
+--The available technology of the unit (will be affected by the technology)
 ---@field affect_techs? any[]
---敏捷  
---敏捷
+--Agility
+--Agility
 ---@field agility? number
---敏捷  
---敏捷
+--Agility
+--Agility
 ---@field agility_grow? number
---锁敌范围  
---单位的警戒范围(AI)
+--Locked range
+--Unit Warning Area (AI)
 ---@field alarm_range? number
---允许移动的角度差  
---当单位转向时，如果转向角度小于该值，则会直接朝目标方向移动；反之会边转向，边移动。
+--The Angle difference allowed to move
+--When the unit turns, if the turning Angle is less than this value, it will move directly towards the target direction; Instead, it turns and moves.
 ---@field angle_tolerance? number
---防御类型  
---单位的护甲类型，具体效果可在游戏规则中查看
+--Defense type
+--The armor type of the unit, the specific effect can be viewed in the game rules
 ---@field armor_type? number
---攻击间隔  
---单位两次普通攻击之前间隔的秒数，当普攻技能替换为自定义类型时，会使用技能的冷却时间
+--Attack interval
+--The number of seconds between two normal attacks on a unit. The cooldown of a skill is used when the skill is replaced with a custom type
 ---@field attack_interval? number
---两次普通攻击之间的间隔时间
+--The interval between two normal attacks
 ---@field attack_interval_grow? number
---法攻数值  
---单位的法术攻击力
+--Normal attack value
+--Unit spell damage
 ---@field attack_mag? number
---法术攻击力  
---单位的法术攻击力
+--Spell damage
+--Unit spell damage
 ---@field attack_mag_grow? number
---物攻数值  
---单位的物理攻击力
+--Physical attack value
+--The unit's physical attack power
 ---@field attack_phy? number
---物理攻击力  
---单位的物理攻击力
+--Physical attack
+--The unit's physical attack power
 ---@field attack_phy_grow? number
---攻击范围  
---单位可以攻击攻击范围内的可见单位，当普攻技能替换为自定义类型时，会使用技能的释放范围
+--Attack range
+--Units can attack visible units within the attack range, and when a general attack skill is replaced with a custom type, the skill's release range is used
 ---@field attack_range? number
---普通攻击的攻击范围
+--The attack range of a common attack
 ---@field attack_range_grow? number
---攻速数值  
---单位的攻击速度百分比，局内显示的实际攻速为:1/单位当前普通攻击技能冷却时间*攻击速度
+--Attack rate value
+--The actual attack speed displayed in the office is :1/ Unit's current cooldown time of common attack skills * Attack speed
 ---@field attack_speed? number
---攻击速度(%)  
---攻击速度(倍数)
+--Attack speed (%)
+--Attack speed (multiples)
 ---@field attack_speed_grow? number
---攻击类型  
---单位的攻击类型，具体效果可在游戏规则中查看
+--Attack type
+--The attack type of the unit, the specific effect can be viewed in the game rules
 ---@field attack_type? number
 ---@field back_range? number
---头顶名称显示方式  
---影响游戏内物体上方的文本显示内容。
+--Overhead name display mode
+--Affects the text display above in-game objects.
 ---@field bar_show_name? string|integer
---是否显示血条刻度  
---单位血条上是否会出现刻度线
+--Whether the blood bar scale is displayed
+--Whether a scale line will appear on the unit blood bar
 ---@field bar_show_scale? boolean
 ---@field bar_show_title? boolean
---物品栏  
---单位的物品栏格数
+--Inventory Panel
+--The number of inventory boxes in a unit
 ---@field bar_slot_size? number
 ---@field bar_title_style? number
 ---@field base_tint_color? any[]
---单位血条高度偏移  
+--Unit blood stripe height deviation
 ---@field billboard_height_offset? number
---头顶名称字体  
---在单位头顶显示的文字字体
+--Overhead name font
+--The text font displayed above the unit
 ---@field billboard_name_font? string
---x轴缩放  
+--X-axis scaling
 ---@field billboard_scale_x? number
---y轴缩放  
+--Y-axis scaling
 ---@field billboard_scale_y? number
---血条样式  
---该单位在游戏内的血条样式
+--Blood stripe pattern
+--The unit in the game blood bar style
 ---@field blood_bar? number
---血条显示模式  
---该单位在游戏内的血条的显示时机
+--Blood bar display mode
+--The unit in the game blood bar display time
 ---@field blood_show_type? number
---模型缩放  
---对当前物体模型的缩放倍数，用于调整模型大小。
+--Model scaling
+--The scaling factor of the current object model, used to resize the model.
 ---@field body_size? number
---夹角  
+--Included Angle
 ---@field box_angle? number
---盒子长度  
+--Box length
 ---@field box_length1? number
---盒子宽度  
+--Box width
 ---@field box_length2? number
---半径  
+--radius
 ---@field box_r? number
---点击盒类型  
+--Click box type
 ---@field box_type? number
 ---@field build_precondition_list? any[]
---资源消耗  
---单位作为建筑时建造会消耗的资源
+--Resource consumption
+--Resources that are consumed when units are constructed as buildings
 ---@field build_res_cost_list? any[]
 ---@field building_rotatable? boolean
---购买所需资源  
---单位作为商品的购买所需资源
+--Purchase required resources
+--Unit of resources required for the purchase of goods
 ---@field buy_res_list? any[]
---无法反击时会逃跑  
---当单位受到伤害且自身无法反击时，会向伤害来源的相反方向移动一段距离，仅在警戒状态下生效
+--Run when you can't fight back
+--When a unit takes damage and is unable to fight back, it moves a certain distance in the opposite direction of the source of the damage, effective only when on alert
 ---@field can_flee? boolean
---解除锁定范围  
---单位的取消警戒范围(AI)，敌方离开取消警戒范围后会不再主动攻击敌方
+--Unlocking range
+--The unit's de-warning area (AI), when the enemy leaves the de-warning area, it will no longer actively attack the enemy
 ---@field cancel_alarm_range? number
---冷却缩减  
---单位技能进入cd时减少部分冷却时间
+--Cooling reduction
+--Reduces part of cooldown when unit skills enter cd
 ---@field cd_reduce? number
---冷却缩减(%)  
---单位技能进入cd时减少部分冷却时间
+--Cooling reduction (%)
+--Reduces part of cooldown when unit skills enter cd
 ---@field cd_reduce_grow? number
---碰撞  
+--collision
 ---@field collision? number
---静态碰撞跟随面向  
---仅对建筑类型单位生效。勾选时，单位改变朝向时会使静态碰撞跟随旋转。
+--Static collision follow orientation
+--Valid for building type units only. When checked, static collisions follow rotation when units change orientation.
 ---@field collision_box_turning_enable? boolean
 ---@field collision_points? any[]
 ---@field combat_range? number
---通用技能  
---单位的通用技能。在默认UI界面中，会显示在前6个技能栏内，超出的不显示但依然生效。
+--Universal skill
+--Unit of common skills. In the default UI interface, it will be displayed in the first 6 skill bars, and the other skills will not be displayed but still take effect.
 ---@field common_ability_list? any[]
---普攻  
---单位的普通攻击，唯一，单位对目标普通攻击时释放的技能
+--Normal Attack
+--Unit's Normal Attack, unique, the ability released when a unit is normal attack on a target
 ---@field common_atk? any[]
---单位普通攻击的类型，选择自定义需要绑定技能
+--Unit Common attack type. Select Custom to bind skills
 ---@field common_atk_type? number
 ---@field copper_coin? number
---暴击率  
---单位普通攻击有概率造成额外伤害
+--Critical Hit Chance
+--Unit Normal attacks have a chance to deal extra damage
 ---@field critical_chance? number
---暴击率(%)  
---单位普通攻击有概率造成额外伤害
+--Critical hit rate (%)
+--Unit Normal attacks have a chance to deal extra damage
 ---@field critical_chance_grow? number
---暴击效果数值  
---发生暴击时，造成的暴击伤害倍数
+--Critical impact value
+--The amount of critical damage dealt when a critical strike occurs
 ---@field critical_dmg? number
---暴击伤害(%)  
---发生暴击时，造成的暴击伤害倍数
+--Critical strike damage (%)
+--The amount of critical damage dealt when a critical strike occurs
 ---@field critical_dmg_grow? number
 ---@field custom_1? number
 ---@field custom_1_grow? number
@@ -1954,263 +1954,263 @@
 ---@field custom_6_grow? number
 ---@field custom_7? number
 ---@field custom_7_grow? number
---默认行为  
---单位默认状态下会执行的行为
+--Default behavior
+--The default behavior of the unit
 ---@field default_behaviour_type? string
---法防数值  
---单位的法术防御力
+--Normal defense value
+--Unit spell defense
 ---@field defense_mag? number
---法术防御力  
---单位的法术防御力
+--Spell defense
+--Unit spell defense
 ---@field defense_mag_grow? number
---物防数值  
---单位的物理防御力
+--Physical defense value
+--The physical defense of the unit
 ---@field defense_phy? number
---物理防御力  
---单位的物理防御力
+--Physical defense
+--The physical defense of the unit
 ---@field defense_phy_grow? number
---描述  
---单位的介绍说明，用在编辑器内和游戏内的Tips显示上
+--Description
+--An introductory description of the unit, used in the editor and in-game Tips display
 ---@field description? number
---死亡后是否销毁单位  
---死亡后是否会把单位完全销毁。（会在尸体消失时间结束后进行销毁，销毁后将无法再获取单位相关信息）
+--Whether to destroy the unit after death
+--Whether the unit will be completely destroyed after death. (The body will be destroyed after the end of the disappearance time, after the destruction will no longer be able to obtain the relevant information of the unit)
 ---@field destroy_after_die? boolean
---死亡  
---死亡状态下会播放的动画
+--Death
+--An animation that plays when you are dead
 ---@field die_anim? string
 ---@field disk_shadow_size? number
---受到伤害减免比例  
---百分比降低受到的伤害
+--Percentage of injury relief
+--% reduced damage taken
 ---@field dmg_reduction? number
---伤害减免(%)  
---百分比降低受到的伤害
+--Damage reduction (%)
+--% reduced damage taken
 ---@field dmg_reduction_grow? number
---躲避率  
---单位躲避其他单位普通攻击的概率
+--Dodge rate
+--The probability of a unit evading ordinary attacks from other units
 ---@field dodge_rate? number
---躲避率(%)  
---单位躲避其他单位普通攻击的概率
+--Avoidance rate (%)
+--The probability of a unit evading ordinary attacks from other units
 ---@field dodge_rate_grow? number
---死亡后掉落物品  
+--Drop items after death
 ---@field drop_item? any[]
---掉落物品  
---单位死亡后会掉落的物品
+--Dropped item
+--Items that drop when a unit dies
 ---@field drop_items_tuple? any[]
---换色颜色  
+--Alternate color
 ---@field dye_color? string
---换色方式  
+--Color change mode
 ---@field dye_color_plan? number
---碰撞动态半径  
---碰撞动态半径，每50为1个标准格。
+--Collision dynamic radius
+--The dynamic radius of the collision is 1 standard lattice every 50.
 ---@field dynamic_collision_r? number
---动态碰撞类型  
+--Dynamic collision type
 ---@field dynamic_collision_type? number
---碰撞宽度  
+--Collision width
 ---@field dynamic_collision_x? number
---碰撞长度  
+--Collision length
 ---@field dynamic_collision_z? number
---敌方小地图头像  
+--Enemy minimap avatar
 ---@field enemy_mini_map_icon? number
---所有伤害加成(%)  
---百分比提高造成的伤害
+--All damage bonus (%)
+--Percentage increase in damage caused
 ---@field extra_dmg? number
---所有伤害加成(%)  
---百分比提高造成的伤害
+--All damage bonus (%)
+--Percentage increase in damage caused
 ---@field extra_dmg_grow? number
---强制显示在小地图  
---勾选后单位将强制显示在小地图上，无视战争阴影
+--Force display in minimap
+--When checked, units will be forcibly displayed on the minimap, ignoring the war shadow
 ---@field force_show_on_mini_map? boolean
 ---@field fresnel_exp? number
---技能伤害加成(%)  
---该字段并无实际效果
+--Ability Damage Bonus (%)
+--This field has no actual effect
 ---@field gainvalue? number
---技能伤害加成(%)  
---该字段并无实际效果
+--Ability Damage Bonus (%)
+--This field has no actual effect
 ---@field gainvalue_grow? number
 ---@field gold_coin? number
---是否有技能资源条  
---该单位是否有可以用来释放技能的能量
+--Whether there is a skill resource bar
+--Whether the unit has energy that can be used to release skills
 ---@field has_mp? boolean
---是否显示白色护盾值  
+--Whether to display the white shield value
 ---@field has_shield? boolean
---被治疗效果加成(%)  
---提高接受治疗时受到的治疗效果
+--Bonus by healing effect (%)
+--Improve the effectiveness of treatment when receiving treatment
 ---@field heal_effect? number
---被治疗效果提升(%)  
---提高接受治疗时受到的治疗效果
+--Improved by treatment (%)
+--Improve the effectiveness of treatment when receiving treatment
 ---@field heal_effect_grow? number
---当单位受到治疗效果时，提升治疗量
+--Increase the amount of healing when the unit takes effect
 ---@field healing_effect? number
 ---@field healing_effect_grow? number
---英雄技能  
---单位的英雄技能，可以通过学习升级，每次学习需要消耗一个技能点（升级时获取）。在默认UI界面中，会显示在后6个技能栏内，超出的不显示但依然生效。
+--Hero skill
+--The unit's hero skills can be upgraded through learning, and each learning costs one skill point (earned when leveling up). In the default UI interface, it will be displayed in the last 6 skill bars, and the other skills will not be displayed but still take effect.
 ---@field hero_ability_list? any[]
---命中率  
---单位普通攻击命中其他单位的概率
+--Hit rate
+--The probability that a unit hits another unit in a normal attack
 ---@field hit_rate? number
---命中率(%)  
---单位普通攻击命中其他单位的概率
+--Hit rate (%)
+--The probability that a unit hits another unit in a normal attack
 ---@field hit_rate_grow? number
---最大生命值  
---单位的最大生命值
+--Max health
+--Maximum health of a unit
 ---@field hp_max? number
---最大生命值  
---单位的最大生命值
+--Max health
+--Maximum health of a unit
 ---@field hp_max_grow? number
---生命恢复  
---单位的每秒生命恢复数值
+--Life recovery
+--Health regeneration per second
 ---@field hp_rec? number
---生命恢复  
---单位的每秒生命恢复数值
+--Life recovery
+--Health regeneration per second
 ---@field hp_rec_grow? number
---头像  
---单位在游戏中显示的头像
+--avatar
+--Avatar of the unit displayed in the game
 ---@field icon? number
---默认状态  
---默认状态下会播放的动画
+--Default state
+--Animations that play by default
 ---@field idle_anim? string
---初始库存  
---单位作为商品的初始库存
+--Initial inventory
+--Initial inventory of units as goods
 ---@field init_stock? number
---智力  
---智力
+--intelligence
+--intelligence
 ---@field intelligence? number
---智力  
---智力
+--intelligence
+--intelligence
 ---@field intelligence_grow? number
---是否应用玩家颜色光圈  
+--Whether to apply the player color aperture
 ---@field is_apply_role_color? boolean
---是否在小地图显示  
---单位是否会在小地图上显示出来
+--Whether to show in the minimap
+--Whether units will be displayed on the minimap
 ---@field is_mini_map_show? boolean
---勾选后如果该单位被遮挡，会看到该单位的描边
+--When checked, if the unit is obscured, you will see the stroke of the unit
 ---@field is_open_Xray? boolean
---是否开启描边  
+--Whether to turn on stroke
 ---@field is_open_outline_pass? boolean
---是否做为商店  
---开启后单位可以作为商店编辑出售的物品
+--Whether to shop
+--After opening the unit can be sold as a shop edit item
 ---@field is_shop? boolean
---尸体消失时间  
---尸体消失时间
+--Body disappearance time
+--Body disappearance time
 ---@field keep_dead_body_time? number
---无法移动时仍然保持目标  
---该字段未勾选时，在目标移动出自身的警戒范围后，且自身不能移动时，会立即开始寻找一个新的攻击目标。多用于定点守卫。
+--Stay on target when you can't move
+--If this field is not checked, after the target moves out of its warning range and cannot move itself, it will immediately start to find a new attack target. Mostly used for spot guards.
 ---@field keep_target? boolean
---zh_value  
---单位的唯一表示
+--zh_value
+--A unique representation of a unit
 ---@field key? number
---玩家自定义  
+--Player custom
 ---@field kv? Object.Unit.Kv
---等级  
---单位的默认等级
+--Lv.
+--The default level of the unit
 ---@field level? number
 ---@field logic_rotate_speed_valid? boolean
 ---@field logic_upper_rotate_speed_valid? boolean
---主属性  
---英雄单位的主要属性，一般主属性的提升会对英雄有额外加成
+--Primary attribute
+--The main attribute of the hero unit, the general main attribute upgrade will have an extra bonus for the hero
 ---@field main_attr? string
---最大库存  
---单位作为商品的最大库存
+--Maximum inventory
+--Unit as the maximum inventory of goods
 ---@field max_stock? number
---小地图头像  
---单位在小地图上的头像
+--Minimap avatar
+--The unit's avatar on the minimap
 ---@field mini_map_icon? number
---小地图头像缩放  
---单位在小地图上的头像的缩放
+--Small map avatar zoom
+--Zoom the avatar of the unit on the minimap
 ---@field mini_map_icon_scale? number
---模型  
---当前单位所使用的的模型
+--model
+--The model used by the current unit
 ---@field model? number
---离地高度  
---单位的离地高度
+--Ground lift
+--The height of the unit above the ground
 ---@field model_height? number
 ---@field model_opacity? number
---移动类型  
---单位的移动类型，决定单位究竟是在地面移动还是在空中移动。
+--Movement type
+--The type of movement of the unit determines whether the unit is moving on the ground or in the air.
 ---@field move_channel? number
---可移动通道  
---对单位移动类型的补充，决定单位究竟是在哪些通道移动。任意通道被碰撞阻挡该单位均无法通过。
+--Movable channel
+--Complements the type of unit movement by determining which channels the unit is moving in. The unit cannot pass through any channel blocked by collision.
 ---@field move_limitation? number
---移动类型  
---影响可用的可移动通道。
+--Movement type
+--Affects the removable channels available.
 ---@field move_type? number
---技能资源条颜色  
---该单位用来释放技能的能量的颜色
+--Skill resource bar color
+--The color of the unit used to release the energy of the skill
 ---@field mp_color? string
---技能资源类型标识  
---该单位用来释放技能的能量的名称
+--Identifier of the skill resource type
+--The name of the unit used to release the energy of the skill
 ---@field mp_key? string
---最大技能资源  
---单位的最大技能资源
+--Maximum skill resource
+--The unit's maximum skill resource
 ---@field mp_max? number
---最大技能资源  
---单位的最大技能资源
+--Maximum skill resource
+--The unit's maximum skill resource
 ---@field mp_max_grow? number
---技能资源恢复  
---单位的每秒技能资源恢复数值
+--Skill resource recovery
+--Skill resource recovery per second
 ---@field mp_rec? number
---技能资源恢复  
---单位的每秒技能资源恢复数值
+--Skill resource recovery
+--Skill resource recovery per second
 ---@field mp_rec_grow? number
---名称  
---当前单位的名称
+--name
+--Name of the current unit
 ---@field name? string|integer
 ---@field need_preview_billboard? boolean
---单位状态  
---进入游戏时,为单位附加的初始状态  
---状态会记录层数，初始为1层。每次添加/移除状态会增加/减少一层。
+--Unit state
+--The initial state attached to the unit when entering the game
+--The status records the number of layers, starting with one layer. Each add/remove state adds/subsides one layer.
 ---@field ori_bits? number
---移速数值  
---单位每秒移动的距离。
+--Velocity value
+--The distance traveled per second.
 ---@field ori_speed? number
---移动速度  
---单位每秒移动的距离。
+--Moving speed
+--The distance traveled per second.
 ---@field ori_speed_grow? number
---被动技能列表  
---隐藏技能，放在这类技能位中的技能将不会被显示在游戏中。
+--Passive skill list
+--Hidden skills, skills placed in this skill position will not be displayed in the game.
 ---@field passive_ability_list? any[]
---法穿数值  
---穿透敌人法术防御力。先计算固定穿透，再计算百分比穿透
+--Normal penetration value
+--Penetrate enemy spell defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag? number
---法术穿透  
---穿透敌人法术防御力。先计算固定穿透，再计算百分比穿透
+--Spell penetration
+--Penetrate enemy spell defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag_grow? number
---法术穿透(%)  
---百分比穿透敌人法术防御力。先计算固定穿透，再计算百分比穿透
+--Spell penetration (%)
+--Percentage penetration of enemy spell defense. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag_ratio? number
---法术穿透(%)  
---百分比穿透敌人法术防御力。先计算固定穿透，再计算百分比穿透
+--Spell penetration (%)
+--Percentage penetration of enemy spell defense. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_mag_ratio_grow? number
---物穿数值  
---穿透敌人物理防御力。先计算固定穿透，再计算百分比穿透
+--Object penetration number
+--Penetrate enemy physical defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy? number
---物理穿透  
---穿透敌人物理防御力。先计算固定穿透，再计算百分比穿透
+--Physical penetration
+--Penetrate enemy physical defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy_grow? number
---无视目标物抗百分比  
---百分比穿透敌人物理防御力。先计算固定穿透，再计算百分比穿透
+--Ignore target reactance percentage
+--Percentage penetration of enemy physical defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy_ratio? number
---物理穿透(%)  
---百分比穿透敌人物理防御力。先计算固定穿透，再计算百分比穿透
+--Physical penetration (%)
+--Percentage penetration of enemy physical defenses. Calculate the fixed penetration first, then the percentage penetration
 ---@field pene_phy_ratio_grow? number
---背包栏  
---单位的背包栏格数
+--Backpack rail
+--Number of backpack bars per unit
 ---@field pkg_slot_size? number
---前置条件  
---训练、购买、建造该单位的前置条件
+--precondition
+--Pre-conditions for training, purchasing, and building the unit
 ---@field precondition_list? any[]
 ---@field preview_billboard_health_value? number
---库存恢复间隔  
---单位作为商品的库存恢复间隔
+--Inventory recovery interval
+--Unit as commodity inventory recovery interval
 ---@field refresh_interval? number
---可研发科技  
---这些科技，可以在单位身上研发、升级。
+--Developable technology
+--These technologies can be developed and upgraded on the unit.
 ---@field research_techs? any[]
---韧性(%)  
---该字段并无实际效果
+--Toughness (%)
+--This field has no actual effect
 ---@field resilience? number
---韧性(%)  
---该字段并无实际效果
+--Toughness (%)
+--This field has no actual effect
 ---@field resilience_grow? number
 ---@field reward_custom_res_1? number
 ---@field reward_custom_res_2? number
@@ -2218,67 +2218,67 @@
 ---@field reward_custom_res_4? number
 ---@field reward_custom_res_5? number
 ---@field reward_custom_res_6? number
---该单位被击杀后提供的经验奖励
+--An experience bonus given to the unit after it is killed
 ---@field reward_exp? number
 ---@field reward_official_res_1? number
 ---@field reward_official_res_2? number
---玩家颜色缩放  
+--Player color scaling
 ---@field role_color_scale? number
---转身速度(弧度)  
---单位的转身速度
+--Turn speed (radian)
+--Unit of turn speed
 ---@field rotate_speed? number
 ---@field scale? number
---出售列表  
---单位作为商店时的出售列表
+--List for sale
+--A list of units for sale when they are stores
 ---@field sell_list? any[]
---出售获得资源  
---单位作为商品的出售获得资源
+--Sale for resources
+--Units are sold as commodities to obtain resources
 ---@field sell_res_list? any[]
---是否敌友方显示不同头像  
+--Whether friends and foes display different avatars
 ---@field separate_enemy_icon? boolean
---出售阵营参数  
+--Selling camp parameter
 ---@field shop_camp_args? number
---商店组件  
+--Shop component
 ---@field shop_key? any[]
---出售范围  
+--Range of sale
 ---@field shop_range? number
---打开同时选中  
+--Open and select
 ---@field shop_select? boolean
---出售阵营类型  
+--Selling camp type
 ---@field shop_sell_type? number
---悬浮信息显示  
---开启后鼠标悬浮到单位身上时会显示单位名称和等级的文本框
+--Levitation information display
+--When turned on, the mouse hover over the unit displays a text box with the unit name and level
 ---@field show_y3_extra_info? boolean
 ---@field silver_coin? number
 ---@field simple_common_atk? Object.Unit.SimpleCommonAtk
---可以设置触发指定事件时播放的声音
+--You can set the sound that plays when a specified event is triggered
 ---@field sound_event_list? any[]
---特殊状态  
---特殊状态下会播放的动画
+--Special state
+--An animation that plays in a special state
 ---@field special_idle_anim? string
---转向时移动速度系数  
---当单位转向时，移动速度会受到一定的影响。
+--Coefficient of moving speed when turning
+--When the unit turns, the movement speed will be affected.
 ---@field speed_ratio_in_turn? number
---移动动画播放速率系数  
---单位移动时动画的播放速度
+--Moving animation playback rate coefficient
+--The speed at which the animation plays when the unit moves
 ---@field standard_walk_rate? number
---购买开始时间  
---单位作为商品的可购买时间(游戏开始多久后可以购买）
+--Purchase start time
+--How long units are available for purchase as goods (how long after the game starts)
 ---@field start_rft? number
---力量  
---力量
+--strength
+--strength
 ---@field strength? number
---力量  
---力量
+--strength
+--strength
 ---@field strength_grow? number
---编辑器后缀  
---给使用编辑器的用户看的备注，无实际作用
+--Editor suffix
+--Note for users using the editor, no practical effect
 ---@field suffix? string
 ---@field support_range? number
---标签  
---用于对物体的分类处理。为单位贴上标签后可以对其进行更方便的关系，例如编写游戏逻辑：杀死所有拥有XX标签的单位
+--tag
+--It is used to classify objects. Labeling units allows for more convenient relationships, such as writing game logic: Kill all units with XX labels
 ---@field tags? any[]
---主题  
+--theme
 ---@field theme? number
 ---@field title_bg_opacity? number
 ---@field title_bg_scale? number
@@ -2286,64 +2286,64 @@
 ---@field title_scale? number
 ---@field title_text_size? number
 ---@field turn_speed? number
---主类型  
---单位类型决定了这类单位的一些特性，包括其可编辑的属性和某些属性的默认值。
+--Master type
+--The unit type determines some of the characteristics of the unit, including its editable properties and the default values of some properties.
 ---@field type? number
---UID  
+--UID
 ---@field uid? string
 ---@field unit_hold_angle_speed? number
 ---@field unit_title? string
 ---@field use_base_tint_color? boolean
---使用简易小地图头像  
---简易小地图头像的表现为一个小点。简易小地图头像的绘制性能消耗相比普通小地图头像更小，如果地图上会出现大量的该类型单位，建议使用简易小地图头像。
+--Use simple mini map avatar
+--Simple mini map avatar is represented as a small dot. The drawing performance consumption of simple minimap avatar is smaller than that of ordinary minimap avatar. If a large number of units of this type appear on the map, it is recommended to use a simple minimap avatar.
 ---@field use_simple_mini_map_icon? boolean
---法术吸血数值  
---造成法术伤害后可以恢复自身生命值
+--Spell blood count
+--Restores health after dealing spell damage
 ---@field vampire_mag? number
---法术吸血(%)  
---造成法术伤害后可以恢复自身生命值
+--Spell Vampire (%)
+--Restores health after dealing spell damage
 ---@field vampire_mag_grow? number
---物理吸血数值  
---造成物理伤害后可以恢复自身生命值
+--Physical bloodsucking number
+--Restores health after dealing physical damage
 ---@field vampire_phy? number
---物理吸血(%)  
---造成物理伤害后可以恢复自身生命值
+--Physical blood feeding (%)
+--Restores health after dealing physical damage
 ---@field vampire_phy_grow? number
---立绘  
+--portrait
 ---@field vect_drawing? number
---视野类型  
---单位与战争迷雾相关的一些属性
+--Visual field type
+--Some attributes of units related to the Fog of War
 ---@field view_type? number
---夜晚视野  
---单位在夜晚可以看到（驱散战争迷雾）的范围
+--Night vision
+--The range of units that can be seen at night (dispel the fog of war)
 ---@field vision_night? number
 ---@field vision_night_grow? number
---白天视野  
---单位在白天可以看到（驱散战争迷雾）的范围
+--Daytime visual field
+--The range of units that can be seen during the day (dispel the fog of war)
 ---@field vision_rng? number
 ---@field vision_rng_grow? number
---扇形视野白天夹角  
---单位在白天拥有的扇形视野夹角。
+--Fan field of view daytime Angle
+--The Angle of the fan-shaped field of view that the unit has during the day.
 ---@field vision_sector_angle_day? number
 ---@field vision_sector_angle_day_grow? number
---扇形视野夜晚夹角  
---单位在夜晚拥有的扇形视野夹角。
+--Fan view Angle at night
+--The Angle at which the unit has a fan field of view at night.
 ---@field vision_sector_angle_night? number
 ---@field vision_sector_angle_night_grow? number
---扇形视野夜晚半径  
---单位在夜晚拥有的扇形视野半径。
+--Fan view night radius
+--The radius of the fan field of view that the unit has at night.
 ---@field vision_sector_night? number
 ---@field vision_sector_night_grow? number
---扇形视野白天半径  
---单位在白天拥有的扇形视野半径。
+--Fan-field daytime radius
+--The radius of the fan-shaped field of view the unit has during the day.
 ---@field vision_sector_rng? number
 ---@field vision_sector_rng_grow? number
---真实视野  
---单位所能侦测到隐身单位的范围
+--True field of view
+--The range of stealth units that a unit can detect
 ---@field vision_true? number
---单位所能侦测到隐身单位的范围
+--The range of stealth units that a unit can detect
 ---@field vision_true_grow? number
---行走  
---行走状态下会播放的动作
+--walk
+--Actions that are played while walking
 ---@field walk_anim? string
 

@@ -1,8 +1,8 @@
 --LDBG:event 'wait'
 
--- 初始化界面
+--Initialization interface
 local function init_ui()
-    local main = y3.ui.get_ui(y3.player(1), 'panel_1')
+    local main = clicli.ui.get_ui(clicli.player(1), 'panel_1')
 
     -- 随便创建个图片看看
     local image = main:create_child('图片')
@@ -23,6 +23,6 @@ local function init_ui()
     skill_image:set_image(106728)
 end
 
-y3.game:event('游戏-初始化', function ()
+clicli.game:event('游戏-初始化', function ()
     init_ui()
 end)

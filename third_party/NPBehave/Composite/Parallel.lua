@@ -9,7 +9,7 @@ Extends(NPBehave.ClassName.Parallel, superName, function(self, super, ...)
     super("Parallel", table.unpack(args))
 end)
 
---TODO 待验证
+--TODO To be verified
 
 
 ---@param successPolicy NPBehave.Enum.ParallelPolicy

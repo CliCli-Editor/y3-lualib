@@ -1,4 +1,4 @@
---物品
+--item
 ---@class Item
 ---@field handle py.Item
 ---@field id py.ItemID
@@ -27,8 +27,8 @@ function M:__tostring()
 end
 
 ---@param id py.ItemID
----@param py_item py.Item # py层的道具实例
----@return Item # 返回在lua层初始化后的lua层道具实例
+---@param py_item py.Item # py layer item instance
+---@return Item # Returns the lua layer item instance after being initialized in the lua layer
 function M:__init(id, py_item)
     self.id     = id
     self.handle = py_item
@@ -61,7 +61,7 @@ end)
 
 ---通过py层的技能实例获取lua层的道具实例
 ---@param  py_item py.Item py层的道具实例
----@return Item? # 返回在lua层初始化后的lua层道具实例
+---@return Item? # Returns the lua layer item instance after being initialized in the lua layer
 function M.get_by_handle(py_item)
     if not py_item then
         return nil
@@ -70,20 +70,20 @@ function M.get_by_handle(py_item)
     return M.get_by_id(id)
 end
 
-y3.py_converter.register_py_to_lua('py.Item', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Item', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Item', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Item', function (lua_value)
     return lua_value.handle
 end)
 
--- 通过id获取lua层的道具实例
+--Get the item instance of the lua layer by id
 ---@param id py.ItemID
----@return Item # 返回在lua层初始化后的lua层道具实例
+---@return Item # Returns the lua layer item instance after being initialized in the lua layer
 function M.get_by_id(id)
     local item = M.ref_manager:get(id)
     return item
 end
 
-y3.py_converter.register_py_to_lua('py.ItemID', M.get_by_id)
+clicli.py_converter.register_py_to_lua('py.ItemID', M.get_by_id)
 
 ---是否存在
 ---@return boolean is_exist 是否存在
@@ -91,7 +91,7 @@ function M:is_exist()
     return  GameAPI.item_is_exist(self.handle)
 end
 
--- 获取唯一ID
+--Get a unique ID
 ---@return integer
 function M:get_id()
     return self.id
@@ -268,7 +268,7 @@ end
 ---@param key string 属性key
 ---@return number
 function M:get_attribute(key)
-    return y3.helper.tonumber(self.handle:api_get_attr("ATTR_BASE", key)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_attr("ATTR_BASE", key)) or 0.0
 end
 
 ---设置增益属性
@@ -289,7 +289,7 @@ end
 ---@param key string 属性key
 ---@return number
 function M:get_bonus_attribute(key)
-    return y3.helper.tonumber(self.handle:api_get_attr("ATTR_BONUS", key)) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_attr("ATTR_BONUS", key)) or 0.0
 end
 ---设置生命值
 ---@param value number 生命值
@@ -333,8 +333,8 @@ function M:set_scale(scale)
     self.handle:api_set_scale(scale)
 end
 
---设置物品可见性
----@param is_visible boolean # 是否可见
+--Set item visibility
+---@param is_visible boolean # Visible or not
 function M:set_visible(is_visible)
     self.handle:api_set_item_visible(is_visible)
 end
@@ -369,7 +369,7 @@ function M:get_owner()
     if not py_owner then
         return nil
     end
-    return y3.unit.get_by_handle(py_owner)
+    return clicli.unit.get_by_handle(py_owner)
 end
 
 ---物品所在点
@@ -378,7 +378,7 @@ function M:get_point()
     local py_point = self.handle:api_get_position()
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch
-    return y3.point.get_by_handle(py_point)
+    return clicli.point.get_by_handle(py_point)
 end
 
 ---物品堆叠数
@@ -417,7 +417,7 @@ end
 ---获取物品的生命值
 ---@return number hp 物品的生命值
 function M:get_hp()
-    return y3.helper.tonumber(self.handle:api_get_hp()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_hp()) or 0.0
 end
 
 ---获取物品名
@@ -435,13 +435,13 @@ end
 ---获取物品缩放
 ---@return number scale 物品缩放
 function M:get_scale()
-    return y3.helper.tonumber(self.handle:api_get_scale()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_scale()) or 0.0
 end
 
 ---获取物品的朝向
 ---@return number angel 朝向
 function M:get_facing()
-    return y3.helper.tonumber(self.handle:api_get_face_angle()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_face_angle()) or 0.0
 end
 
 ---获取物品的主动技能
@@ -451,7 +451,7 @@ function M:get_ability()
     if not py_ability then
         return nil
     end
-    return y3.ability.get_by_handle(py_ability)
+    return clicli.ability.get_by_handle(py_ability)
 end
 
 ---获取物品的被动技能
@@ -462,7 +462,7 @@ function M:get_passive_ability(index)
     if not py_ability then
         return nil
     end
-    return y3.ability.get_by_handle(py_ability)
+    return clicli.ability.get_by_handle(py_ability)
 end
 
 ---获取物品在单位身上的格子位置
@@ -484,7 +484,7 @@ function M:get_owner_player()
     if not py_player then
         return nil
     end
-    return y3.player.get_by_handle(py_player)
+    return clicli.player.get_by_handle(py_player)
 end
 
 ---获取物品在单位身上的背包槽类型
@@ -513,7 +513,7 @@ end
 ---@return Item
 function M.create_item(point, item_key, player)
     if not player then
-        player = y3.player(31)
+        player = clicli.player(31)
     end
     local py_item = GameAPI.create_item_by_id(point.handle, item_key, player.handle)
     return M.get_by_handle(py_item) --[[@as Item]]
@@ -521,22 +521,22 @@ end
 
 ---获取物品购买售价
 ---@param item_key py.ItemKey 类型
----@param key y3.Const.PlayerAttr | string # 玩家属性
+---@param key clicli.Const.PlayerAttr | string # Player attributes
 ---@return number price 价格
 function M.get_item_buy_price_by_key(item_key, key)
-    key = y3.const.PlayerAttr[key] or key
+    key = clicli.const.PlayerAttr[key] or key
     ---@cast key py.RoleResKey
-    return y3.helper.tonumber(GameAPI.get_item_buy_price(item_key, key)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_item_buy_price(item_key, key)) or 0.0
 end
 
 ---获取物品出售售价
 ---@param item_key py.ItemKey 类型
----@param key y3.Const.PlayerAttr | string # 玩家属性
+---@param key clicli.Const.PlayerAttr | string # Player attributes
 ---@return number price 价格
 function M.get_item_sell_price_by_key(item_key, key)
-    key = y3.const.PlayerAttr[key] or key
+    key = clicli.const.PlayerAttr[key] or key
     ---@cast key py.RoleResKey
-    return y3.helper.tonumber(GameAPI.get_item_sell_price(item_key, key)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_item_sell_price(item_key, key)) or 0.0
 end
 
 ---获得区域内所有物品
@@ -544,7 +544,7 @@ end
 ---@return ItemGroup
 function M.get_item_group_in_area(area)
     local py_item_group = GameAPI.get_item_group_in_area(area.handle)
-    return y3.item_group.create_lua_item_group_from_py(py_item_group)
+    return clicli.item_group.create_lua_item_group_from_py(py_item_group)
 end
 
 ---获取物品类型名
@@ -581,7 +581,7 @@ function M.get_model_by_key(item_key)
     return GameAPI.api_get_item_type_model(item_key)
 end
 
---物品类型合成所需的物品类型数量
+--Item Type The number of item types required for composition
 ---@param item_key py.ItemKey
 ---@param comp_item_key py.ItemKey
 ---@return integer
@@ -589,7 +589,7 @@ function M.get_num_of_item_mat(item_key, comp_item_key)
     return GameAPI.api_get_value_of_item_name_comp_mat(item_key, comp_item_key)
 end
 
---物品类型合成所需的玩家属性数量
+--The number of player attributes required for item type synthesis
 ---@param item_key py.ItemKey
 ---@param role_res_key py.RoleResKey
 ---@return number
@@ -614,12 +614,12 @@ function M.has_tag_by_key(tag, item_key)
     return GameAPI.item_key_has_tag(item_key, tag)
 end
 
---获取物品的所有标签
+--Get all labels for the item
 ---@param item_key py.ItemKey
 ---@return string[]
 function M.get_tags_by_key(item_key)
-    local utags = y3.object.item[item_key].data.tags
-    local tags = y3.helper.unpack_list(utags)
+    local utags = clicli.object.item[item_key].data.tags
+    local tags = clicli.helper.unpack_list(utags)
     return tags
 end
 

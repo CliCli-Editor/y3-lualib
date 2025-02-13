@@ -23,8 +23,8 @@ local function isNaN(a)
     ))
 end
 
--- 基础等价
---eq(xdouble(1), 1) -- 由于Lua重载运算符的规则限制，无法进行这种等价判断
+--Fundamental equivalence
+--eq(xdouble(1), 1) -- This equivalence judgment cannot be made due to the rules of Lua overloading operators
 eq(xdouble(1),          xdouble(1))
 eq(xdouble(xdouble(1)), xdouble(1))
 eq(xdouble(1),          Fix32(1.0))
@@ -33,11 +33,11 @@ eq(xdouble('1.'),       xdouble(1))
 eq(xdouble('.0'),       xdouble(0))
 eq(xdouble(Fix32(1.0)), xdouble(1))
 
--- 负数
+--negative
 eq(xdouble(-1),   xdouble(-1))
 eq(xdouble('-1'), xdouble(-1))
 
--- 特殊格式
+--Special format
 eq(xdouble('0xff'),                 xdouble(255))
 eq(xdouble('314.16e-2'),            xdouble('3.1416'))
 eq(xdouble('0.31416E1'),            xdouble('3.1416'))
@@ -47,7 +47,7 @@ eq(xdouble('0x0.1E'),               xdouble('0.1171875'))
 eq(xdouble('0xA23p-4'),             xdouble('162.1875'))
 eq(xdouble('0X1.921FB54442D18P+1'), xdouble('3.14159265358979311600'))
 
--- 转换
+--convert
 eq(xdouble(1):float(), 1)
 eq(xdouble(1):int(),   1)
 eq(xdouble(1.5):int(), 1)
@@ -55,7 +55,7 @@ eq(math.type(xdouble(1):float()), 'float')
 eq(math.type(xdouble(1):int()),   'integer')
 eq(math.type(xdouble(1.5):int()), 'integer')
 
--- 基础运算
+--Basic operation
 eq(-xdouble(3), xdouble(-3))
 
 eq(xdouble(1)   +  xdouble(2), xdouble(3))
@@ -88,7 +88,7 @@ eq(xdouble(3)   ^  2, xdouble(9))
 eq(xdouble(2)   <  3, true)
 eq(xdouble(2)   <= 2, true)
 
--- 高级运算
+--Advanced operation
 eq(tostring(xdouble('NaN')), 'nan')
 isNaN(xdouble('NaN'))
 eq(tostring(xdouble('inf')), 'inf')
@@ -129,7 +129,7 @@ eq(xdouble(2) ^ 100 + xdouble(2) ^ 103 + xdouble(2) ^ 110,
 eq(xdouble('100000000000000') / (1 + xdouble('0.01') * xdouble('6000000')),
    xdouble('1666638889.35184407234191894531'))
 
--- 数学运算
+--Mathematical operation
 eq(xdouble(-1):abs(), xdouble(1))
 eq(xdouble(1):abs(),  xdouble(1))
 

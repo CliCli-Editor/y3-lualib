@@ -1,18 +1,18 @@
 ---@diagnostic disable-next-line: undefined-global
 local y3_crypto = y3_crypto
 
---base64编码解码
+--base64 encoding and decoding
 ---@class BASE64
 local M = {}
 
---将字符串编码为base64
+--Encodes the string into base64
 ---@param str string
 ---@return string
 function M.encode(str)
     return y3_crypto.base64_encode(str, #str)
 end
 
---将base64解码为字符串
+--Decode base64 as a string
 ---@param base64 string
 ---@return string
 function M.decode(base64)

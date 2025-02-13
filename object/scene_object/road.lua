@@ -1,4 +1,4 @@
---路径
+--path
 ---@class Road
 ---@field handle py.Road
 ---@field res_id integer
@@ -34,8 +34,8 @@ function M.get_by_handle(py_road)
     return road
 end
 
-y3.py_converter.register_py_to_lua('py.Road', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Road', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Road', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Road', function (lua_value)
     return lua_value.handle
 end)
 
@@ -109,7 +109,7 @@ end
 ---@return Road[] 路径
 function M.get_path_areas_by_tag(tag)
     local py_list = GameAPI.get_roads_by_tag(tag)
-    local roads = y3.helper.unpack_list(py_list, function (road_id)
+    local roads = clicli.helper.unpack_list(py_list, function (road_id)
         return M.get_road_by_res_id(road_id)
     end)
     return roads

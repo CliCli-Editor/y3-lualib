@@ -1,159 +1,159 @@
 ---@type table<string, string>
 arg = GameAPI.lua_get_start_args()
 
-require 'y3.debugger'
+require 'clicli.debugger'
 
--- 全局方法类，提供各种全局方法
----@class Y3
-y3 = {}
+--The global method class provides a variety of global methods
+---@class CliCli
+clicli = {}
 
-y3.version = 250116
+clicli.version = 250116
 
-y3.proxy   = require 'y3.tools.proxy'
-y3.class   = require 'y3.tools.class'
-y3.util    = require 'y3.tools.utility'
-y3.json    = require 'y3.tools.json'
-y3.inspect = require 'y3.tools.inspect'
-y3.await   = require 'y3.tools.await'
+clicli.proxy   = require 'clicli.tools.proxy'
+clicli.class   = require 'clicli.tools.class'
+clicli.util    = require 'clicli.tools.utility'
+clicli.json    = require 'clicli.tools.json'
+clicli.inspect = require 'clicli.tools.inspect'
+clicli.await   = require 'clicli.tools.await'
 pcall(function ()
-    y3.doctor = require 'y3.tools.doctor'
+    clicli.doctor = require 'clicli.tools.doctor'
 end)
 
-Class   = y3.class.declare
-New     = y3.class.new
+Class   = clicli.class.declare
+New     = clicli.class.new
 ---@deprecated
 ---@diagnostic disable-next-line: deprecated
-Super   = y3.class.super
-Extends = y3.class.extends
-Delete  = y3.class.delete
-IsValid = y3.class.isValid
-Type    = y3.class.type
-Alias   = y3.class.alias
-IsInstanceOf = y3.class.isInstanceOf
+Super   = clicli.class.super
+Extends = clicli.class.extends
+Delete  = clicli.class.delete
+IsValid = clicli.class.isValid
+Type    = clicli.class.type
+Alias   = clicli.class.alias
+IsInstanceOf = clicli.class.isInstanceOf
 
-require 'y3.util.log'
-y3.reload  = require 'y3.tools.reload'
-y3.sandbox = require 'y3.tools.sandbox'
-y3.hash    = require 'y3.tools.SDBMHash'
-y3.linked_table = require 'y3.tools.linked-table'
+require 'clicli.util.log'
+clicli.reload  = require 'clicli.tools.reload'
+clicli.sandbox = require 'clicli.tools.sandbox'
+clicli.hash    = require 'clicli.tools.SDBMHash'
+clicli.linked_table = require 'clicli.tools.linked-table'
 ---@deprecated
-y3.linkedTable = y3.linked_table
-Alias('LinkedTable', y3.linkedTable.create)
+clicli.linkedTable = clicli.linked_table
+Alias('LinkedTable', clicli.linkedTable.create)
 
 ---@diagnostic disable-next-line: lowercase-global
-include  = y3.reload.include
+include  = clicli.reload.include
 
-y3.pool = require 'y3.tools.pool'
-require 'y3.tools.gc'
-require 'y3.tools.synthesis'
+clicli.pool = require 'clicli.tools.pool'
+require 'clicli.tools.gc'
+require 'clicli.tools.synthesis'
 
-require 'y3.util.patch'
-require 'y3.util.eca_function'
-y3.trigger = require 'y3.util.trigger'
-require 'y3.util.event'
-require 'y3.util.event_manager'
-require 'y3.util.custom_event'
-require 'y3.util.ref'
-require 'y3.util.storage'
-require 'y3.util.gc_buffer'
+require 'clicli.util.patch'
+require 'clicli.util.eca_function'
+clicli.trigger = require 'clicli.util.trigger'
+require 'clicli.util.event'
+require 'clicli.util.event_manager'
+require 'clicli.util.custom_event'
+require 'clicli.util.ref'
+require 'clicli.util.storage'
+require 'clicli.util.gc_buffer'
 
-y3.ctimer       = require 'y3.util.client_timer'
-y3.const        = require 'y3.game.const'
-y3.math         = require 'y3.game.math'
-y3.game         = require 'y3.game.game'
-y3.py_converter = require 'y3.game.py_converter'
-y3.helper       = require 'y3.game.helper'
-y3.ground       = require 'y3.game.ground'
-y3.config       = require 'y3.game.config'
-y3.kv           = require 'y3.game.kv'
-y3.steam        = require 'y3.game.steam'
-y3.timer        = require 'y3.object.runtime_object.timer'
-y3.ltimer       = require 'y3.util.local_timer'
-y3.py_event_sub = require 'y3.game.py_event_subscribe'
+clicli.ctimer       = require 'clicli.util.client_timer'
+clicli.const        = require 'clicli.game.const'
+clicli.math         = require 'clicli.game.math'
+clicli.game         = require 'clicli.game.game'
+clicli.py_converter = require 'clicli.game.py_converter'
+clicli.helper       = require 'clicli.game.helper'
+clicli.ground       = require 'clicli.game.ground'
+clicli.config       = require 'clicli.game.config'
+clicli.kv           = require 'clicli.game.kv'
+clicli.steam        = require 'clicli.game.steam'
+clicli.timer        = require 'clicli.object.runtime_object.timer'
+clicli.ltimer       = require 'clicli.util.local_timer'
+clicli.py_event_sub = require 'clicli.game.py_event_subscribe'
 
-y3.unit         = require 'y3.object.editable_object.unit'
-y3.ability      = require 'y3.object.editable_object.ability'
-y3.destructible = require 'y3.object.editable_object.destructible'
-y3.item         = require 'y3.object.editable_object.item'
-y3.buff         = require 'y3.object.editable_object.buff'
-y3.projectile   = require 'y3.object.editable_object.projectile'
-y3.technology   = require 'y3.object.editable_object.technology'
+clicli.unit         = require 'clicli.object.editable_object.unit'
+clicli.ability      = require 'clicli.object.editable_object.ability'
+clicli.destructible = require 'clicli.object.editable_object.destructible'
+clicli.item         = require 'clicli.object.editable_object.item'
+clicli.buff         = require 'clicli.object.editable_object.buff'
+clicli.projectile   = require 'clicli.object.editable_object.projectile'
+clicli.technology   = require 'clicli.object.editable_object.technology'
 
-y3.beam         = require 'y3.object.runtime_object.beam'
-y3.item_group   = require 'y3.object.runtime_object.item_group'
-y3.mover        = require 'y3.object.runtime_object.mover'
-y3.force        = require 'y3.object.runtime_object.force'
-y3.particle     = require 'y3.object.runtime_object.particle'
-y3.player       = require 'y3.object.runtime_object.player'
-y3.player_group = require 'y3.object.runtime_object.player_group'
-y3.unit_group   = require 'y3.object.runtime_object.unit_group'
-y3.projectile_group = require 'y3.object.runtime_object.projectile_group'
-y3.selector     = require 'y3.object.runtime_object.selector'
-y3.cast         = require 'y3.object.runtime_object.cast'
-y3.damage_instance = require 'y3.object.runtime_object.damage_instance'
-y3.heal_instance   = require 'y3.object.runtime_object.heal_instance'
-y3.sound        = require 'y3.object.runtime_object.sound'
+clicli.beam         = require 'clicli.object.runtime_object.beam'
+clicli.item_group   = require 'clicli.object.runtime_object.item_group'
+clicli.mover        = require 'clicli.object.runtime_object.mover'
+clicli.force        = require 'clicli.object.runtime_object.force'
+clicli.particle     = require 'clicli.object.runtime_object.particle'
+clicli.player       = require 'clicli.object.runtime_object.player'
+clicli.player_group = require 'clicli.object.runtime_object.player_group'
+clicli.unit_group   = require 'clicli.object.runtime_object.unit_group'
+clicli.projectile_group = require 'clicli.object.runtime_object.projectile_group'
+clicli.selector     = require 'clicli.object.runtime_object.selector'
+clicli.cast         = require 'clicli.object.runtime_object.cast'
+clicli.damage_instance = require 'clicli.object.runtime_object.damage_instance'
+clicli.heal_instance   = require 'clicli.object.runtime_object.heal_instance'
+clicli.sound        = require 'clicli.object.runtime_object.sound'
 
-require 'y3.object.runtime_object.local_player'
-require 'y3.object.runtime_object.current_select'
+require 'clicli.object.runtime_object.local_player'
+require 'clicli.object.runtime_object.current_select'
 
-y3.area         = require 'y3.object.scene_object.area'
-y3.camera       = require 'y3.object.scene_object.camera'
-y3.light        = require 'y3.object.scene_object.light'
-y3.road         = require 'y3.object.scene_object.road'
-y3.point        = require 'y3.object.scene_object.point'
-y3.scene_ui     = require 'y3.object.scene_object.scene_ui'
-y3.ui           = require 'y3.object.scene_object.ui'
-y3.ui_prefab    = require 'y3.object.scene_object.ui_prefab'
-y3.shape        = require 'y3.object.scene_object.shape'
+clicli.area         = require 'clicli.object.scene_object.area'
+clicli.camera       = require 'clicli.object.scene_object.camera'
+clicli.light        = require 'clicli.object.scene_object.light'
+clicli.road         = require 'clicli.object.scene_object.road'
+clicli.point        = require 'clicli.object.scene_object.point'
+clicli.scene_ui     = require 'clicli.object.scene_object.scene_ui'
+clicli.ui           = require 'clicli.object.scene_object.ui'
+clicli.ui_prefab    = require 'clicli.object.scene_object.ui_prefab'
+clicli.shape        = require 'clicli.object.scene_object.shape'
 
-y3.object       = require 'y3.util.object'
-y3.save_data    = require 'y3.util.save_data'
-y3.dump         = require 'y3.util.dump'
-y3.sync         = require 'y3.util.sync'
-y3.network      = require 'y3.util.network'
-y3.eca          = require 'y3.util.eca_helper'
-y3.base64       = require 'y3.util.base64'
-y3.aes          = require 'y3.util.aes'
-y3.local_ui     = require 'y3.util.local_ui'
-y3.fs           = require 'y3.util.fs'
-y3.rt           = require 'y3.util.eca_runtime'
-y3.rsa          = require 'y3.util.rsa'
+clicli.object       = require 'clicli.util.object'
+clicli.save_data    = require 'clicli.util.save_data'
+clicli.dump         = require 'clicli.util.dump'
+clicli.sync         = require 'clicli.util.sync'
+clicli.network      = require 'clicli.util.network'
+clicli.eca          = require 'clicli.util.eca_helper'
+clicli.base64       = require 'clicli.util.base64'
+clicli.aes          = require 'clicli.util.aes'
+clicli.local_ui     = require 'clicli.util.local_ui'
+clicli.fs           = require 'clicli.util.fs'
+clicli.rt           = require 'clicli.util.eca_runtime'
+clicli.rsa          = require 'clicli.util.rsa'
 
 pcall(function ()
-    require 'y3-helper.meta'
+    require 'clicli-helper.meta'
 end)
 
-y3.develop = {}
-y3.develop.command = include 'y3.develop.command'
-y3.develop.code    = require 'y3.develop.code'
-y3.develop.console = include 'y3.develop.console'
-y3.develop.helper  = require 'y3.develop.helper'
+clicli.develop = {}
+clicli.develop.command = include 'clicli.develop.command'
+clicli.develop.code    = require 'clicli.develop.code'
+clicli.develop.console = include 'clicli.develop.console'
+clicli.develop.helper  = require 'clicli.develop.helper'
 
---对await进行一些配置
-y3.await.setErrorHandler(log.error)
-y3.await.setSleepWaker(y3.ltimer.wait)
+--Do some configuration on await
+clicli.await.setErrorHandler(log.error)
+clicli.await.setSleepWaker(clicli.ltimer.wait)
 
-log.info('LuaLib版本：', y3.version)
+log.info('LuaLib版本：', clicli.version)
 
-y3.game:event_dispatch('$Y3-初始化')
+clicli.game:event_dispatch('$CliCli-初始化')
 
 if LDBG then
-    y3.ltimer.loop_frame(1, function ()
+    clicli.ltimer.loop_frame(1, function ()
         LDBG:event 'update'
     end)
 end
 
 if arg['lua_tracy'] == 'true' then
-    y3.ltimer.wait_frame(0, function ()
+    clicli.ltimer.wait_frame(0, function ()
         enable_lua_profile(true)
     end)
 end
 
---自己控制GC
+--Own control of GC
 GlobalAPI.api_stop_luagc_control()
--- collectgarbage('generational')
--- collectgarbage('incremental')
--- collectgarbage('restart')
-local collector = require 'y3.tools.collector'
+--collectgarbage('generational')
+--collectgarbage('incremental')
+--collectgarbage('restart')
+local collector = require 'clicli.tools.collector'
 collector.start()

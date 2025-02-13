@@ -1,4 +1,4 @@
---区域
+--region
 ---@class Area
 ---@field handle py.Area
 ---@field shape Area.Shape
@@ -89,8 +89,8 @@ function M.get_by_handle(py_area, shape)
     return area
 end
 
-y3.py_converter.register_py_to_lua('py.Area', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Area', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Area', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Area', function (lua_value)
     return lua_value.handle
 end)
 
@@ -102,7 +102,7 @@ function M.get_by_res_id(res_id, shape)
     return area
 end
 
-y3.py_converter.register_py_to_lua('py.AreaID', M.get_by_res_id)
+clicli.py_converter.register_py_to_lua('py.AreaID', M.get_by_res_id)
 
 ---根据场景id获得圆形区域
 ---@param res_id py.AreaID 编辑场景中的id
@@ -201,7 +201,7 @@ end
 ---@return number 半径
 function M:get_radius()
     if self.shape == M.SHAPE.CIRCLE then
-        return y3.helper.tonumber(GameAPI.get_circle_area_radius(self.handle--[[@as py.CirArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_circle_area_radius(self.handle--[[@as py.CirArea]])) or 0.0
     end
     return 0
 end
@@ -210,10 +210,10 @@ end
 ---@return number X坐标
 function M:get_min_x()
     if self.shape == M.SHAPE.CIRCLE then
-        return y3.helper.tonumber(GameAPI.get_circle_area_min_x(self.handle--[[@as py.CirArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_circle_area_min_x(self.handle--[[@as py.CirArea]])) or 0.0
     end
     if self.shape == M.SHAPE.RECTANGLE then
-        return y3.helper.tonumber(GameAPI.get_rect_area_min_x(self.handle--[[@as py.RecArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_rect_area_min_x(self.handle--[[@as py.RecArea]])) or 0.0
     end
     return 0
 end
@@ -222,10 +222,10 @@ end
 ---@return number Y坐标
 function M:get_min_y()
     if self.shape == M.SHAPE.CIRCLE then
-        return y3.helper.tonumber(GameAPI.get_circle_area_min_y(self.handle--[[@as py.CirArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_circle_area_min_y(self.handle--[[@as py.CirArea]])) or 0.0
     end
     if self.shape == M.SHAPE.RECTANGLE then
-        return y3.helper.tonumber(GameAPI.get_rect_area_min_y(self.handle--[[@as py.RecArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_rect_area_min_y(self.handle--[[@as py.RecArea]])) or 0.0
     end
     return 0
 end
@@ -234,10 +234,10 @@ end
 ---@return number X坐标
 function M:get_max_x()
     if self.shape == M.SHAPE.CIRCLE then
-        return y3.helper.tonumber(GameAPI.get_circle_area_max_x(self.handle--[[@as py.CirArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_circle_area_max_x(self.handle--[[@as py.CirArea]])) or 0.0
     end
     if self.shape == M.SHAPE.RECTANGLE then
-        return y3.helper.tonumber(GameAPI.get_rect_area_max_x(self.handle--[[@as py.RecArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_rect_area_max_x(self.handle--[[@as py.RecArea]])) or 0.0
     end
     return 0
 end
@@ -246,52 +246,52 @@ end
 ---@return number Y坐标
 function M:get_max_y()
     if self.shape == M.SHAPE.CIRCLE then
-        return y3.helper.tonumber(GameAPI.get_circle_area_max_y(self.handle--[[@as py.CirArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_circle_area_max_y(self.handle--[[@as py.CirArea]])) or 0.0
     end
     if self.shape == M.SHAPE.RECTANGLE then
-        return y3.helper.tonumber(GameAPI.get_rect_area_max_y(self.handle--[[@as py.RecArea]])) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_rect_area_max_y(self.handle--[[@as py.RecArea]])) or 0.0
     end
     return 0
 end
 
--- 获取中心点
+--Get center point
 ---@return Point 中心点
 function M:get_center_point()
     if self.shape == M.SHAPE.CIRCLE then
         local py_point = GameAPI.get_circle_center_point(self.handle--[[@as py.CirArea]])
         -- TODO 见问题2
         ---@diagnostic disable-next-line: param-type-mismatch
-        return y3.point.get_by_handle(py_point)
+        return clicli.point.get_by_handle(py_point)
     end
     if self.shape == M.SHAPE.RECTANGLE then
         local py_point = GameAPI.get_rec_center_point(self.handle--[[@as py.RecArea]])
         -- TODO 见问题2
         ---@diagnostic disable-next-line: param-type-mismatch
-        return y3.point.get_by_handle(py_point)
+        return clicli.point.get_by_handle(py_point)
     end
     error('不支持的区域类型')
 end
 
--- 获取随机点
+--Get random points
 ---@return Point
 function M:random_point()
     if self.shape == M.SHAPE.CIRCLE then
         local py_point = GameAPI.get_random_point_in_circular_area(self.handle--[[@as py.CirArea]])
         -- TODO 见问题2
         ---@diagnostic disable-next-line: param-type-mismatch
-        return y3.point.get_by_handle(py_point)
+        return clicli.point.get_by_handle(py_point)
     end
     if self.shape == M.SHAPE.POLYGON then
         local py_point = GameAPI.get_random_point_in_poly_area(self.handle--[[@as py.PolyArea]])
         -- TODO 见问题2
         ---@diagnostic disable-next-line: param-type-mismatch
-        return y3.point.get_by_handle(py_point)
+        return clicli.point.get_by_handle(py_point)
     end
     if self.shape == M.SHAPE.RECTANGLE then
         local py_point = GameAPI.get_random_point_in_rec_area(self.handle--[[@as py.RecArea]])
         -- TODO 见问题2
         ---@diagnostic disable-next-line: param-type-mismatch
-        return y3.point.get_by_handle(py_point)
+        return clicli.point.get_by_handle(py_point)
     end
     error('不支持的区域类型')
 end
@@ -307,7 +307,7 @@ end
 ---@return Unit[] 单位组
 function M:get_all_unit_in_area()
     local py_unit_list = GameAPI.get_unit_group_in_area(self.handle)
-    local units = y3.helper.unpack_list(py_unit_list, y3.unit.get_by_id)
+    local units = clicli.helper.unpack_list(py_unit_list, clicli.unit.get_by_id)
     return units
 end
 
@@ -316,7 +316,7 @@ end
 ---@return Unit[] 单位组
 function M:get_unit_in_area_by_camp(camp)
     local u = {}
-    for _, player in ipairs(y3.player_group.get_player_group_by_camp(camp):pick()) do
+    for _, player in ipairs(clicli.player_group.get_player_group_by_camp(camp):pick()) do
         for _, unit in ipairs(self:get_unit_group_in_area(player):pick()) do
             table.insert(u, unit)
         end
@@ -329,7 +329,7 @@ end
 ---@return UnitGroup 单位组
 function M:get_unit_group_in_area(player)
     local py_unit_group = GameAPI.get_unit_group_belong_to_player_in_area(self.handle, player.handle)
-    return y3.unit_group.get_by_handle(py_unit_group)
+    return clicli.unit_group.get_by_handle(py_unit_group)
 end
 
 ---区域中单位的数量
@@ -352,7 +352,7 @@ function M:edit_area_fov_block(fov_block_type, is_add)
     GameAPI.edit_area_fov_block(self.handle, fov_block_type, is_add)
 end
 
--- 点是否在区域内
+--Whether the point is in the area
 ---@param point Point 点
 ---@return boolean
 function M:is_point_in_area(point)
@@ -423,7 +423,7 @@ end
 ---@return Area[] area 矩形区域
 function M.get_circle_areas_by_tag(tag)
     local py_list = GameAPI.get_cir_areas_by_tag(tag)
-    local areas = y3.helper.unpack_list(py_list, function (py_object)
+    local areas = clicli.helper.unpack_list(py_list, function (py_object)
         return M.get_by_handle(py_object, M.SHAPE.CIRCLE)
     end)
     return areas
@@ -434,7 +434,7 @@ end
 ---@return Area[] area 矩形区域表
 function M.get_rect_areas_by_tag(tag)
     local py_list = GameAPI.get_rect_areas_by_tag(tag)
-    local areas = y3.helper.unpack_list(py_list, function (py_object)
+    local areas = clicli.helper.unpack_list(py_list, function (py_object)
         return M.get_by_handle(py_object, M.SHAPE.RECTANGLE)
     end)
     return areas
@@ -445,7 +445,7 @@ end
 ---@return Area[] area 多边形区域表
 function M.get_polygon_areas_by_tag(tag)
     local py_list = GameAPI.get_polygon_areas_by_tag(tag)
-    local areas = y3.helper.unpack_list(py_list, function (py_object)
+    local areas = clicli.helper.unpack_list(py_list, function (py_object)
         return M.get_by_handle(py_object, M.SHAPE.POLYGON)
     end)
     return areas
@@ -459,8 +459,8 @@ function M.get_polygon_areas_point_list(polygon)
     local handle = polygon.handle
     ---@cast handle py.PolyArea
     local py_list = GameAPI.get_poly_area_point_list(handle)
-    local points = y3.helper.unpack_list(py_list, function (py_object)
-        return y3.point.get_by_handle(GameAPI.get_point_by_road_point(py_object))
+    local points = clicli.helper.unpack_list(py_list, function (py_object)
+        return clicli.point.get_by_handle(GameAPI.get_point_by_road_point(py_object))
     end)
     return points
 end

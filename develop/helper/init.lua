@@ -1,7 +1,7 @@
-local helper = require 'y3.develop.helper.helper'
+local helper = require 'clicli.develop.helper.helper'
 
-require 'y3.develop.helper.treeView'
-require 'y3.develop.helper.inputBox'
-include 'y3.develop.helper.explorer'
+require 'clicli.develop.helper.treeView'
+require 'clicli.develop.helper.inputBox'
+include 'clicli.develop.helper.explorer'
 
 return helper

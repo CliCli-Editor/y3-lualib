@@ -1,8 +1,8 @@
---常量
----@class y3.Const
+--constant
+---@class clicli.Const
 local M = {}
 
----@enum y3.Const.EaseType
+---@enum clicli.Const.EaseType
 M.EaseType = {
     ['ease_in曲线'] = 1,
     ['ease_out曲线'] = 2,
@@ -51,7 +51,7 @@ M.UnitState = {
     DISSOLVE = 'Dissolve',
 }
 
----@enum(key) y3.Const.UnitAttr
+---@enum(key) clicli.Const.UnitAttr
 M.UnitAttr = {
     ['生命'] = 'hp_cur',
     ['魔法'] = 'mp_cur',
@@ -122,7 +122,7 @@ M.UnitKeyFloatAttr = {
     ['ATTACK_RANGE'] = 'attack_range', -- 攻速
 }
 
----@enum(key) y3.Const.UnitAttrType
+---@enum(key) clicli.Const.UnitAttrType
 M.UnitAttrType = {
     ["基础"] = "ATTR_BASE",
     ["基础加成"] = "ATTR_BASE_RATIO", --百分比
@@ -131,7 +131,7 @@ M.UnitAttrType = {
     ["最终加成"] = "ATTR_ALL_RATIO", --百分比
 }
 
----@enum(key) y3.Const.UnitEnumState
+---@enum(key) clicli.Const.UnitEnumState
 M.UnitEnumState = {
     ["禁止普攻"] = 1 << 1,
     ["禁止施法"] = 1 << 2,
@@ -158,7 +158,7 @@ M.UnitEnumState = {
     ["禁止使用道具"] = 1 << 23,
 }
 
----@enum(key) y3.Const.PlayerAttr
+---@enum(key) clicli.Const.PlayerAttr
 M.PlayerAttr = {}
 
 M.ModifyType = {
@@ -167,7 +167,7 @@ M.ModifyType = {
     SET = 2,
 }
 
----@alias y3.Const.DamageType
+---@alias clicli.Const.DamageType
 ---| '物理'
 ---| '法术'
 ---| '真实'
@@ -178,7 +178,7 @@ M.DamageTypeMap = {
     ['真实'] = 2,
 }
 
----@enum y3.Const.DMGType
+---@enum clicli.Const.DMGType
 M.DMGType = {
     PHY = 0,
     MAG = 1,
@@ -192,13 +192,13 @@ M.AbilityCategory = {
     PASSIVE_ABILITY = 0,
 }
 
----@alias y3.Const.AbilityTypeAlias
+---@alias clicli.Const.AbilityTypeAlias
 ---| '隐藏'
 ---| '普通'
 ---| '命令'
 ---| '英雄'
 
----@enum y3.Const.AbilityType
+---@enum clicli.Const.AbilityType
 M.AbilityType = {
    HIDE    = 0,
    NORMAL  = 1,
@@ -218,7 +218,7 @@ M.AbilityCastType = {
     PICK_ABILITY = 6,
 }
 
----@enum y3.Const.AbilityIndex
+---@enum clicli.Const.AbilityIndex
 M.AbilityIndex = {
     ['PASSIVE'] = 0,
     ['MOVE'] = 1,
@@ -237,7 +237,7 @@ M.AbilityIndex = {
     ['ABILITY12'] = 14,
 }
 
----@enum y3.Const.RoleType
+---@enum clicli.Const.RoleType
 M.RoleType = {
     NONE = 0,
     USER = 1,
@@ -247,7 +247,7 @@ M.RoleType = {
     OBSERVER = 10,
 }
 
----@enum y3.Const.RoleStatus
+---@enum clicli.Const.RoleStatus
 M.RoleStatus = {
     ['PLAYING'] = 1,
     ['NONE'] = 2,
@@ -264,7 +264,7 @@ M.MovementObstacleProcessType = {
     ['POINT_MIDDLE'] = 16,
 }
 
----@enum(key) y3.Const.MouseKey
+---@enum(key) clicli.Const.MouseKey
 M.MouseKey = {
     LEFT = 0xF0, -- 左键
     RIGHT = 0xF1, -- 右键
@@ -273,7 +273,7 @@ M.MouseKey = {
     WHEEL_DOWN = 0xF4, -- 下滚
 }
 
----@enum(key) y3.Const.KeyboardKey
+---@enum(key) clicli.Const.KeyboardKey
 M.KeyboardKey = {
     ['NONE'] = 0x00,
     ['ESCAPE'] = 0x01, -- ESC
@@ -410,7 +410,7 @@ M.OnceRecycle = {
     ['RECYCLE'] = false,
 }
 
----@enum(key) y3.Const.VisibleType
+---@enum(key) clicli.Const.VisibleType
 M.VisibleType = {
     ['全体'] = 1,
     ['自己'] = 2,
@@ -418,37 +418,37 @@ M.VisibleType = {
     ['敌方'] = 4,
 }
 
----@enum y3.Const.LinkSfxPointType
+---@enum clicli.Const.LinkSfxPointType
 M.LinkSfxPointType = {
     ['START'] = 1,
     ['END'] = 2,
 }
 
----@enum(key) y3.Const.SfxRotateType
+---@enum(key) clicli.Const.SfxRotateType
 M.SfxRotateType = {
     ['跟随节点'] = 0,
     ['跟随模型'] = 1,
     ['不跟随'] = 2,
 }
 
----@enum y3.Const.SlotType
+---@enum clicli.Const.SlotType
 M.SlotType = {
     ['NOT_IN_BAG'] = -1,
     ['PKG'] = 0,
     ['BAR'] = 1,
 }
 
----@alias y3.Const.ShiftSlotTypeAlias
+---@alias clicli.Const.ShiftSlotTypeAlias
 ---| '物品栏'
 ---| '背包栏'
 
----@enum y3.Const.ShiftSlotType
+---@enum clicli.Const.ShiftSlotType
 M.ShiftSlotType = {
     ['物品栏'] = 1,
     ['背包栏'] = 0,
 }
 
----@enum y3.Const.EffectType
+---@enum clicli.Const.EffectType
 M.ModifierEffectType = {
     ['NONE'] = 0,
     ['NORMAL'] = 1,
@@ -456,7 +456,7 @@ M.ModifierEffectType = {
     ['NEGATIVE'] = 3,
 }
 
----@enum y3.Const.ModifierType
+---@enum clicli.Const.ModifierType
 M.ModifierType = {
     ['NONE'] = 0,
     ['NORMAL'] = 1,
@@ -465,7 +465,7 @@ M.ModifierType = {
     ['SHIELD'] = 4,
 }
 
----@enum y3.Const.AbilityPointerType
+---@enum clicli.Const.AbilityPointerType
 M.AbilityPointerType = {
     ['NONE'] = 0,
     ['SECTOR'] = 1,
@@ -483,7 +483,7 @@ M.DialogDebugType = {
     ['INFO'] = 3,
 }
 
----@enum(key) y3.Const.CameraMoveMode
+---@enum(key) clicli.Const.CameraMoveMode
 M.CameraMoveMode = {
     ['ACC'] = 1,
     ['SMOOTH'] = 0,
@@ -503,14 +503,14 @@ M.CameraShakeMode = {
     ['LR_UD_FB'] = 7,
 }
 
----@enum(key) y3.Const.SignalType
+---@enum(key) clicli.Const.SignalType
 M.SignalType = {
     ['普通'] = 1,
     ['黄色'] = 2,
     ['蓝色'] = 3,
 }
 
----@enum y3.Const.GlobalEventType
+---@enum clicli.Const.GlobalEventType
 M.GlobalEventType = {
     ['GAME_INIT'] = "ET_GAME_INIT",
     ['GAME_PAUSE'] = "ET_GAME_PAUSE",
@@ -565,13 +565,13 @@ M.GlobalEventType = {
     ['PLAYER_CHANGE_TECH'] = "ET_ROLE_TECH_CHANGED",
 }
 
----@enum y3.Const.UIEventType
+---@enum clicli.Const.UIEventType
 M.UIEventType = {
     ['UI_CREATE'] = "ET_UI_PREFAB_CREATE_EVENT",
     ['UI_DELETE'] = "ET_UI_PREFAB_DEL_EVENT",
 }
 
----@enum y3.Const.UnitEventType
+---@enum clicli.Const.UnitEventType
 M.UnitEventType = {
     ['BEFORE_UNIT_DIE'] = "ET_BEFORE_UNIT_DIE",
     ['UNIT_DIE'] = "ET_UNIT_DIE",
@@ -610,7 +610,7 @@ M.UnitEventType = {
     ['UNIT_ROLE_CHANGED'] = "ET_UNIT_ROLE_CHANGED",
 }
 
----@enum y3.Const.ItemEventType
+---@enum clicli.Const.ItemEventType
 M.ItemEventType = {
     ['ITEM_CREATE'] = "ET_ITEM_ON_CREATE",
     ['ITEM_ADD'] = "ET_UNIT_ADD_ITEM",
@@ -626,7 +626,7 @@ M.ItemEventType = {
     ['ITEM_CREATE_ON_DEST_COLLECTED'] = "ET_ITEM_CREATE_ON_DEST_COLLECTED",
 }
 
----@enum y3.Const.AbilityEventType
+---@enum clicli.Const.AbilityEventType
 M.AbilityEventType = {
     ['ABILITY_CS_START'] = "ET_ABILITY_CS_START",
     ['ABILITY_PS_START'] = "ET_ABILITY_PS_START",
@@ -646,7 +646,7 @@ M.AbilityEventType = {
     ['ABILITY_SWITCH'] = "ET_ABILITY_SWITCH",
 }
 
----@enum y3.Const.ModifierEventType
+---@enum clicli.Const.ModifierEventType
 M.ModifierEventType = {
     ['OBTAIN_MODIFIER'] = "ET_OBTAIN_MODIFIER",
     ['LOSS_MODIFIER'] = "ET_LOSS_MODIFIER",
@@ -657,19 +657,19 @@ M.ModifierEventType = {
     ['MODIFIER_ADDTION'] = "ET_MODIFIER_ADDTION",
 }
 
----@enum y3.Const.ProjectileEventType
+---@enum clicli.Const.ProjectileEventType
 M.ProjectileEventType = {
     ['PROJECTILE_PRODUCE'] = "ET_PRODUCE_PROJECTILE",
     ['PROJECTILE_END'] = "ET_DEATH_PROJECTILE",
 }
 
----@enum y3.Const.PlatformEventType
+---@enum clicli.Const.PlatformEventType
 M.PlatformEventType = {
     ['HOLD_STORE_ITEM'] = "ET_ROLE_HOLD_STORE_ITEM",
     ['USE_STORE_ITEM_END'] = "ET_ROLE_USE_STORE_ITEM_END",
 }
 
----@enum y3.Const.DestructibleEventType
+---@enum clicli.Const.DestructibleEventType
 M.DestructibleEventType = {
     ['DEST_CREATE'] = "ET_DEST_CREATE_NEW",
     ['DEST_DIE'] = "ET_DEST_DIE_NEW",
@@ -680,7 +680,7 @@ M.DestructibleEventType = {
     ['DEST_DELETE'] = "ET_DEST_DELETE",
 }
 
----@alias y3.Const.UIEvent
+---@alias clicli.Const.UIEvent
 ---| '左键-按下'
 ---| '左键-抬起'
 ---| '左键-点击'
@@ -721,14 +721,14 @@ M.UIEventMap = {
     ['右键-双击'] = 35,
 }
 
----@alias y3.Const.DamageTextType
+---@alias clicli.Const.DamageTextType
 ---| 'get_gold' # 获取金币
 ---| 'heal'     # 治疗
 ---| 'magic'    # 法术
 ---| 'physics'  # 物理
 ---| 'real'     # 真实
 
----@alias y3.Const.UIComponentType
+---@alias clicli.Const.UIComponentType
 ---| '物品'
 ---| '按钮'
 ---| '富文本'
@@ -815,7 +815,7 @@ M.UIComponentType = {
     ['特效'] = 49,
 }
 
----@alias y3.Const.UIVAlignmentType
+---@alias clicli.Const.UIVAlignmentType
 ---| '上'
 ---| '中'
 ---| '下'
@@ -826,7 +826,7 @@ M.UIVAlignmentType = {
     ['下'] = 16,
 }
 
----@alias y3.Const.UIHAlignmentType
+---@alias clicli.Const.UIHAlignmentType
 ---| '左'
 ---| '中'
 ---| '右'
@@ -837,7 +837,7 @@ M.UIHAlignmentType = {
     ['右'] = 4,
 }
 
----@alias y3.Const.CursorState
+---@alias clicli.Const.CursorState
 ---| '常态悬浮'
 ---| '常态选取'
 ---| '常态禁用'
@@ -872,7 +872,7 @@ M.CursorState = {
     ['友方非建筑单位选取'] = 'f_nb_u_selected',
 }
 
----@enum(key) y3.Const.HarmTextType
+---@enum(key) clicli.Const.HarmTextType
 M.HarmTextType = {
     ['系统字体'] = 0,
     ['物理伤害'] = 1,
@@ -892,7 +892,7 @@ M.HarmTextType = {
     ['致盲'] = 118,
 }
 
----@enum(key) y3.Const.FloatTextType
+---@enum(key) clicli.Const.FloatTextType
 M.FloatTextType = {
     ['物理伤害'] = 'physics',
     ['魔法伤害'] = 'magic',
@@ -913,7 +913,7 @@ M.FloatTextType = {
     ['华康圆体W9'] = 'HKYuanW9',
 }
 
----@enum(key) y3.Const.FloatTextJumpType
+---@enum(key) clicli.Const.FloatTextJumpType
 M.FloatTextJumpType = {
     ['伤害_左上'] = 934231441,
     ['伤害_中上'] = 934269508,
@@ -922,10 +922,10 @@ M.FloatTextJumpType = {
     ['金币跳字'] = 934277693,
 }
 
----@enum(key) y3.Const.UIAnimKey
+---@enum(key) clicli.Const.UIAnimKey
 M.UIAnimKey = {}
 
----@alias y3.Const.UIRelativeParentPosType
+---@alias clicli.Const.UIRelativeParentPosType
 ---| '顶部'
 ---| '底部'
 ---| '左侧'
@@ -938,7 +938,7 @@ M.UIRelativeParentPosType = {
     ["右侧"] = 3,
 }
 
----@enum y3.Const.UIButtonStatus
+---@enum clicli.Const.UIButtonStatus
 M.UIButtonStatus = {
     ['常态'] = 1,
     ['悬浮'] = 2,
@@ -946,14 +946,14 @@ M.UIButtonStatus = {
     ['禁用'] = 4,
 }
 
----@enum (key) y3.Const.UIAttr
+---@enum (key) clicli.Const.UIAttr
 M.UIAttr = {
     ["文本"] = "text_bind",
     ["最大值"] = "max_value_bind",
     ["当前值"] = "current_value_bind",
 }
 
----@enum(key) y3.Const.AbilityIntAttr
+---@enum(key) clicli.Const.AbilityIntAttr
 M.AbilityIntAttr = {
     ["最大等级"] = "ability_max_level",
     ["最大充能数"] = "ability_max_stack_count",
@@ -961,13 +961,13 @@ M.AbilityIntAttr = {
     ["当前充能数"] = "cur_stack_count",
 }
 
----@enum(key) y3.Const.AbilityStrAttr
+---@enum(key) clicli.Const.AbilityStrAttr
 M.AbilityStrAttr = {
     ["名称"] = "name",
     ["描述"] = "description",
 }
 
----@enum(key) y3.Const.AbilityFloatAttr
+---@enum(key) clicli.Const.AbilityFloatAttr
 M.AbilityFloatAttr = {
     ['技能消耗'] = 'ability_cost',
     ['生命值消耗'] = 'ability_hp_cost',
@@ -982,7 +982,7 @@ M.AbilityFloatAttr = {
     ['充能时间'] = 'ability_stack_cd',
 }
 
----@enum(key) y3.Const.CollisionLayers
+---@enum(key) clicli.Const.CollisionLayers
 M.CollisionLayers = {
     ['地面'] = 1 << 5,
     ['空中'] = 1 << 6,
@@ -990,10 +990,10 @@ M.CollisionLayers = {
     ['物件'] = 1 << 8,
 }
 
----@enum(key) y3.Const.SceneUI
+---@enum(key) clicli.Const.SceneUI
 M.SceneUI = {}
 
----@enum(key) y3.Const.PlatFormRoleCommunityType
+---@enum(key) clicli.Const.PlatFormRoleCommunityType
 M.PlatFormRoleCommunityType = {
     ['发帖累计获赞'] = 0,
     ['精华帖数量'] = 1,
@@ -1004,14 +1004,14 @@ M.PlatFormRoleCommunityType = {
     ['社区主题数量'] = 6,
 }
 
----@enum(key) y3.Const.SignInDaysType
+---@enum(key) clicli.Const.SignInDaysType
 M.SignInDaysType = {
     ['累计签到'] = 0,
     ['最多连续签到'] = 1,
     ['当前连续签到'] = 2,
 }
 
----@enum y3.Const.SteamOnlineState
+---@enum clicli.Const.SteamOnlineState
 M.SteamOnlineState = {
     ['离线'] = 1,
     ['空闲'] = 2,
@@ -1020,14 +1020,14 @@ M.SteamOnlineState = {
     ['游戏中'] = 5,
 }
 
----@enum y3.Const.SteamRoomState
+---@enum clicli.Const.SteamRoomState
 M.SteamRoomState = {
     ['大厅'] = 0,
     ['倒计时'] = 1,
     ['游戏中'] = 2,
 }
 
----@enum y3.Const.SteamRoomSlotState
+---@enum clicli.Const.SteamRoomSlotState
 M.SteamRoomSlotState = {
     ['打开'] = 0,
     ['关闭'] = 1,
@@ -1035,20 +1035,20 @@ M.SteamRoomSlotState = {
     ['困难电脑'] = 6,
 }
 
----@enum(key) y3.Const.RoadPatrolType
+---@enum(key) clicli.Const.RoadPatrolType
 M.RoadPatrolType = {
     ['单向'] = 0,
     ['往返'] = 1,
     ['循环'] = 2,
 }
 
----@enum(key) y3.Const.UIEffectCameraMode
+---@enum(key) clicli.Const.UIEffectCameraMode
 M.UIEffectCameraMode = {
     ['自定义模式'] = 0,
     ['智能模式'] = 1,
 }
 
----@enum(key) y3.Const.CustomEventName
+---@enum(key) clicli.Const.CustomEventName
 M.CustomEventName = {}
 
 return M

@@ -1,4 +1,4 @@
---形状
+--shape
 ---@class Shape
 ---@field handle py.Shape
 ---@overload fun(py_shape: py.Shape): self
@@ -40,8 +40,8 @@ end
 ---@param width number 宽度
 ---@param length number 长度
 ---@param angle number 角度
----@param offset_x_ratio? number # 偏移x
----@param offset_y_ratio? number # 偏移y
+---@param offset_x_ratio? number # Offset x
+---@param offset_y_ratio? number # Offset y
 ---@return Shape
 function M.create_rectangle_shape(width, length, angle, offset_x_ratio, offset_y_ratio)
     local py_shape = GlobalAPI.create_rectangle_shape(Fix32(width), Fix32(length), angle,

@@ -4,59 +4,59 @@
 ---@overload fun(): self
 KKNetwork = {}
 
--- 初始化网络环境
--- @param ip 远端IP地址， string 类型
--- @param port 端口， number 类型
--- @param buffer_size 网络缓冲区大小
--- @return 返回初始化是否成功，如果失败，会有错误信息
--- @detail 这个函数会检查ip 端口是否合法，但是不会真正的启动网络循环，只是会提前申请对应的资源
+--Example Initialize the network environment
+--@param ip Remote IP address. The value is a string
+--@param port Indicates the port type
+--@param buffer_size Size of the network buffer
+--@return Returns whether the initialization succeeds. If the initialization fails, an error message will be displayed
+--The @detail function will check whether the ip port is valid, but will not actually start the network loop, but will request the corresponding resources in advance
 function KKNetwork:init(ip, port, buffer_size)
 end
 
--- 启动网络连接
--- @return true or false
--- @detail 启动网络连接，这个函数调用后会真正的连接到服务器
--- 如果连接成功，is_connecting 方法会返回true
+--Start a network connection
+--@return true or false
+--@detail initiates the network connection, and this function call will actually connect to the server
+--The is_connecting method returns true if the connection is successful
 function KKNetwork:start()
 end
 
--- 返回网络连接的在状态
+--Returns the active status of the network connection
 ---@return boolean
 function KKNetwork:is_connecting()
 end
 
--- 断开网络连接，停止接受网络消息事件
--- @detail 断开当前连接，并且释放对应的资源，只要没有调用destory，还可以再次调用start 方法启动网络连接
+--Disconnect the network connection and stop receiving network message events
+--@detail disconnects the current connection and releases the corresponding resource. As long as destory is not called, the start method can be called again to start the network connection
 function KKNetwork:stop()
 end
 
--- 主循环，需要在用户主循环中调用
+--Main loop, which needs to be called in the user main loop
 function KKNetwork:run_once()
 end
 
--- 释放网络类资源，如果还没断开连接，这里会断开网络连接
+--Release network resources. If the network connection is not already disconnected, the network connection will be disconnected
 function KKNetwork:destroy()
 end
 
--- 发送网络消息
--- @param message_body 消息体，string类型，可以是字符串，也可以是pb序列化过后的二进制数组
--- @param length message_body 长度
--- @return 实际发送出去的消息的长度，失败会返回 <= 0的数值
+--Send network message
+--@param message_body The message body is a string. It can be a string or a binary array after pb serialization
+--@param length message_body length
+--@return The length of the actual message sent. A value of <= 0 is returned on failure
 function KKNetwork:send(message_body, length)
 end
 
--- 接受网络消息
--- @param length 期望接受的消息的长度，如果不足，会返回实际接受到的长度
--- @return message 消息体，string，接受失败会返回nil 
--- @return result 实际接受到的消息长度
--- @detail 接受消息函数会把消息从缓冲区移除，是真正的接受消息
+--Receive network message
+--@param length Indicates the length of the message that is expected to be received. If it is insufficient, the length of the message that is actually received is returned
+--@return message Message body, string, returns nil on failure to accept
+--@return result Indicates the length of the received message
+--The @detail accept message function removes the message from the buffer and is the actual accept message
 function KKNetwork:recv(length)
 end
 
--- 探测网络消息，不会从消息队列移除，多用于判断消息头是否足够
--- @return message 消息体，string，接受失败会返回nil 
--- @return result 实际接受到的消息长度
--- @detail 接受消息函数不会把消息从缓冲区移除
+--Detection of network messages, not removed from the message queue, mostly used to determine whether the message header is sufficient
+--@return message Message body, string, returns nil on failure to accept
+--@return result Indicates the length of the received message
+--The @detail accept message function does not remove the message from the buffer
 function KKNetwork:peek(length)
 end
 

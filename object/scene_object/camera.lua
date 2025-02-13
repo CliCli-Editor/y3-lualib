@@ -1,4 +1,4 @@
---镜头
+--Lens
 ---@class Camera
 ---@field handle py.Camera
 ---@overload fun(py_camera: py.Camera): self
@@ -20,29 +20,29 @@ function M.get_by_handle(py_camera)
     return camera
 end
 
--- 获取摆放在场景上的镜头
+--Get the lens placed on the scene
 ---@param res_id integer
 ---@return Camera
 function M.get_by_res_id(res_id)
     return M.get_by_handle(res_id)
 end
 
-y3.py_converter.register_py_to_lua('py.Camera', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Camera', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Camera', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Camera', function (lua_value)
     return lua_value.handle
 end)
 
--- 引用镜头
----@param player_or_group? Player | PlayerGroup # 玩家或玩家组，默认为所有玩家
----@param duration? number # 过渡时间，默认为0
----@param slope_mode? y3.Const.CameraMoveMode # 过渡模式，默认为匀速
+--Reference shot
+---@param player_or_group? Player | PlayerGroup # Players or groups of players, all players by default
+---@param duration? number # Transition time. The default value is 0
+---@param slope_mode? clicli.Const.CameraMoveMode # Transition mode, the default is constant speed
 function M:apply(player_or_group, duration, slope_mode)
     GameAPI.apply_camera_conf(
         ---@diagnostic disable-next-line: param-type-mismatch
-        (player_or_group or y3.player_group.get_all_players()).handle,
+        (player_or_group or clicli.player_group.get_all_players()).handle,
         self.handle,
         duration or 0,
-        y3.const.CameraMoveMode[slope_mode] or 0
+        clicli.const.CameraMoveMode[slope_mode] or 0
     )
 end
 
@@ -255,33 +255,33 @@ function M.set_keyboard_move_camera_speed(player, speed)
 end
 
 
--- 获取玩家摄像机朝向。
--- 必须先设置 `y3.config.sync.camera = true`
+--Get the player camera orientation.
+--Must first set ` clicli. Config. Sync. Camera = true `
 ---@param player Player 玩家
 ---@return Point 摄像机朝向
 function M.get_player_camera_direction(player)
-    if not y3.config.sync.camera then
-        error('必须先设置 `y3.config.sync.camera = true`')
+    if not clicli.config.sync.camera then
+        error('必须先设置 `clicli.config.sync.camera = true`')
     end
     local py_point = GameAPI.get_player_camera_direction(player.handle)
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch
-    return y3.point.get_by_handle(py_point)
+    return clicli.point.get_by_handle(py_point)
 end
 
 
--- 获取玩家摄像机中心射线的碰撞点。
--- 必须先设置 `y3.config.sync.camera = true`
+--Gets the collision point of the center ray of the player's camera.
+--Must first set ` clicli. Config. Sync. Camera = true `
 ---@param player Player 玩家
 ---@return Point 摄像机中心射线的碰撞点
 function M.get_camera_center_raycast(player)
-    if not y3.config.sync.camera then
-        error('必须先设置 `y3.config.sync.camera = true`')
+    if not clicli.config.sync.camera then
+        error('必须先设置 `clicli.config.sync.camera = true`')
     end
     local py_point = GameAPI.get_camera_center_raycast(player.handle)
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch
-    return y3.point.get_by_handle(py_point)
+    return clicli.point.get_by_handle(py_point)
 end
 
 return M

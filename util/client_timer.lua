@@ -1,8 +1,8 @@
---客户端计时器
+--Client timer
 --
---由你自己电脑的CPU驱动的计时器，完全是异步的（即使是同步执行）
---在游戏暂停时也会继续计时并回调
---> 如果你不知道什么是异步，请不要使用这个模块！
+--A timer powered by your own computer's CPU that is completely asynchronous (even when executed synchronously)
+--It also continues to time and call back when the game is paused
+--If you don't know what asynchrony is, don't use this module!
 ---@class ClientTimer
 ---@field private include_name? string
 ---@field package id integer
@@ -26,7 +26,7 @@ local M = Class 'ClientTimer'
 ---@alias ClientTimer.OnTimer fun(timer: ClientTimer, count: integer, local_player: Player)
 
 ---@private
-M.all_timers = setmetatable({}, y3.util.MODE_V)
+M.all_timers = setmetatable({}, clicli.util.MODE_V)
 
 ---@private
 M.runned_count = 0
@@ -64,7 +64,7 @@ function M:__init(time, mode, count, on_timer)
     self.mode = mode
     self.count = count
     self.on_timer = on_timer
-    self.include_name = y3.reload.getCurrentIncludeName()
+    self.include_name = clicli.reload.getCurrentIncludeName()
     self.init_ms = cur_ms
     self.init_frame = cur_frame
 
@@ -118,18 +118,18 @@ function M:wakeup()
     self:set_time_out()
 end
 
--- 立即执行
+--Immediate execution
 function M:execute(...)
     xpcall(self.on_timer, log.error
         , self
         , self.runned_count
         ---@diagnostic disable-next-line: deprecated
-        , y3.player.get_local()
+        , clicli.player.get_local()
         , ...
     )
 end
 
--- 移除计时器
+--Remove timer
 function M:remove()
     Delete(self)
 end
@@ -187,7 +187,7 @@ function M:pop()
     end
 end
 
--- 暂停计时器
+--Pause timer
 function M:pause()
     if self.pausing or self.removed then
         return
@@ -201,7 +201,7 @@ function M:pause()
     self:pop()
 end
 
--- 恢复计时器
+--Recovery timer
 function M:resume()
     if not self.pausing or self.removed then
         return
@@ -222,13 +222,13 @@ function M:resume()
     end
 end
 
--- 是否正在运行
+--Whether it is running
 function M:is_running()
     return  not self.removed
         and not self.pausing
 end
 
--- 获取经过的时间
+--Get the elapsed time
 ---@return number
 function M:get_elapsed_time()
     if self.removed then
@@ -246,7 +246,7 @@ function M:get_elapsed_time()
     return (cur_ms - self.start_ms - self.paused_ms) / 1000.0
 end
 
---获取经过的帧数
+--Gets the number of frames passed
 ---@return integer
 function M:get_elapsed_frame()
     if self.removed then
@@ -264,13 +264,13 @@ function M:get_elapsed_frame()
     return cur_frame - self.start_frame - self.paused_frame
 end
 
--- 获取初始计数
+--Get initial count
 ---@return integer
 function M:get_init_count()
     return self.count
 end
 
--- 获取剩余时间
+--Get remaining time
 ---@return number
 function M:get_remaining_time()
     if self.removed or self.waking_up then
@@ -282,7 +282,7 @@ function M:get_remaining_time()
     return (self.target_ms - cur_ms) / 1000.0
 end
 
---获取剩余帧数
+--Gets the number of remaining frames
 ---@return integer
 function M:get_remaining_frame()
     if self.removed or self.waking_up then
@@ -294,7 +294,7 @@ function M:get_remaining_frame()
     return self.target_frame - cur_frame
 end
 
--- 获取剩余计数
+--Get residual count
 ---@return integer
 function M:get_remaining_count()
     if self.count <= 0 then
@@ -303,7 +303,7 @@ function M:get_remaining_count()
     return self.count - self.runned_count
 end
 
--- 获取计时器设置的时间
+--Gets the time set by the timer
 ---@return number
 function M:get_time_out_time()
     return self.time
@@ -314,7 +314,7 @@ function M:get_include_name()
     return self.include_name
 end
 
--- 等待时间后执行
+--Wait for the execution time
 ---@param timeout number
 ---@param on_timer ClientTimer.OnTimer
 ---@return ClientTimer
@@ -323,7 +323,7 @@ function M.wait(timeout, on_timer)
     return timer
 end
 
--- 等待一定帧数后执行
+--Wait for a certain number of frames before executing
 ---@param frame integer
 ---@param on_timer ClientTimer.OnTimer
 ---@return ClientTimer
@@ -332,7 +332,7 @@ function M.wait_frame(frame, on_timer)
     return timer
 end
 
--- 循环执行
+--Loop execution
 ---@param timeout number
 ---@param on_timer ClientTimer.OnTimer
 ---@return ClientTimer
@@ -341,7 +341,7 @@ function M.loop(timeout, on_timer)
     return timer
 end
 
--- 每经过一定帧数后执行
+--Execute after a certain number of frames
 ---@param frame integer
 ---@param on_timer ClientTimer.OnTimer
 ---@return ClientTimer
@@ -350,7 +350,7 @@ function M.loop_frame(frame, on_timer)
     return timer
 end
 
--- 循环执行，可以指定最大次数
+--Loop execution, you can specify a maximum number of times
 ---@param timeout number
 ---@param count integer
 ---@param on_timer ClientTimer.OnTimer
@@ -360,7 +360,7 @@ function M.loop_count(timeout, count, on_timer)
     return timer
 end
 
--- 每经过一定帧数后执行，可以指定最大次数
+--You can specify the maximum number of frames to be executed after a certain number of frames
 ---@param frame integer
 ---@param count integer
 ---@param on_timer ClientTimer.OnTimer
@@ -370,11 +370,11 @@ function M.loop_count_frame(frame, count, on_timer)
     return timer
 end
 
--- 遍历所有的计时器，仅用于调试（可能会遍历到已经失效的）
+--Iterate over all timers for debugging purposes only (it may be possible to iterate over an invalid one)
 ---@return fun():ClientTimer?
 function M.pairs()
     local timers = {}
-    for _, timer in y3.util.sortPairs(M.all_timers) do
+    for _, timer in clicli.util.sortPairs(M.all_timers) do
         timers[#timers+1] = timer
     end
     local i = 0
@@ -401,7 +401,7 @@ local function update_queue(queue)
     end
 end
 
---立即更新到下一帧
+--Update immediately to the next frame
 function M.update_frame()
     cur_frame = cur_frame + 1
 

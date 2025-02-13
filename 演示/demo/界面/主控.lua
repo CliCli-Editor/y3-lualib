@@ -1,6 +1,6 @@
--- 整个UI系统是异步的，请注意不要使用同步功能
+--The entire UI system is asynchronous, so be careful not to use synchronous features
 
-local MAIN = y3.local_ui.create('Y3主控')
+local MAIN = clicli.local_ui.create('CliCli主控')
 
 MAIN:bind_unit_attr('头像.属性.攻击速度.文本', '文本', '攻击速度')
 MAIN:bind_unit_attr('头像.属性.移动速度.文本', '文本', '移动速度')
@@ -38,7 +38,7 @@ MAIN:on_refresh('英雄技能', function (ui, local_player)
     end
 
     for i, slot in ipairs(ui:get_childs()) do
-        local ability = local_player:get_local_selecting_unit():get_ability_by_slot(y3.const.AbilityType.HERO, i)
+        local ability = local_player:get_local_selecting_unit():get_ability_by_slot(clicli.const.AbilityType.HERO, i)
         if ability then
             slot:set_visible(true)
             --必须要主动绑定，否则会闪烁一下
@@ -95,48 +95,48 @@ MAIN:on_event('头像', '左键-按下', function (ui, local_player)
         return
     end
 
-    y3.camera.set_camera_follow_unit(local_player, u, 0, 0, 0)
+    clicli.camera.set_camera_follow_unit(local_player, u, 0, 0, 0)
 end)
 
 MAIN:on_event('头像', '左键-抬起', function (ui, local_player)
-    y3.camera.cancel_camera_follow_unit(local_player)
+    clicli.camera.cancel_camera_follow_unit(local_player)
 end)
 
-y3.game:event('选中-单位', function (trg, data)
+clicli.game:event('选中-单位', function (trg, data)
     MAIN:refresh('*', data.player)
 end)
 
-y3.game:event('选中-单位组', function (trg, data)
+clicli.game:event('选中-单位组', function (trg, data)
     MAIN:refresh('*', data.player)
 end)
 
-y3.game:event('单位-获得经验后', function (trg, data)
-    y3.player.with_local(function (local_player)
+clicli.game:event('单位-获得经验后', function (trg, data)
+    clicli.player.with_local(function (local_player)
         if local_player:get_local_selecting_unit() == data.unit then
             MAIN:refresh('经验条')
         end
     end)
 end)
 
-y3.game:event('单位-升级', function (trg, data)
-    y3.player.with_local(function (local_player)
+clicli.game:event('单位-升级', function (trg, data)
+    clicli.player.with_local(function (local_player)
         if local_player:get_local_selecting_unit() == data.unit then
             MAIN:refresh('经验条')
         end
     end)
 end)
 
-y3.game:event('本地-键盘-按下', y3.const.KeyboardKey['SPACE'], function (trg, data)
+clicli.game:event('本地-键盘-按下', clicli.const.KeyboardKey['SPACE'], function (trg, data)
     local u = data.player:get_local_selecting_unit()
     if not u then
         return
     end
 
-    y3.camera.set_camera_follow_unit(data.player, u, 0, 0, 0)
+    clicli.camera.set_camera_follow_unit(data.player, u, 0, 0, 0)
 end)
 
-y3.game:event('本地-键盘-抬起', y3.const.KeyboardKey['SPACE'], function (trg, data)
-    y3.camera.cancel_camera_follow_unit(data.player)
+clicli.game:event('本地-键盘-抬起', clicli.const.KeyboardKey['SPACE'], function (trg, data)
+    clicli.camera.cancel_camera_follow_unit(data.player)
 end)
 
 MAIN:on_refresh('道具', function (ui, local_player)
@@ -146,11 +146,11 @@ MAIN:on_refresh('道具', function (ui, local_player)
     end
 
     for i, slot in ipairs(ui:get_childs()) do
-        slot:get_child(tostring(i)):set_ui_unit_slot(u, y3.const.SlotType.BAR, i - 1)
+        slot:get_child(tostring(i)):set_ui_unit_slot(u, clicli.const.SlotType.BAR, i - 1)
     end
 end)
 
-y3.game:event('物品-获得', function (trg, data)
+clicli.game:event('物品-获得', function (trg, data)
     MAIN:refresh('道具', data.unit:get_owner_player())
 end)
 

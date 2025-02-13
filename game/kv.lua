@@ -1,4 +1,4 @@
-local class = require 'y3.tools.class'
+local class = require 'clicli.tools.class'
 
 ---@alias KV.SupportType
 ---| boolean
@@ -53,8 +53,8 @@ local function get_py_value_and_type(value)
         local cls = class.type(value)
         local alias = apiAlias[cls]
         if cls and alias then
-            local py_type = y3.py_converter.get_py_type(cls)
-            local py_value = y3.py_converter.lua_to_py(py_type, value)
+            local py_type = clicli.py_converter.get_py_type(cls)
+            local py_value = clicli.py_converter.lua_to_py(py_type, value)
             return py_value, alias
         else
             return value, tp
@@ -140,7 +140,7 @@ local function kv_load_from_handle(handle, key, lua_type)
         return GameAPI.get_kv_pair_value_integer(handle, key)
     end
     if lua_type == 'number' then
-        return y3.helper.tonumber(GameAPI.get_kv_pair_value_float(handle, key)) or 0.0
+        return clicli.helper.tonumber(GameAPI.get_kv_pair_value_float(handle, key)) or 0.0
     end
     if lua_type == 'string' then
         return GameAPI.get_kv_pair_value_string(handle, key)
@@ -152,9 +152,9 @@ local function kv_load_from_handle(handle, key, lua_type)
     if alias then
         local api = GameAPI['get_kv_pair_value_' .. alias]
         if api then
-            local py_type = y3.py_converter.get_py_type(lua_type)
+            local py_type = clicli.py_converter.get_py_type(lua_type)
             local py_value = api(handle, key)
-            local lua_value = y3.py_converter.py_to_lua(py_type, py_value)
+            local lua_value = clicli.py_converter.py_to_lua(py_type, py_value)
             return lua_value
         end
     end
@@ -220,7 +220,7 @@ end
 
 ---读取键值对。可以与ECA互通。
 ---@param key string
----@param lua_type 'boolean' | 'number' | 'integer' | 'string' | 'table' | KV.SupportTypeEnum # `integer` 也可以表示单位类型、技能类型等。
+---@param lua_type 'boolean' | 'number' | 'integer' | 'string' | 'table' | KV.SupportTypeEnum # 'integer' can also represent the unit type, skill type, and so on.
 ---@return any
 function M:kv_load(key, lua_type)
     if self.handle then

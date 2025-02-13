@@ -9,10 +9,10 @@ local M = Class 'Config'
 ---同步需要一定的时间，获取到的是一小段时间前的状态，
 ---因此启用同步后不能立即获取状态。  
 ---@class Config.Sync
----@field mouse boolean # 同步玩家的鼠标位置
----@field key boolean # 同步玩家的键盘与鼠标按键
----@field camera boolean # 同步玩家的镜头
-M.sync = y3.proxy.new({
+---@field mouse boolean # Sync the player's mouse position
+---@field key boolean # Sync the player's keyboard and mouse keys
+---@field camera boolean # Sync the player's shots
+M.sync = clicli.proxy.new({
     mouse  = false,
     key    = false,
     camera = false,
@@ -37,20 +37,20 @@ M.sync = y3.proxy.new({
     },
 })
 
--- 是否是debug模式
+--Yes No debug mode
 ---@type boolean|'auto'
 M.debug = 'auto'
 
 ---@class Config.Log
----@field level Log.Level # 日志等级，默认为 `debug`
----@field toFile boolean # 是否打印到文件中，默认为 `true`
----@field toDialog boolean # 是否打印到Dialog窗口，默认为 `true`
----@field toConsole boolean # 是否打印到控制台中，默认为 `true`
----@field toGame boolean # 是否打印到游戏窗口中，默认为 `false`
----@field toHelper boolean # 是否打印到《Y3开发助手》中，默认为 `true`
----@field logger fun(level: Log.Level, message: string, timeStamp: string): boolean # 自定义的日志处理函数，返回 `true` 将阻止默认的日志处理。在处理函数的执行过程中会屏蔽此函数。
--- 日志相关的配置
-M.log = y3.proxy.new({
+---@field level Log.Level # The default log level is debug
+---@field toFile boolean # Whether to print to a file. The default is true
+---@field toDialog boolean # Whether to print to the Dialog window. The default is true
+---@field toConsole boolean # Whether to print to the console, defaults to true
+---@field toGame boolean # Whether to print to the game window, the default is' false '
+---@field toHelper boolean # Whether to print to CliCli Development Assistant, the default is true
+---@field logger fun(level: Log.Level, message: string, timeStamp: string): boolean # A custom log handler that returns' true 'will block the default log handler. This function is masked during the execution of the handler function.
+--Log related configuration
+M.log = clicli.proxy.new({
     level     = 'debug',
     toFile    = true,
     toDialog  = true,

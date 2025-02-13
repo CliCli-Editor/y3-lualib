@@ -1,4 +1,4 @@
---闪电特效（光束）
+--Lightning Effects (Beam)
 ---@class Beam
 ---@field handle py.LinkSfx
 ---@overload fun(py_beam: py.LinkSfx): self
@@ -23,8 +23,8 @@ function M.create_lua_beam_by_py(py_beam)
     return beam
 end
 
-y3.py_converter.register_py_to_lua('py.LinkSfx', M.create_lua_beam_by_py)
-y3.py_converter.register_lua_to_py('py.LinkSfx', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.LinkSfx', M.create_lua_beam_by_py)
+clicli.py_converter.register_lua_to_py('py.LinkSfx', function (lua_value)
     return lua_value.handle
 end)
 
@@ -135,7 +135,7 @@ function M:show(is_show)
 end
 
 ---@class Beam.LinkData
----@field point_type y3.Const.LinkSfxPointType 起点or终点
+---@field point_type clicli.Const.LinkSfxPointType 起点or终点
 ---@field target Unit|Point 目标
 ---@field height? number 高度（只在目标是点时生效）
 ---@field socket? string 挂接点（只在目标是单位时生效）

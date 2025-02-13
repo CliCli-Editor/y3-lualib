@@ -1,10 +1,10 @@
-local battle_wave = require 'y3.演示.demo.防守图.刷兵'
-local game_result = require 'y3.演示.demo.防守图.游戏结果'
+local battle_wave = require 'clicli.演示.demo.防守图.刷兵'
+local game_result = require 'clicli.演示.demo.防守图.游戏结果'
 
-y3.ltimer.wait(0.5, function ()
+clicli.ltimer.wait(0.5, function ()
     -- 为玩家1创建主控英雄并选中
-    local hero = y3.player(1):create_unit(134274912, y3.point.create(0, 0, 0), 180.0)
-    y3.player(1):select_unit(hero)
+    local hero = clicli.player(1):create_unit(134274912, clicli.point.create(0, 0, 0), 180.0)
+    clicli.player(1):select_unit(hero)
 
     -- 让英雄强一点
     hero:set_level(10)
@@ -24,16 +24,16 @@ y3.ltimer.wait(0.5, function ()
     end)
 end)
 
--- 等待2秒后开始刷兵
-y3.ltimer.wait(2, function ()
+--Wait 2 seconds to start brushing
+clicli.ltimer.wait(2, function ()
     battle_wave.next_wave()
     -- 第一次出兵后，每15秒再出一次兵
-    y3.ltimer.loop(15, function ()
+    clicli.ltimer.loop(15, function ()
         battle_wave.next_wave()
     end)
 end)
 
-y3.ltimer.loop(1, function(timer)
+clicli.ltimer.loop(1, function(timer)
     -- 如果场上的怪超过30个，判定游戏失败
     if battle_wave.get_alive_count() >= 30 then
         game_result.lose()

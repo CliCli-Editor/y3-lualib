@@ -1,31 +1,31 @@
-y3.game:event_on('#417修改', 1, function(trg, ...)
+clicli.game:event_on('#417修改', 1, function(trg, ...)
     print('只有这里收到了, 整数参数')
 end)
 
-y3.game:event_on('#417修改', 2, function(trg, ...)
+clicli.game:event_on('#417修改', 2, function(trg, ...)
     print('整数参数')
 end)
 
-y3.game:event_on('#417修改', '1', function (trg, ...)
+clicli.game:event_on('#417修改', '1', function (trg, ...)
     print('只有这里收到了, 字符串参数')
 end)
 
-y3.game:event_on('#417修改', '2', function(trg, ...)
+clicli.game:event_on('#417修改', '2', function(trg, ...)
     print('字符串参数')
 end)
 
-y3.game:event_on('#417修改', y3.player(1), function(trg, ...)
-    print('只有这里收到了,  Y3实例')
+clicli.game:event_on('#417修改', clicli.player(1), function(trg, ...)
+    print('只有这里收到了,  CliCli实例')
 end)
 
-y3.game:event_on('#417修改', y3.player(2), function(trg, ...)
-    print('Y3实例')
+clicli.game:event_on('#417修改', clicli.player(2), function(trg, ...)
+    print('CliCli实例')
 end)
 
 
 
 
-y3.game:event("键盘-按下", y3.const.KeyboardKey["F1"], function(trg, data)
+clicli.game:event("键盘-按下", clicli.const.KeyboardKey["F1"], function(trg, data)
     ---@param args any[]
     ---@param match_func fun(fire_args: any[]?, event_args: any[]?): boolean
     ---@return table
@@ -43,7 +43,7 @@ y3.game:event("键盘-按下", y3.const.KeyboardKey["F1"], function(trg, data)
     ---@param event_args any[]? 事件监听的参数
     ---@return boolean
     local function custom_match_rule(fire_args, event_args)
-        print(string.format("fire_args: %s, \r\nevent_args: %s", y3.util.dump(fire_args), y3.util.dump(event_args)))
+        print(string.format("fire_args: %s, \r\nevent_args: %s", clicli.util.dump(fire_args), clicli.util.dump(event_args)))
         -- 强制返回`true`，表示匹配成功
         return true
     end
@@ -77,9 +77,9 @@ y3.game:event("键盘-按下", y3.const.KeyboardKey["F1"], function(trg, data)
 
 
 
-    y3.game:event_dispatch_with_args('#417修改', 1)
-    y3.game:event_dispatch_with_args('#417修改', '1')
-    y3.game:event_dispatch_with_args('#417修改', y3.player(1))
+    clicli.game:event_dispatch_with_args('#417修改', 1)
+    clicli.game:event_dispatch_with_args('#417修改', '1')
+    clicli.game:event_dispatch_with_args('#417修改', clicli.player(1))
 
 
 end)

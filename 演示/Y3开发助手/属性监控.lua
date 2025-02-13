@@ -1,14 +1,14 @@
--- 需要安装《Y3开发助手》版本 >= 1.11.1，附加调试器并在调试器界面中启用断点“Caught Errors By Lua”
+--Need to install CliCli Developer Assistant version >= 1.11.1, attach debugger and enable breakpoint 'Caught Errors By Lua' in debugger interface
 
-local unit = y3.unit.get_by_res_id(1)
+local unit = clicli.unit.get_by_res_id(1)
 
--- 当单位的最大生命恰好变为1000时引发一个特殊的异常断点
-y3.develop.helper.createAttrWatcher(unit, '最大生命', 1000)
+--A special exception breakpoint is raised when the unit's maximum life reaches exactly 1000
+clicli.develop.helper.createAttrWatcher(unit, '最大生命', 1000)
 
--- 当单位的生命值低至最大生命的一半时引发一个特殊的异常断点
-y3.develop.helper.createAttrWatcher(unit, '生命', '<= `最大生命` / 2')
+--Raises a special exception breakpoint when a unit's health drops below half of its maximum life
+clicli.develop.helper.createAttrWatcher(unit, '生命', '<= `最大生命` / 2')
 
--- 你也可以在《Y3开发助手》中动态添加这些监视器
--- 1. 在游戏中选中要监控的单位
--- 2. 在“仪表盘”的“选中单位”中点击要监视的属性
--- 3. 输入断点表达式，按回车键确认
+--You can also add these monitors dynamically in the CliCli Development Assistant
+--1. Select the unit to monitor in the game
+--2. Under Selected Units in the Dashboard, click the properties you want to monitor
+--3. Enter a breakpoint expression and press Enter to confirm

@@ -1,6 +1,6 @@
---魔法效果
+--Magic effect
 ---@class Buff
----@field handle py.ModifierEntity # py层的魔法效果对象
+---@field handle py.ModifierEntity # py layer magic effect object
 ---@field id     integer
 ---@field private _removed_by_py boolean
 ---@overload fun(id: integer, py_modifier: py.ModifierEntity): Buff
@@ -59,8 +59,8 @@ M.ref_manager = New 'Ref' ('Buff', function (id, py_buff)
 end)
 
 ---通过py层的魔法效果实例获取lua层的魔法效果实例
----@param  py_buff py.ModifierEntity # py层的魔法效果实例
----@return Buff? # 返回在lua层初始化后的lua层魔法效果实例
+---@param  py_buff py.ModifierEntity # py layer magic effect example
+---@return Buff? # Returns the lua Layer magic effect instance after the lua layer is initialized
 function M.get_by_handle(py_buff)
     if not py_buff then
         return nil
@@ -75,9 +75,9 @@ function M.get_by_id(id)
     return M.ref_manager:get(id)
 end
 
-y3.py_converter.register_type_alias('py.ModifierEntity', 'Buff')
-y3.py_converter.register_py_to_lua('py.ModifierEntity', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.ModifierEntity', function (lua_value)
+clicli.py_converter.register_type_alias('py.ModifierEntity', 'Buff')
+clicli.py_converter.register_py_to_lua('py.ModifierEntity', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.ModifierEntity', function (lua_value)
     return lua_value.handle
 end)
 
@@ -167,17 +167,17 @@ end
 ---获取魔法效果的剩余持续时间
 ---@return number time 剩余持续时间
 function M:get_time()
-    return y3.helper.tonumber(self.handle:api_get_residue_time()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_residue_time()) or 0.0
 end
 
 ---获取魔法效果类型
----@return y3.Const.ModifierType type 魔法效果类型
+---@return clicli.Const.ModifierType type 魔法效果类型
 function M:get_buff_type()
     return self.handle:api_get_modifier_type("modifier_type") or 0
 end
 
 ---获取魔法效果影响类型
----@return y3.Const.EffectType type 魔法效果影响类型
+---@return clicli.Const.EffectType type 魔法效果影响类型
 function M:get_buff_effect_type()
     return self.handle:api_get_modifier_effect_type("modifier_effect") or 0
 end
@@ -191,7 +191,7 @@ end
 ---获取魔法效果的护盾
 ---@return number shield 护盾值
 function M:get_shield()
-    return y3.helper.tonumber(self.handle:api_get_float_attr("cur_properties_shield")) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_float_attr("cur_properties_shield")) or 0.0
 end
 
 ---获取所属光环
@@ -207,13 +207,13 @@ end
 ---获取魔法效果循环周期
 ---@return number time 循环周期
 function M:get_cycle_time()
-    return y3.helper.tonumber(self.handle:api_get_cycle_time()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_cycle_time()) or 0.0
 end
 
 ---魔法效果的已持续时间
 ---@return number duration 持续时间
 function M:get_passed_time()
-    return y3.helper.tonumber(self.handle:api_get_passed_time()) or 0.0
+    return clicli.helper.tonumber(self.handle:api_get_passed_time()) or 0.0
 end
 
 ---获取魔法效果的光环效果类型ID
@@ -242,7 +242,7 @@ function M:get_source()
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
 ---获取魔法效果的携带者
@@ -252,7 +252,7 @@ function M:get_owner()
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
 ---获取魔法效果对象的名称
@@ -295,7 +295,7 @@ end
 
 ---获取魔法效果类型的icon图标的图片
 ---@param buff_key py.ModifierKey 类型
----@return py.Texture # 图片id
+---@return py.Texture # Picture id
 function M.get_icon_by_key(buff_key)
     return GameAPI.get_icon_id_by_buff_type(buff_key) --[[@as py.Texture]]
 end
@@ -305,7 +305,7 @@ end
 function M:get_ability()
     local py_ability = GlobalAPI.get_related_ability(self.handle)
     if py_ability then
-        return y3.ability.get_by_handle(py_ability)
+        return clicli.ability.get_by_handle(py_ability)
     end
     return nil
 end

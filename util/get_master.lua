@@ -1,5 +1,5 @@
-local event_configs = require 'y3.meta.eventconfig'
-local event_datas   = require 'y3.meta.event'
+local event_configs = require 'clicli.meta.eventconfig'
+local event_datas   = require 'clicli.meta.event'
 
 local function get_master(event_name, lua_params)
     local config = event_configs.config[event_name]

@@ -52,7 +52,7 @@ function M.getConfig(name)
     return M._classConfig[name]
 end
 
--- 定义一个类
+--Define a class
 ---@generic T: string
 ---@generic Super: string
 ---@param name  `T`
@@ -166,7 +166,7 @@ function M.declare(name, super, superInit)
     return class, config
 end
 
--- 获取一个类
+--Get a class
 ---@generic T: string
 ---@param name `T`
 ---@return T
@@ -181,7 +181,7 @@ function M.alias(name, creator)
     M._alias[name] = creator
 end
 
--- 实例化一个类
+--Instantiate a class
 ---@generic T: string
 ---@param name `T`
 ---@param tbl? table
@@ -210,7 +210,7 @@ function M.new(name, tbl)
     return instance
 end
 
--- 析构一个实例
+--Construct an example
 ---@param obj table
 function M.delete(obj)
     if obj.__deleted__ then
@@ -225,7 +225,7 @@ function M.delete(obj)
     M.runDel(obj, name)
 end
 
--- 获取类的名称
+--Gets the name of the class
 ---@param obj any
 ---@return string?
 function M.type(obj)
@@ -235,7 +235,7 @@ function M.type(obj)
     return obj.__class__
 end
 
--- 判断一个实例是否有效
+--Determine whether an instance is valid
 ---@param obj table
 ---@return boolean
 function M.isValid(obj)
@@ -243,8 +243,8 @@ function M.isValid(obj)
        and not obj.__deleted__
 end
 
---推荐使用“扩展语义”而不是“继承”语义 。
---因此不适合使用`super`了。
+--It is recommended to use 'extended semantics' rather than 'inherited' semantics.
+--So 'super' is no longer suitable.
 ---@deprecated
 ---@param name string
 ---@return fun(...)

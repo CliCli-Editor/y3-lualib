@@ -1,6 +1,6 @@
---施法实例
+--Casting example
 --
---会在施法相关的事件中传递
+--Will be passed during spell-related events
 ---@class Cast
 ---@field package ability Ability
 ---@field package cast_id integer
@@ -28,60 +28,60 @@ function M:__tostring()
     )
 end
 
--- 获取技能
+--Acquire skills
 ---@return Ability
 function M:get_ability()
     return self.ability
 end
 
--- 获取施法方向
+--Get casting directions
 ---@return number
 function M:get_angle()
     local angle = self.ability.handle:api_get_release_direction(self.cast_id)
     if not angle then
         return 0.0
     end
-    return y3.helper.tonumber(angle) or 0.0
+    return clicli.helper.tonumber(angle) or 0.0
 end
 
--- 获取施法目标物品
+--Get the target item
 ---@return Item?
 function M:get_target_item()
     local py_item = GameAPI.get_target_item_in_ability(self.ability.handle, self.cast_id)
     if not py_item then
         return nil
     end
-    return y3.item.get_by_handle(py_item)
+    return clicli.item.get_by_handle(py_item)
 end
 
--- 获取施法目标单位
+--Gets the cast target unit
 ---@return Unit?
 function M:get_target_unit()
     local py_unit = GameAPI.get_target_unit_in_ability(self.ability.handle, self.cast_id)
     if not py_unit then
         return nil
     end
-    return y3.unit.get_by_handle(py_unit)
+    return clicli.unit.get_by_handle(py_unit)
 end
 
--- 获取施法目标可破坏物
+--Gets destructible objects from the casting target
 ---@return Destructible?
 function M:get_target_destructible()
     local py_destructible = GameAPI.get_target_dest_in_ability(self.ability.handle, self.cast_id)
     if not py_destructible then
         return nil
     end
-    return y3.destructible.get_by_handle(py_destructible)
+    return clicli.destructible.get_by_handle(py_destructible)
 end
 
--- 获取施法目标点
+--Gets the casting target point
 ---@return Point?
 function M:get_target_point()
     local py_point = self.ability.handle:api_get_release_position(self.cast_id)
     if not py_point then
         return nil
     end
-    return y3.point.get_by_handle(py_point)
+    return clicli.point.get_by_handle(py_point)
 end
 
 
@@ -98,7 +98,7 @@ function M.get(ability, cast_id)
             local id = data.cast.cast_id
             local cast = ability._castMap[id]
             if cast then
-                y3.ltimer.wait(5, function ()
+                clicli.ltimer.wait(5, function ()
                     ability._castMap[id] = nil
                 end)
             end

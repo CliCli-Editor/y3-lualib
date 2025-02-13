@@ -1,11 +1,11 @@
---存档
+--On file
 ---@class SaveData
 local M = {}
 
 ---@private
 M.table_cache = setmetatable({}, { __mode = 'k' })
 
--- 获取玩家的存档数据（布尔）
+--Get the player's saved data (Boolean)
 ---@param player Player
 ---@param slot integer
 ---@return boolean
@@ -13,7 +13,7 @@ function M.load_boolean(player, slot)
     return player.handle:get_save_data_bool_value(slot) or false
 end
 
--- 保存玩家的存档数据（布尔）
+--Save the player's saved data (Boolean)
 ---@param player Player
 ---@param slot integer
 ---@param value boolean
@@ -21,7 +21,7 @@ function M.save_boolean(player, slot, value)
     player.handle:set_save_data_bool_value(slot, value)
 end
 
--- 获取玩家的存档数据（整数）
+--Get the player's saved data (integer)
 ---@param player Player
 ---@param slot integer
 ---@return integer
@@ -29,7 +29,7 @@ function M.load_integer(player, slot)
     return player.handle:get_save_data_int_value(slot) or 0
 end
 
--- 保存玩家的存档数据（整数）
+--Save the player's saved data (integer)
 ---@param player Player
 ---@param slot integer
 ---@param value integer
@@ -45,15 +45,15 @@ function M.add_integer(player, slot, value)
     player.handle:add_save_data_int_value(slot, value)
 end
 
--- 获取玩家的存档数据（实数）
+--Get the player's saved data (real)
 ---@param player Player
 ---@param slot integer
 ---@return number
 function M.load_real(player, slot)
-    return y3.helper.tonumber(player.handle:get_save_data_fixed_value(slot)) or 0.0
+    return clicli.helper.tonumber(player.handle:get_save_data_fixed_value(slot)) or 0.0
 end
 
--- 保存玩家的存档数据（实数）
+--Save the player's saved data (real)
 ---@param player Player
 ---@param slot integer
 ---@param value number
@@ -69,7 +69,7 @@ function M.add_real(player, slot, value)
     player.handle:add_save_data_fixed_value(slot, Fix32(value))
 end
 
--- 获取玩家的存档数据（字符串）
+--Get the player's archive data (string)
 ---@param player Player
 ---@param slot integer
 ---@return string
@@ -77,7 +77,7 @@ function M.load_string(player, slot)
     return player.handle:get_save_data_str_value(slot) or ''
 end
 
--- 保存玩家的存档数据（字符串）
+--Save the player's saved data (string)
 ---@param player Player
 ---@param slot integer
 ---@param value string
@@ -86,13 +86,13 @@ function M.save_string(player, slot, value)
 end
 
 ---@type table<Player, table<integer, [table, boolean]>>
-M.player_tables = y3.util.multiTable(2)
+M.player_tables = clicli.util.multiTable(2)
 
 ---获取玩家的存档数据（表）。修改这个表中的字段会自动更新到存档中。
 ---> 编辑器已经不再支持允许覆盖模式。
 ---@param player Player
 ---@param slot integer
----@param disable_cover? boolean # 是否禁用覆盖，必须和存档设置中的一致（默认为 `true`)
+---@param disable_cover? boolean # Whether to disable overwrite, must be the same as in the archive Settings (default is' true ')
 ---@return table
 function M.load_table(player, slot, disable_cover)
     local last_table = M.player_tables[player][slot]
@@ -125,7 +125,7 @@ M.save_table_pool = {}
 ---@param t table
 function M.save_table(player, slot, t)
     ---@diagnostic disable-next-line: deprecated
-    if player ~= y3.player.get_local() then
+    if player ~= clicli.player.get_local() then
         return
     end
     assert(type(t) == 'table', '数据类型必须是表！')
@@ -139,10 +139,10 @@ function M.save_table(player, slot, t)
     if not pool then
         pool = {}
         pools[slot] = pool
-        pool.timer = y3.ltimer.wait(0.1, function ()
+        pool.timer = clicli.ltimer.wait(0.1, function ()
             pools[slot] = nil
             local t = pool.table
-            t = y3.proxy.raw(t) or t
+            t = clicli.proxy.raw(t) or t
             player.handle:set_save_data_table_value(slot, t)
             M.upload_save_data(player)
         end)
@@ -161,14 +161,14 @@ function M.upload_save_data(player)
     if timer then
         return
     end
-    M.upload_timer_map[player] = y3.ltimer.wait(0.1, function ()
+    M.upload_timer_map[player] = clicli.ltimer.wait(0.1, function ()
         M.upload_timer_map[player] = nil
         player.handle:upload_save_data()
         log.info('自动保存存档：', player)
     end)
 end
 
-y3.game:event_on('$Y3-即将切换关卡', function ()
+clicli.game:event_on('$CliCli-即将切换关卡', function ()
     for _, timer in pairs(M.upload_timer_map) do
         timer:execute()
     end
@@ -197,7 +197,7 @@ function M.load_table_with_cover_enable(player, slot)
             and math.type(key) ~= 'integer' then
                 error('存档的key必须是字符串或者整数')
             end
-            value = y3.helper.as_lua(value)
+            value = clicli.helper.as_lua(value)
             local vtype = type(value)
             if  vtype ~= 'nil'
             and vtype ~= 'string'
@@ -206,8 +206,8 @@ function M.load_table_with_cover_enable(player, slot)
             and vtype ~= 'table' then
                 error('存档的值只能是基础类型或表')
             end
-            if vtype == 'table' and y3.proxy.raw(value) then
-                value = y3.proxy.raw(value)
+            if vtype == 'table' and clicli.proxy.raw(value) then
+                value = clicli.proxy.raw(value)
             end
             raw[key] = value
 
@@ -219,7 +219,7 @@ function M.load_table_with_cover_enable(player, slot)
             if type(value) == 'table' then
                 return create_proxy(value, custom + 1)
             end
-            return y3.helper.as_lua(value)
+            return clicli.helper.as_lua(value)
         end
     }
 
@@ -227,7 +227,7 @@ function M.load_table_with_cover_enable(player, slot)
         if M.table_cache[raw] then
             return M.table_cache[raw]
         end
-        local v = y3.proxy.new(raw, proxy_config, level)
+        local v = clicli.proxy.new(raw, proxy_config, level)
         M.table_cache[raw] = v
         return v
     end
@@ -298,7 +298,7 @@ function M.load_table_with_cover_disable(player, slot)
             and math.type(key) ~= 'integer' then
                 error('表的key必须是字符串或者整数')
             end
-            value = y3.helper.as_lua(value)
+            value = clicli.helper.as_lua(value)
             local vtype = type(value)
             if vtype == 'table' then
                 if next(value) ~= nil then
@@ -307,8 +307,8 @@ function M.load_table_with_cover_disable(player, slot)
                 if path and #path >= 3 then
                     error('存档表最多只支持3层嵌套')
                 end
-                if y3.proxy.raw(value) then
-                    value = y3.proxy.raw(value)
+                if clicli.proxy.raw(value) then
+                    value = clicli.proxy.raw(value)
                 end
             elseif vtype ~= 'nil'
             and    vtype ~= 'string'
@@ -328,7 +328,7 @@ function M.load_table_with_cover_disable(player, slot)
                 return create_proxy(value, new_path)
             end
 
-            return y3.helper.as_lua(value)
+            return clicli.helper.as_lua(value)
         end
     }
 
@@ -336,7 +336,7 @@ function M.load_table_with_cover_disable(player, slot)
         if M.table_cache[raw] then
             return M.table_cache[raw]
         end
-        local v = y3.proxy.new(raw, proxy_config, path)
+        local v = clicli.proxy.new(raw, proxy_config, path)
         M.table_cache[raw] = v
         return v
     end

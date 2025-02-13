@@ -124,7 +124,7 @@ end
 function M.start()
     M.init()
     ---@private
-    M.timer = M.timer or y3.ctimer.loop_frame(13, function (timer, count)
+    M.timer = M.timer or clicli.ctimer.loop_frame(13, function (timer, count)
         step_collector()
     end)
 end

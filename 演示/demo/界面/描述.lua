@@ -1,7 +1,7 @@
--- 整个UI系统是异步的，请注意不要使用同步功能
-local MAIN = require 'y3.演示.demo.界面.主控'
+--The entire UI system is asynchronous, so be careful not to use synchronous features
+local MAIN = require 'clicli.演示.demo.界面.主控'
 
-local DESC = y3.local_ui.create('Y3描述')
+local DESC = clicli.local_ui.create('CliCli描述')
 
 ---@type Ability?
 local current_ability
@@ -18,7 +18,7 @@ for i = 1, 4 do
     MAIN:on_event(child_name, '鼠标-移入', function (ui, local_player)
         local selecting_unit = local_player:get_local_selecting_unit()
         if selecting_unit then
-            current_ability = selecting_unit:get_ability_by_slot(y3.const.AbilityType.HERO, i)
+            current_ability = selecting_unit:get_ability_by_slot(clicli.const.AbilityType.HERO, i)
         else
             current_ability = nil
         end
@@ -39,7 +39,7 @@ for i = 1, 6 do
     MAIN:on_event(child_name, '鼠标-移入', function (ui, local_player)
         local selecting_unit = local_player:get_local_selecting_unit()
         if selecting_unit then
-            current_item = selecting_unit:get_item_by_slot(y3.const.SlotType.BAR, i)
+            current_item = selecting_unit:get_item_by_slot(clicli.const.SlotType.BAR, i)
         else
             current_item = nil
         end

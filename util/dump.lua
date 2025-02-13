@@ -1,11 +1,11 @@
-local seri = require 'y3.tools.serialization'
+local seri = require 'clicli.tools.serialization'
 
 ---@class Dump
 local M = Class 'Dump'
 
 ---@private
 function M.encodeHook(value)
-    local luaType = y3.class.type(value)
+    local luaType = clicli.class.type(value)
     if not luaType then
         return
     end
@@ -18,15 +18,15 @@ end
 
 ---@private
 function M.decodeHook(value, tag)
-    local class = y3.class.get(tag)
+    local class = clicli.class.get(tag)
     if class.__decode then
-        return class:__decode(value) or y3.class.new(tag, value)
+        return class:__decode(value) or clicli.class.new(tag, value)
     else
-        return y3.class.new(tag, value)
+        return clicli.class.new(tag, value)
     end
 end
 
--- 序列化数据
+--Serialized data
 ---@param data Serialization.SupportTypes
 ---@return string
 function M.encode(data)
@@ -34,7 +34,7 @@ function M.encode(data)
     return bin
 end
 
--- 反序列化数据
+--Deserialized data
 ---@param bin string
 ---@return any
 function M.decode(bin)

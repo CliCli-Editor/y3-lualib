@@ -2,9 +2,9 @@
 
 ---@alias Timer.Mode 'second' | 'frame'
 
---同步计时器
+--Synchronous timer
 --
---所有玩家必须使用一致的计时器，否则会造成不同步
+--All players must use the same timer, otherwise it will be out of sync
 ---@class Timer
 ---@field handle py.Timer
 ---@field desc string
@@ -17,10 +17,10 @@ local M = Class 'Timer'
 M.type = 'timer'
 
 ---@private
-M.id_counter = y3.util.counter()
+M.id_counter = clicli.util.counter()
 
 ---@private
-M.all_timers = setmetatable({}, y3.util.MODE_V)
+M.all_timers = setmetatable({}, clicli.util.MODE_V)
 
 ---@param py_timer py.Timer
 ---@param on_timer Timer.OnTimer
@@ -50,8 +50,8 @@ function M.get_by_handle(py_timer, on_timer)
 end
 
 
-y3.py_converter.register_py_to_lua('py.Timer', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Timer', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Timer', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Timer', function (lua_value)
     return lua_value.handle
 end)
 
@@ -68,10 +68,10 @@ local function make_timer_reason(func)
     return sourceStr
 end
 
--- 等待时间后执行
+--Wait for the execution time
 ---@param timeout number
 ---@param on_timer fun(timer: Timer)
----@param desc? string # 描述
+---@param desc? string # Description
 ---@return Timer
 function M.wait(timeout, on_timer, desc)
     desc = desc or make_timer_reason(on_timer)
@@ -88,11 +88,11 @@ function M.wait(timeout, on_timer, desc)
     return timer
 end
 
--- 等待一定帧数后执行
---> 请改用 `y3.ltimer.wait_frame`
+--Wait for a certain number of frames before executing
+--> Please use 'clicli.ltimer.wait_frame' instead
 ---@param frame integer
 ---@param on_timer fun(timer: Timer)
----@param desc? string # 描述
+---@param desc? string # Description
 ---@return Timer
 function M.wait_frame(frame, on_timer, desc)
     desc = desc or make_timer_reason(on_timer)
@@ -106,11 +106,11 @@ function M.wait_frame(frame, on_timer, desc)
     return timer
 end
 
--- 循环执行
+--Loop execution
 ---@param timeout number
 ---@param on_timer fun(timer: Timer, count: integer)
----@param desc? string # 描述
----@param immediate? boolean # 是否立即执行一次
+---@param desc? string # Description
+---@param immediate? boolean # Whether to execute it immediately
 ---@return Timer
 function M.loop(timeout, on_timer, desc, immediate)
     desc = desc or make_timer_reason(on_timer)
@@ -128,11 +128,11 @@ function M.loop(timeout, on_timer, desc, immediate)
     return timer
 end
 
--- 每经过一定帧数后执行
---> 请改用 `y3.ltimer.loop_frame`
+--Execute after a certain number of frames
+--> Please use 'clicli.ltimer.loop_frame' instead
 ---@param frame integer
 ---@param on_timer fun(timer: Timer, count: integer)
----@param desc? string # 描述
+---@param desc? string # Description
 ---@return Timer
 function M.loop_frame(frame, on_timer, desc)
     desc = desc or make_timer_reason(on_timer)
@@ -147,12 +147,12 @@ function M.loop_frame(frame, on_timer, desc)
     return timer
 end
 
--- 循环执行，可以指定最大次数
+--Loop execution, you can specify a maximum number of times
 ---@param timeout number
 ---@param times integer
 ---@param on_timer fun(timer: Timer, count: integer)
----@param desc? string # 描述
----@param immediate? boolean # 是否立即执行一次(计入最大次数)
+---@param desc? string # Description
+---@param immediate? boolean # Whether to execute once immediately (count for maximum count)
 ---@return Timer
 function M.count_loop(timeout, times, on_timer, desc, immediate)
     desc = desc or make_timer_reason(on_timer)
@@ -174,12 +174,12 @@ function M.count_loop(timeout, times, on_timer, desc, immediate)
     return timer
 end
 
--- 每经过一定帧数后执行，可以指定最大次数
---> 请改用 `y3.ltimer.count_loop_frame`
+--You can specify the maximum number of frames to be executed after a certain number of frames
+--> Use 'clicli.ltimer.count_loop_frame' instead
 ---@param frame integer
 ---@param times integer
 ---@param on_timer fun(timer: Timer, count: integer)
----@param desc? string # 描述
+---@param desc? string # Description
 ---@return Timer
 function M.count_loop_frame(frame, times, on_timer, desc)
     desc = desc or make_timer_reason(on_timer)
@@ -196,7 +196,7 @@ function M.count_loop_frame(frame, times, on_timer, desc)
     return timer
 end
 
--- 立即执行
+--Immediate execution
 function M:execute(...)
     if self:is_removed() then
         return
@@ -204,7 +204,7 @@ function M:execute(...)
     xpcall(self.on_timer, log.error, self, ...)
 end
 
--- 移除计时器
+--Remove timer
 function M:remove()
     Delete(self)
 end
@@ -213,20 +213,20 @@ function M:is_removed()
     return not IsValid(self)
 end
 
--- 暂停计时器
+--Pause timer
 function M:pause()
     if self.mode == 'frame' then
-        error('帧计时器不支持暂停，若有此需求请改用 `y3.ltimer.xxx_frame`')
+        error('帧计时器不支持暂停，若有此需求请改用 `clicli.ltimer.xxx_frame`')
     end
     GameAPI.pause_timer(self.handle)
 end
 
--- 继续计时器
+--Continue timer
 function M:resume()
     GameAPI.resume_timer(self.handle)
 end
 
--- 是否在运行
+--Whether it is running
 function M:is_running()
     return GameAPI.is_timer_valid(self.handle)
 end
@@ -234,7 +234,7 @@ end
 ---获取计时器经过的时间
 ---@return number time 计时器经过的时间
 function M:get_elapsed_time()
-    return y3.helper.tonumber(GameAPI.get_timer_elapsed_time(self.handle)) or 0
+    return clicli.helper.tonumber(GameAPI.get_timer_elapsed_time(self.handle)) or 0
 end
 
 ---获取计时器初始计数
@@ -246,7 +246,7 @@ end
 ---获取计时器剩余时间
 ---@return number time 计时器剩余时间
 function M:get_remaining_time()
-    return y3.helper.tonumber(GameAPI.get_timer_remaining_time(self.handle)) or 0
+    return clicli.helper.tonumber(GameAPI.get_timer_remaining_time(self.handle)) or 0
 end
 
 ---获取计时器剩余计数
@@ -258,22 +258,22 @@ end
 ---获取计时器设置的时间
 ---@return number time 设置的时间
 function M:get_time_out_time()
-    return y3.helper.tonumber(GameAPI.get_timer_time_out_time(self.handle)) or 0
+    return clicli.helper.tonumber(GameAPI.get_timer_time_out_time(self.handle)) or 0
 end
 
 ---@return string?
 function M:get_include_name()
     if not self.include_name then
-        self.include_name = y3.reload.getIncludeName(self.on_timer) or false
+        self.include_name = clicli.reload.getIncludeName(self.on_timer) or false
     end
     return self.include_name or nil
 end
 
--- 遍历所有的计时器，仅用于调试（可能会遍历到已经失效的）
+--Iterate over all timers for debugging purposes only (it may be possible to iterate over an invalid one)
 ---@return fun():Timer?
 function M.pairs()
     local timers = {}
-    for _, timer in y3.util.sortPairs(M.all_timers) do
+    for _, timer in clicli.util.sortPairs(M.all_timers) do
         timers[#timers+1] = timer
     end
     local i = 0

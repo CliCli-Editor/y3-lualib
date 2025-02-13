@@ -1,34 +1,34 @@
--- 将本地数据同步给所有玩家
+--Sync local data to all players
 ---@class Sync
 local M = Class 'Sync'
 
 ---@private
 M.syncMap = {}
 
--- 发送本地的信息，使用 `onSync` 来同步接受数据  
--- 请在本地环境中使用此函数
----@param id string # 以 `$` 开头的 id 保留为内部使用
+--Send local messages and use 'onSync' to synchronize receiving data
+--Use this function in your local environment
+---@param id string # Ids beginning with '$' are reserved for internal use
 ---@param data Serialization.SupportTypes
 function M.send(id, data)
-    local bin = y3.dump.encode(data)
+    local bin = clicli.dump.encode(data)
     broadcast_lua_msg(id, bin)
 end
 
--- 同步接收数据，回调函数在同步后执行  
--- 同一个 id 只能注册一个回调函数，后注册的会覆盖前面的
+--The data is received synchronously, and the callback function is executed after synchronization
+--Only one callback function can be registered with the same id, and the later ones will overwrite the earlier ones
 ---@param id string
 ---@param callback fun(data: Serialization.SupportTypes, source: Player)
 function M.onSync(id, callback)
     M.syncMap[id] = callback
 end
 
-y3.game:event('游戏-接收广播信息', function (trg, data)
+clicli.game:event('游戏-接收广播信息', function (trg, data)
     local id = data.broadcast_lua_msg_id
     local callback = M.syncMap[id]
     if not callback then
         return
     end
-    local suc, value = pcall(y3.dump.decode, data.broadcast_lua_msg_content)
+    local suc, value = pcall(clicli.dump.decode, data.broadcast_lua_msg_content)
     if not suc then
         return
     end

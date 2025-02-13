@@ -1,32 +1,32 @@
-local shop = require 'y3.演示.demo.合成.商店合成'
-local MAIN = require 'y3.演示.demo.界面.主控'
+local shop = require 'clicli.演示.demo.合成.商店合成'
+local MAIN = require 'clicli.演示.demo.界面.主控'
 local maker = shop.get_maker()
 
----@type boolean # 判断装备合成UI界面是否打开
+---@type boolean # Check whether the equipment composition UI is open
 local is_equipment_ui_open = false
 
----@type boolean # 判断合成分支UI界面是否打开
+---@type boolean # Determine whether the Compositing branch UI is open
 local is_synthesis_ui_visible = false
 
----@type boolean # 判断物品描述UI界面是否打开
+---@type boolean # Determine if the item description UI is open
 local is_description_ui_visible = false
 
----@type boolean # 判断购买按钮UI是否打开
+---@type boolean # Determine if the buy button UI is open
 local is_buy_btn_visible = false
 
----@type string? # 当前在物品列表界面中点击的物品
+---@type string? # The item that is currently clicked in the item list screen
 local cur_click_list_item = nil
 
----@type string? # 当前在物品合成界面中点击的物品
+---@type string? # The item that is currently clicked in the Item composition screen
 local cur_click_synthesis_item = nil
 
----@type string[]? # 商店物品名的集合
+---@type string[]? # A collection of store item names
 local shop_item_names = nil
 
----@type integer # 商店物品数量
+---@type integer # Quantity of items in store
 local shop_item_num = 7
 
----@type table<string, string?> # 合成分支上的UI绑定的item
+---@type table<string, string?> # Synthesize the UI-bound item on the branch
 local ui_bound_item = {
     目标装备 = nil,
     素材1 = nil,
@@ -37,8 +37,8 @@ local ui_bound_item = {
     父装备2 = nil
 }
 
--- 按Z键打开装备购买界面
-y3.game:event('本地-键盘-按下', y3.const.KeyboardKey['Z'], function (trg, data)
+--Press Z to open the equipment purchase screen
+clicli.game:event('本地-键盘-按下', clicli.const.KeyboardKey['Z'], function (trg, data)
     local u = data.player:get_local_selecting_unit()
     if not u then
         return
@@ -61,7 +61,7 @@ y3.game:event('本地-键盘-按下', y3.const.KeyboardKey['Z'], function (trg, 
     MAIN:refresh('装备合成')
 end)
 
--- 点击装备界面按钮打开装备购买界面
+--Click the equipment interface button to open the equipment purchase interface
 MAIN:on_event('装备界面按钮.btn', '左键-按下', function (ui, local_player)
     local u = local_player:get_local_selecting_unit()
     if not u then
@@ -92,7 +92,7 @@ MAIN:on_refresh('装备合成', function (ui, local_player)
     ui:set_visible(is_equipment_ui_open)
 end)
 
--- 给物品列表UI增加点击事件
+--Add click events to the item list UI
 for i = 1, shop_item_num do
     local child_name = string.format('装备合成.物品列表.lines.line1.bg%d', i)
     MAIN:on_refresh(child_name, function (ui, local_player)
@@ -101,8 +101,8 @@ for i = 1, shop_item_num do
             if item_key then
                 ui:set_visible(true)
                 ui:get_child('highlight'):set_visible(false)
-                ui:get_child('bg'):set_image(y3.item.get_icon_id_by_key(item_key))
-                ui:get_child('name'):set_text(y3.item.get_name_by_key(item_key))
+                ui:get_child('bg'):set_image(clicli.item.get_icon_id_by_key(item_key))
+                ui:get_child('name'):set_text(clicli.item.get_name_by_key(item_key))
             else
                 ui:set_visible(false)
             end
@@ -163,7 +163,7 @@ MAIN:on_refresh('装备合成.合成分支', function (ui, local_player)
 
         -- 设置当前物品的UI显示
         ui:get_child('bg'):set_visible(true)
-        ui:get_child('bg.目标装备'):set_image(y3.item.get_icon_id_by_key(cur_click_list_item_key))
+        ui:get_child('bg.目标装备'):set_image(clicli.item.get_icon_id_by_key(cur_click_list_item_key))
         ui:get_child('bg.highlight'):set_visible(false)
         -- 计算花费
         local cur_cost = shop.get_item_price_by_name(cur_click_list_item)
@@ -185,7 +185,7 @@ MAIN:on_refresh('装备合成.合成分支', function (ui, local_player)
             local child_key =  shop.get_item_config()[name]
             if child_key then
                 ui:get_child(string.format('cbg%d', i)):set_visible(true)
-                ui:get_child(string.format('cbg%d.素材%d', i, i)):set_image(y3.item.get_icon_id_by_key(child_key))
+                ui:get_child(string.format('cbg%d.素材%d', i, i)):set_image(clicli.item.get_icon_id_by_key(child_key))
                 ui:get_child(string.format('cbg%d.highlight', i)):set_visible(false)
                 -- 计算花费
                 local child_cost = shop.get_item_price_by_name(name)
@@ -209,7 +209,7 @@ MAIN:on_refresh('装备合成.合成分支', function (ui, local_player)
             local parent_key = shop.get_item_config()[name]
             if parent_key then
                 ui:get_child(string.format('pbg%d', i)):set_visible(true)
-                ui:get_child(string.format('pbg%d.父装备%d', i, i)):set_image(y3.item.get_icon_id_by_key(parent_key))
+                ui:get_child(string.format('pbg%d.父装备%d', i, i)):set_image(clicli.item.get_icon_id_by_key(parent_key))
                 ui:get_child(string.format('pbg%d.highlight', i)):set_visible(false)
                 ui:get_child(string.format('pbg%d.name', i)):set_text(name)
                 ui_bound_item[string.format('父装备%d', i)] = name
@@ -218,7 +218,7 @@ MAIN:on_refresh('装备合成.合成分支', function (ui, local_player)
     end
 end)
 
--- 给合成界面UI注册点击事件
+--Register click events for the composition UI
 MAIN:on_event('装备合成.合成分支.bg.btn', '左键-按下', function (ui, local_player)
     cur_click_synthesis_item = ui_bound_item.目标装备
     is_description_ui_visible = true
@@ -280,9 +280,9 @@ MAIN:on_refresh('装备合成.描述', function (ui, local_player)
             cur_click_synthesis_item_key = shop.get_item_config()[cur_click_synthesis_item]
         end
         if cur_click_synthesis_item_key then
-            ui:get_child('图标'):set_image(y3.item.get_icon_id_by_key(cur_click_synthesis_item_key))
-            ui:get_child('标题'):set_text(y3.item.get_name_by_key(cur_click_synthesis_item_key))
-            ui:get_child('txt'):set_text(y3.item.get_description_by_key(cur_click_synthesis_item_key))
+            ui:get_child('图标'):set_image(clicli.item.get_icon_id_by_key(cur_click_synthesis_item_key))
+            ui:get_child('标题'):set_text(clicli.item.get_name_by_key(cur_click_synthesis_item_key))
+            ui:get_child('txt'):set_text(clicli.item.get_description_by_key(cur_click_synthesis_item_key))
         end
     end
 end)
@@ -295,7 +295,7 @@ MAIN:on_event('装备合成.购买按钮', '左键-按下', function (ui, local_
 
     if cur_click_synthesis_item then
         -- 发送购买请求
-        y3.sync.send('demo-购买商店物品', {
+        clicli.sync.send('demo-购买商店物品', {
             item_name = cur_click_synthesis_item,
             unit = u,
         })

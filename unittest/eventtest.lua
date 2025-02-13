@@ -1,4 +1,4 @@
-require 'y3.unittest.eventhead'
+require 'clicli.unittest.eventhead'
 
 do --基本功能
     local o = New 'UnitTest.EventObject' ()
@@ -110,7 +110,7 @@ do --事件回调参数
 
     o:event_notify('测试1', 1, 2, 3)
 
-    assert(y3.util.equal(r, {
+    assert(clicli.util.equal(r, {
         {1, 2, 3},
         {1, 2, 3},
         {4, 5, 6},
@@ -140,7 +140,7 @@ do --同时包含注册参数和回调参数
 
     o:event_notify_with_args('测试', {1 ,2, 3}, 1, 2, 3)
 
-    assert(y3.util.equal(r, {
+    assert(clicli.util.equal(r, {
         {1, 1, 2, 3},
         {2, 1, 2, 3},
         {3, 1, 2, 3},

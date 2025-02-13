@@ -1,28 +1,28 @@
-Class   = require 'y3.tools.class'.declare
-New     = require 'y3.tools.class'.new
-Extends = require 'y3.tools.class'.extends
-IsValid = require 'y3.tools.class'.isValid
-Type    = require 'y3.tools.class'.type
-Delete  = require 'y3.tools.class'.delete
+Class   = require 'clicli.tools.class'.declare
+New     = require 'clicli.tools.class'.new
+Extends = require 'clicli.tools.class'.extends
+IsValid = require 'clicli.tools.class'.isValid
+Type    = require 'clicli.tools.class'.type
+Delete  = require 'clicli.tools.class'.delete
 
 ---@class Log
 log = {
     error = print,
 }
 
----@class Y3
-y3 = {}
-y3.util    = require 'y3.tools.utility'
-y3.reload  = require 'y3.tools.reload'
-y3.linked_table = require 'y3.tools.linked-table'
+---@class CliCli
+clicli = {}
+clicli.util    = require 'clicli.tools.utility'
+clicli.reload  = require 'clicli.tools.reload'
+clicli.linked_table = require 'clicli.tools.linked-table'
 
-require 'y3.util.event'
-require 'y3.util.event_manager'
-require 'y3.util.custom_event'
-y3.trigger = require 'y3.util.trigger'
+require 'clicli.util.event'
+require 'clicli.util.event_manager'
+require 'clicli.util.custom_event'
+clicli.trigger = require 'clicli.util.trigger'
 
-require 'y3.unittest.eventtest'
-require 'y3.unittest.eventperform'
-require 'y3.unittest.ltimer'
+require 'clicli.unittest.eventtest'
+require 'clicli.unittest.eventperform'
+require 'clicli.unittest.ltimer'
 
 print('测试完成！')

@@ -27,40 +27,40 @@ end
 ---@overload fun():SortedDictionary
 SortedDictionary = Class("SortedDictionary")
 
--- 构造函数
+--constructor
 function SortedDictionary:__init()
     self.dictionary = {}
     return self
 end
 
--- 添加或更新键值对
+--Add or update key-value pairs
 ---@param key any
 ---@param value any
 function SortedDictionary:add(key, value)
     self.dictionary[key] = value
 end
 
--- 移除键值对
+--Remove a key-value pair
 ---@param key any
 function SortedDictionary:remove(key)
     self.dictionary[key] = nil
 end
 
--- 获取值
+--Fetch value
 ---@param key any
 ---@return any
 function SortedDictionary:get(key)
     return self.dictionary[key]
 end
 
--- 检查是否包含键
+--Check whether keys are included
 ---@param key any
 ---@return boolean
 function SortedDictionary:containsKey(key)
     return self.dictionary[key] ~= nil
 end
 
--- 获取排序后的键列表
+--Gets the sorted list of keys
 function SortedDictionary:getSortedKeys()
     local keys = {}
     for key in pairs(self.dictionary) do
@@ -70,7 +70,7 @@ function SortedDictionary:getSortedKeys()
     return keys
 end
 
--- 获取有序迭代器
+--Gets ordered iterators
 ---@return fun():any, any
 function SortedDictionary:SortedPairs()
     local sortedKeys = self:getSortedKeys()

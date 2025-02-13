@@ -1,6 +1,6 @@
 ---@class Synthesis
----@field private recipes table<any, table<any, integer>> # 记录合成目标和其对应合成素材的出现次数 {'target1':{'material1':2, 'material2':4}}
----@field private material_map table<any, table<any, boolean>> # 记录合成素材可以合成的目标物品 {'material1':{'target1':true, 'target2':true}}
+---@field private recipes table<any, table<any, integer>> # Record the number of occurrences of the synthetic object and its corresponding synthetic material {'target1':{'material1':2, 'material2':4}}
+---@field private material_map table<any, table<any, boolean>> # Record the object object that the composition material can synthesize {'material1':{'target1':true, 'target2':true}}
 ---@overload fun(): self
 local M = Class 'Synthesis'
 
@@ -15,8 +15,8 @@ function M:__init()
 end
 
 ---注册合成配方
----@param result any # 合成目标 "target"
----@param ingredients any[] # 合成素材 {"material1", "material2", "material3"}
+---@param result any # Synthetic target' target'
+---@param ingredients any[] # Synthetic materials {'material1', 'material2', 'material3'}
 function M:register(result, ingredients)
     self.recipes[result] = {}
     -- 记录合成素材出现的次数
@@ -38,8 +38,8 @@ function M:register(result, ingredients)
 end
 
 ---根据物品获取其配方
----@param item any # 物品
----@return { parents: any[], children: any[] } # 该物品可合成的物品，该物品的合成素材 {parents:{"parent1"}, children:{"child1", "child2"}}
+---@param item any # item
+---@return { parents: any[], children: any[] } # The synthetic material of this item {parents:{'parent1'}, children:{'child1', 'child2'}}
 function M:get_recipes_by_item(item)
     local result = {
         parents = {},
@@ -66,10 +66,10 @@ function M:get_recipes_by_item(item)
 end
 
 ---获得result表
----@param items_map table<any, integer> # 物品栏物品次数字典 {'item1':3, 'item2':1}
----@param target any # 合成目标
----@param cur_recipes table<any, table<any, integer>> # 配方表
----@return { lost: any[], get: any } # 失去的合成物品素材，合成的结果 {lost:{"material1", "material2"}, get:"target1"}
+---@param items_map table<any, integer> # Item count dictionary {'item1':3, 'item2':1}
+---@param target any # Synthetic target
+---@param cur_recipes table<any, table<any, integer>> # recipe
+---@return { lost: any[], get: any } # lost material, resultant resultant {lost:{'material1', 'material2'}, get:'target1'}
 local function get_result(items_map, target, cur_recipes)
     local result = {
         get = target,
@@ -87,10 +87,10 @@ local function get_result(items_map, target, cur_recipes)
 end
 
 ---判断物品栏物品是否能合成某个物品
----@param items_map table<any, integer> # 物品栏物品次数字典 {'item1':3, 'item2':1}
----@param target any # 合成目标
----@param cur_recipes table<any, table<any, integer>> # 配方表
----@return boolean # 是否可以合成
+---@param items_map table<any, integer> # Item count dictionary {'item1':3, 'item2':1}
+---@param target any # Synthetic target
+---@param cur_recipes table<any, table<any, integer>> # recipe
+---@return boolean # Whether it can be synthesized
 local function check_target_synthesis(items_map, target, cur_recipes)
     for material, cnt in pairs(cur_recipes[target]) do
         -- 如果物品列表中不存在该合成素材，或者小于该合成素材所需的个数则直接判断该目标不能合成
@@ -102,8 +102,8 @@ local function check_target_synthesis(items_map, target, cur_recipes)
 end
 
 ---传入当前物品栏物品，检查合成
----@param items any[]? # 物品栏物品 {"material1", "material2", "material3"}
----@return { lost: any[], get: any } | nil # 作为合成素材的物品，合成的结果 {lost:{"material1", "material2"}, get:"target1"}
+---@param items any[]? # Inventory items {'material1', 'material2', 'material3'}
+---@return { lost: any[], get: any } | nil # The result of the composition {lost:{'material1', 'material2'}, get:'target1'}
 function M:check(items)
     if not items then
         return nil
@@ -146,10 +146,10 @@ function M:check(items)
 end
 
 ---递归函数，用来更新result表
----@param target any # 目标物品 "target"
----@param items_map any[] # 物品集合 {"material1", "material2"}
----@param cur_recipes table<any, table<any, integer>> # 配方表
----@param result { needs: any[], lost: any[] } # 合成还需的素材和会失去的已有合成素材 {needs:{}, lost:{}}
+---@param target any # target item 'target'
+---@param items_map any[] # Item collection {'material1', 'material2'}
+---@param cur_recipes table<any, table<any, integer>> # recipe
+---@param result { needs: any[], lost: any[] } # {needs:{}, lost:{}}}
 local function target_check_backtrack(target, items_map, cur_recipes, result)
     -- 遍历当前物品的合成素材
     for material, cnt in pairs(cur_recipes[target]) do
@@ -188,9 +188,9 @@ local function target_check_backtrack(target, items_map, cur_recipes, result)
 end
 
 ---传入目标物品和已有物品，返回结果
----@param target any # 目标物品 "target"
----@param items any[]? # 物品集合 {"material1", "material2"}
----@return { needs: any[], lost: any[] } | nil # 合成还需的素材和会失去的已有合成素材 {needs:{"material3"}, lost:{"material1", "material2"}}
+---@param target any # target item 'target'
+---@param items any[]? # Item collection {'material1', 'material2'}
+---@return { needs: any[], lost: any[] } | nil # Materials needed to synthesize and existing materials that will be lost. {needs:{'material3'}, lost:{'material1', 'material2'}}
 function M:target_check(target, items)
     local result = {
         needs = {},
@@ -220,13 +220,13 @@ function M:target_check(target, items)
 end
 
 ---返回配方表
----@return table<any, table<any, integer>> # 配方表
+---@return table<any, table<any, integer>> # recipe
 function M:get_recipes()
     return self.recipes
 end
 
 ---返回合成素材字典
----@return table<any, table<any, boolean>> # 合成素材字典
+---@return table<any, table<any, boolean>> # Composite material dictionary
 function M:get_material_map()
     return self.material_map
 end

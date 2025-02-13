@@ -1,8 +1,8 @@
 local originRequire = require
 
---热重载
+--Hot heavy duty
 --
---热重载相关的方法，详细请看 `演示/热重载`。
+--For methods related to hot reload, see 'Demonstration/Hot Reload' for details.
 ---@class Reload
 ---@overload fun(optional?: Reload.Optional): self
 local M = Class 'Reload'
@@ -41,13 +41,13 @@ function M:__init(optional)
 
     ---@private
     ---@type table<string, any>
-    self.validMap = optional and optional.list and y3.util.revertMap(optional.list) --[[@as table<string, any>]]
+    self.validMap = optional and optional.list and clicli.util.revertMap(optional.list) --[[@as table<string, any>]]
 
     ---@private
     self.filter = self.optional and self.optional.filter
 end
 
--- 模块名是否会被重载
+--Whether the module name will be overloaded
 ---@param name? string
 ---@return boolean
 function M:isValidName(name)
@@ -124,8 +124,8 @@ M.modNameMap = {}
 ---@private
 M.includeStack = {}
 
--- 类似于 `require` ，但是会在重载时重新加载文件。
--- 加载文件时遇到错误会返回false而不是抛出异常。
+--Similar to 'require', but reloads the file on reload.
+--An error while loading a file returns false instead of throwing an exception.
 ---@param modname string
 ---@return any
 ---@return unknown loaderdata
@@ -154,7 +154,7 @@ function require(modname)
         return package.loaded[modname], nil
     end
     M.includeStack[#M.includeStack+1] = false
-    local _ <close> = y3.util.defer(function ()
+    local _ <close> = clicli.util.defer(function ()
         M.includeStack[#M.includeStack] = nil
     end)
     local result, loaderdata = originRequire(modname)
@@ -188,13 +188,13 @@ function M.getCurrentIncludeName()
     return M.includeStack[#M.includeStack] or nil
 end
 
--- 设置默认的重载选项
+--Set default overload options
 ---@param optional? Reload.Optional
 function M.setDefaultOptional(optional)
     M.defaultReloadOptional = optional
 end
 
--- 进行重载
+--overload
 ---@param optional? Reload.Optional
 function M.reload(optional)
     optional = optional or M.defaultReloadOptional
@@ -208,7 +208,7 @@ function M.isReloading()
     return M._reloading == true
 end
 
--- 注册在重载之前的回调
+--Register callbacks before reloading
 ---@param callback Reload.beforeReloadCallback
 function M.onBeforeReload(callback)
     M.beforeReloadCallbacks[#M.beforeReloadCallbacks+1] = {
@@ -217,7 +217,7 @@ function M.onBeforeReload(callback)
     }
 end
 
--- 注册在重载之后的回调
+--Register callbacks after reloading
 ---@param callback Reload.afterReloadCallback
 function M.onAfterReload(callback)
     M.afterReloadCallbacks[#M.afterReloadCallbacks+1] = {
@@ -226,8 +226,8 @@ function M.onAfterReload(callback)
     }
 end
 
---立即执行回调函数，之后每当发生重载时，
---会再次执行这个回调函数。
+--Execute the callback function immediately, and then whenever overloading occurs,
+--The callback is executed again.
 ---@generic R1, R2
 ---@param callback fun(trash: fun(obj: R2): R2): R1?
 ---@return R1

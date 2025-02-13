@@ -1,6 +1,6 @@
---请安装“Y3开发助手”插件（版本>=0.9.0）后，
---使用命令 `F1` -> `Y3开发助手:启动网络服务器`，
---然后再进行下列演示。
+--Please install the 'CliCli Development Assistant' plug-in (version >=0.9.0),
+--Using the command 'F1' -> 'CliCli Development Assistant: Start Web server',
+--Then proceed with the following demonstration.
 
 local M = {}
 
@@ -9,7 +9,7 @@ local M = {}
 客户端发送“再见！”会断开连接
 ]]
 function M.test1()
-    local client = y3.network.connect('127.0.0.1', 25895)
+    local client = clicli.network.connect('127.0.0.1', 25895)
     print('开始连接服务器1...')
 
     client:on_connected(function (self)
@@ -47,7 +47,7 @@ end
 ```
 ]]
 function M.test2()
-    local client = y3.network.connect('127.0.0.1', 25896)
+    local client = clicli.network.connect('127.0.0.1', 25896)
     print('开始连接服务器2...')
 
     client:on_connected(function (self)
@@ -71,7 +71,7 @@ function M.test2()
         --读取包体，格式为json
         local jsonStr = read(len)
         --解析json
-        local json = y3.json.decode(jsonStr)
+        local json = clicli.json.decode(jsonStr)
 
         print('收到数据：')
         print('count:', json.count)

@@ -1,4 +1,4 @@
---声音
+--Audio
 ---@class Sound
 ---@overload fun(py_sound: py.SoundEntity):self
 local M = Class 'Sound'
@@ -16,14 +16,14 @@ function M.get_by_handle(py_sound)
 end
 
 ---@class Sound.PlayOptions
----@field loop? boolean # 是否循环
----@field fade_in? number # 渐入时间
----@field fade_out? number # 渐出时间
+---@field loop? boolean # Cyclic or not
+---@field fade_in? number # Involution time
+---@field fade_out? number # Fade out time
 
 ---播放声音
 ---@param player Player 玩家
 ---@param sound py.AudioKey 声音
----@param options Sound.PlayOptions? # 播放选项
+---@param options Sound.PlayOptions? # Play option
 ---@return Sound?
 function M.play(player, sound, options)
     local py_sound = GameAPI.play_sound_for_player(
@@ -40,14 +40,14 @@ function M.play(player, sound, options)
 end
 
 ---@class Sound.Play3DOptions: Sound.PlayOptions
----@field height? number # 高度
----@field ensure? boolean # 是否确保播放
+---@field height? number # Altitude
+---@field ensure? boolean # Ensure to play
 
 ---播放3D声音
 ---@param player Player 玩家
 ---@param sound py.AudioKey 声音
 ---@param point Point 目标点
----@param options Sound.Play3DOptions? # 播放选项
+---@param options Sound.Play3DOptions? # Play option
 ---@return Sound?
 function M.play_3d(player, sound, point, options)
     local py_sound = GameAPI.play_3d_sound_for_player(
@@ -69,16 +69,16 @@ function M.play_3d(player, sound, point, options)
 end
 
 ---@class Sound.PlayUnitOptions: Sound.PlayOptions
----@field ensure? boolean # 是否确保播放
----@field offset_x? number # X轴偏移
----@field offset_y? number # Y轴偏移
----@field offset_z? number # Z轴偏移
+---@field ensure? boolean # Ensure to play
+---@field offset_x? number # X-axis migration
+---@field offset_y? number # Y-axis migration
+---@field offset_z? number # Z-axis migration
 
 ---跟随单位播放声音
 ---@param player Player 玩家
 ---@param sound py.AudioKey 声音
 ---@param unit Unit 跟随的单位
----@param options Sound.PlayUnitOptions? # 播放选项
+---@param options Sound.PlayUnitOptions? # Play option
 ---@return Sound?
 function M.play_with_object(player, sound, unit, options)
     local py_sound = GameAPI.follow_object_play_3d_sound_for_player(
@@ -106,7 +106,7 @@ function M:stop(player, is_immediately)
     GameAPI.stop_sound(player.handle, self.handle, not is_immediately or false)
 end
 
--- 设置音量
+--Set volume
 ---@param player Player 玩家
 ---@param volume integer 音量(0-100)
 function M:set_volume(player, volume)

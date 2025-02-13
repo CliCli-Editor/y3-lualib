@@ -1,4 +1,4 @@
-local helper = require 'y3.develop.helper.helper'
+local helper = require 'clicli.develop.helper.helper'
 
 ---@class Develop.Helper.TreeView: GCHost
 ---@overload fun(name: string, root: Develop.Helper.TreeNode): Develop.Helper.TreeView
@@ -39,27 +39,27 @@ function View:remove()
 end
 
 ---@class Develop.Helper.TreeNode.Optional
----@field icon? string # 图标，见 https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
----@field description? string # 描述
----@field tooltip? string # 提示
----@field check? boolean # 复选框状态，应该要配合 `onCheck` 与 `onUnCheck` 使用
----@field childs? Develop.Helper.TreeNode[] # 子节点列表。如果子节点计算量较大，可以改用 `childsGetter` 来获取子节点
----@field childsGetter? fun(node: Develop.Helper.TreeNode): Develop.Helper.TreeNode[] # 当试图展开节点时，会调用这个函数获取子节点，和 `childs` 互斥
----@field onVisible? fun(node: Develop.Helper.TreeNode) # 当节点能被看到时调用
----@field onInvisible? fun(node: Develop.Helper.TreeNode) # 当节点看不到时调用
----@field onClick? fun(node: Develop.Helper.TreeNode) # 当节点被点击时调用
----@field onExpand? fun(node: Develop.Helper.TreeNode) # 当节点被展开时调用
----@field onCollapse? fun(node: Develop.Helper.TreeNode) # 当节点被折叠时调用
----@field onInit? fun(node: Develop.Helper.TreeNode) # 当节点创建第一次可见时调用
----@field onCheck? fun(node: Develop.Helper.TreeNode) # 当节点复选框被勾选时调用
----@field onUnCheck? fun(node: Develop.Helper.TreeNode) # 当节点复选框被取消勾选时调用
+---@field icon? string # Icon, see https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
+---@field description? string # Description
+---@field tooltip? string # Tips
+---@field check? boolean # Check box status should be used with 'onCheck' and 'onUnCheck'
+---@field childs? Develop.Helper.TreeNode[] # List of child nodes. If the child node is computationally heavy, you can use 'childsGetter' to get the child node
+---@field childsGetter? fun(node: Develop.Helper.TreeNode): Develop.Helper.TreeNode[] # When trying to expand a node, this function is called to get the child node, and 'childs' is mutually exclusive
+---@field onVisible? fun(node: Develop.Helper.TreeNode) # Called when the node can be seen
+---@field onInvisible? fun(node: Develop.Helper.TreeNode) # Called when the node is not visible
+---@field onClick? fun(node: Develop.Helper.TreeNode) # Called when a node is clicked
+---@field onExpand? fun(node: Develop.Helper.TreeNode) # Called when a node is expanded
+---@field onCollapse? fun(node: Develop.Helper.TreeNode) # Called when a node is collapsed
+---@field onInit? fun(node: Develop.Helper.TreeNode) # Called when the node is created for the first time visible
+---@field onCheck? fun(node: Develop.Helper.TreeNode) # Called when the node check box is checked
+---@field onUnCheck? fun(node: Develop.Helper.TreeNode) # Called when the node check box is unchecked
 
 ---@class Develop.Helper.TreeNode: GCHost, Class.Base
 ---@field name string
----@field description? string # 描述
----@field icon? string # 图标
----@field tooltip? string # 提示
----@field check? boolean # 复选框状态
+---@field description? string # Description
+---@field icon? string # icon
+---@field tooltip? string # Tips
+---@field check? boolean # Checkbox status
 ---@field childs? Develop.Helper.TreeNode[]
 ---@field package lastChilds? Develop.Helper.TreeNode[]
 ---@overload fun(name: string, optional: Develop.Helper.TreeNode.Optional): Develop.Helper.TreeNode
@@ -229,14 +229,14 @@ function Node:update()
         self._needUpdate = true
         return
     end
-    self._updateTimer = y3.ctimer.wait_frame(1, function (timer, count, local_player)
+    self._updateTimer = clicli.ctimer.wait_frame(1, function (timer, count, local_player)
         self._updateTimer = nil
         local info = self:makeNodeInfo()
         info.complete = true
         helper.notify('refreshTreeNode', info)
     end)
     self._updateCooldown = true
-    y3.ctimer.wait(0.5, function ()
+    clicli.ctimer.wait(0.5, function ()
         local needUpdate = self._needUpdate
         self._updateCooldown = false
         self._needUpdate = false

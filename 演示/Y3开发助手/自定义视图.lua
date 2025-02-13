@@ -1,10 +1,10 @@
---需要安装VSCode扩展《Y3开发助手》，版本 >= 1.8.0
+--The VSCode extension CliCli Development Assistant, version >= 1.8.0, needs to be installed
 
---创建节点的接口名比较长，这里重命名一下：
-local Node = y3.develop.helper.createTreeNode
+--The interface name of the created node is long, so rename it here:
+local Node = clicli.develop.helper.createTreeNode
 
---在Y3开发助手的树形视图上创建一个你的视图
-y3.develop.helper.createTreeView('作弊功能', Node('作弊功能', {
+--Create your view on the tree view of the CliCli development Assistant
+clicli.develop.helper.createTreeView('作弊功能', Node('作弊功能', {
     --可用图标请参阅 https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
     icon = 'call-incoming',
     --定义子节点
@@ -12,8 +12,8 @@ y3.develop.helper.createTreeView('作弊功能', Node('作弊功能', {
         Node('回满状态', {
             onClick = function (node)
                 --点击事件是本地的，如果你需要联机测试，
-                --请使用 `y3.sync` 库进行同步
-                y3.player.with_local(function (local_player)
+                --请使用 `clicli.sync` 库进行同步
+                clicli.player.with_local(function (local_player)
                     local unit = local_player:get_local_selecting_unit()
                     if unit then
                         unit:set_attr('生命', unit:get_attr("最大生命"))
@@ -24,7 +24,7 @@ y3.develop.helper.createTreeView('作弊功能', Node('作弊功能', {
         }),
         Node('杀死单位', {
             onClick = function (node)
-                y3.player.with_local(function (local_player)
+                clicli.player.with_local(function (local_player)
                     local unit = local_player:get_local_selecting_unit()
                     if unit then
                         unit:kill_by(unit)
@@ -39,8 +39,8 @@ y3.develop.helper.createTreeView('作弊功能', Node('作弊功能', {
                 description = '无',
             })
 
-            node:bindGC(y3.ltimer.loop(0.2, function ()
-                y3.player.with_local(function (local_player)
+            node:bindGC(clicli.ltimer.loop(0.2, function ()
+                clicli.player.with_local(function (local_player)
                     local unit = local_player:get_local_selecting_unit()
                     if unit then
                         node.description = tostring(unit)
@@ -55,5 +55,5 @@ y3.develop.helper.createTreeView('作弊功能', Node('作弊功能', {
     }
 }))
 
---你一定已经注意到，自定义视图中已经有一个默认的“仪表盘”视图了。
---它的源代码可以在 `y3\develop\helper\explorer.lua` 中找到。
+--You must have noticed that custom views already have a default Dashboard view.
+--The source code can be found in 'clicli\develop\helper\explorer.lua'.

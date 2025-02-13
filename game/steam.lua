@@ -21,9 +21,9 @@ function M.get_avatar_url()
 end
 
 ---【异步】请求开始匹配
----@param score integer # 匹配分数
----@param level_id string # 目标地图id
----@param game_mode? integer # 目标地图模式
+---@param score integer # Matching score
+---@param level_id string # Target map id
+---@param game_mode? integer # Object map mode
 function M.start_match(score, level_id, game_mode)
     M.request_start_match(score, level_id, game_mode)
 end
@@ -44,9 +44,9 @@ function M.get_team_state()
 end
 
 ---【异步】获取本地玩家的状态
----@return y3.Const.SteamOnlineState state
+---@return clicli.Const.SteamOnlineState state
 function M.get_player_state()
-    return GameAPI.steam_get_player_state() --[[@as y3.Const.SteamOnlineState]]
+    return GameAPI.steam_get_player_state() --[[@as clicli.Const.SteamOnlineState]]
 end
 
 ---【异步】获取本地玩家的昵称
@@ -93,7 +93,7 @@ end
 --- second_name: string,
 --- nickname: string,
 --- head_icon: string,
---- online: y3.Const.SteamOnlineState,
+--- online: clicli.Const.SteamOnlineState,
 --- level: integer,
 --- aid: integer,
 --- show_state: Steam.FriendState.ShowState,
@@ -127,7 +127,7 @@ local function callback_with_error_code(callback, context, ...)
 end
 
 ---【异步】请求添加好友
----@param aid integer # 对方的aid
+---@param aid integer # aid of the other party
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_add_friend(aid, callback)
     local context = {}
@@ -140,7 +140,7 @@ function M.request_add_friend(aid, callback)
 end
 
 ---【异步】请求删除好友
----@param aid integer # 对方的aid
+---@param aid integer # aid of the other party
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_delete_friend(aid, callback)
     local context = {}
@@ -153,8 +153,8 @@ function M.request_delete_friend(aid, callback)
 end
 
 ---【异步】回复好友请求
----@param aid integer # 对方的aid
----@param accept boolean # 是否接受
+---@param aid integer # aid of the other party
+---@param accept boolean # Whether to accept or not
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.reply_friend_add(aid, accept, callback)
     local context = {}
@@ -167,8 +167,8 @@ function M.reply_friend_add(aid, accept, callback)
 end
 
 ---【异步】请求开始游戏（不匹配），只有队长可以调用
----@param level_id? string # 目标地图id
----@param game_mode? integer # 目标地图模式
+---@param level_id? string # Target map id
+---@param game_mode? integer # Object map mode
 ---@param callback? fun(success?: boolean, error_code?: integer)
 function M.request_start_game(level_id, game_mode, callback)
     local context = {}
@@ -177,11 +177,11 @@ function M.request_start_game(level_id, game_mode, callback)
         if callback then
             callback_with_error_code(callback, context)
         end
-    end, context, level_id or y3.game:get_level(), game_mode or 1002)
+    end, context, level_id or clicli.game:get_level(), game_mode or 1002)
 end
 
 ---【异步】请求加入队伍
----@param team_id integer # 队伍id
+---@param team_id integer # Team id
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_join_team(team_id, callback)
     local context = {}
@@ -194,7 +194,7 @@ function M.request_join_team(team_id, callback)
 end
 
 ---【异步】请求加入队伍
----@param name string # 对方的玩家名字
+---@param name string # The player name of the opposing team
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_join_team_by_name(name, callback)
     local context = {}
@@ -207,7 +207,7 @@ function M.request_join_team_by_name(name, callback)
 end
 
 ---【异步】邀请玩家加入队伍
----@param aid integer # 对方的aid
+---@param aid integer # aid of the other party
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_invite_join_team(aid, callback)
     local context = {}
@@ -220,9 +220,9 @@ function M.request_invite_join_team(aid, callback)
 end
 
 ---【异步】回复队伍邀请
----@param aid integer # 对方的aid
----@param team_id integer # 队伍id
----@param accept boolean # 是否接受
+---@param aid integer # aid of the other party
+---@param team_id integer # Team id
+---@param accept boolean # Whether to accept or not
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.reply_team_invite(aid, team_id, accept, callback)
     local context = {}
@@ -251,15 +251,15 @@ end
 --- level: integer,
 --- nickname: string,
 --- head_icon: string,
---- state: y3.Const.SteamOnlineState,
+--- state: clicli.Const.SteamOnlineState,
 --- show_state: Steam.FriendState.ShowState,
---- online: y3.Const.SteamOnlineState,
+--- online: clicli.Const.SteamOnlineState,
 --- team_id: integer,
 --- is_captain: boolean,
 ---}
 
 ---【异步】请求指定玩家的队伍信息
----@param aid integer # 对方的aid
+---@param aid integer # aid of the other party
 ---@param callback fun(team_info?: Steam.MemberInfo[], error_code?: integer)
 function M.request_team_info(aid, callback)
     local context = {}
@@ -270,7 +270,7 @@ function M.request_team_info(aid, callback)
 end
 
 ---【异步】转交队长，只有队长可以调用
----@param aid integer # 对方的aid
+---@param aid integer # aid of the other party
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_transfer_captain(aid, callback)
     local context = {}
@@ -283,7 +283,7 @@ function M.request_transfer_captain(aid, callback)
 end
 
 ---【异步】请求从队伍中踢出玩家，只有队长可以调用
----@param aid integer # 对方的aid
+---@param aid integer # aid of the other party
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_kick_member(aid, callback)
     local context = {}
@@ -296,7 +296,7 @@ function M.request_kick_member(aid, callback)
 end
 
 ---【异步】根据玩家昵称查询玩家的aid
----@param nickname string # 玩家昵称
+---@param nickname string # Player nickname
 ---@param callback fun(aid?: integer, error_code?: integer)
 function M.request_aid_by_nickname(nickname, callback)
     local context = {}
@@ -307,7 +307,7 @@ function M.request_aid_by_nickname(nickname, callback)
 end
 
 ---【异步】请求创建队伍
----@param team_num integer # 人数上限
+---@param team_num integer # Headcount ceiling
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_create_team(team_num, callback)
     local context = {}
@@ -320,14 +320,14 @@ function M.request_create_team(team_num, callback)
 end
 
 ---【异步】请求开始匹配
----@param score integer # 匹配分数
----@param level_id? string # 目标地图id
----@param game_mode? integer # 目标地图模式
+---@param score integer # Matching score
+---@param level_id? string # Target map id
+---@param game_mode? integer # Object map mode
 ---@param callback? fun(success?: boolean, error_code?: integer)
 function M.request_start_match(score, level_id, game_mode, callback)
     local context = {}
     ---@diagnostic disable-next-line: undefined-field
-    GameAPI.lua_request_start_match(score, level_id or y3.game:get_level(), game_mode or 1002, function ()
+    GameAPI.lua_request_start_match(score, level_id or clicli.game:get_level(), game_mode or 1002, function ()
         if callback then
             callback_with_error_code(callback, context)
         end
@@ -357,8 +357,8 @@ function M.request_global_archive_datas(callback)
 end
 
 ---【异步】请求头像的文件路径
----@param url string # 头像的网络地址
----@param callback fun(path: string) # 图像下载完毕后回调，参数为下载后的文件路径
+---@param url string # The network address of the profile picture
+---@param callback fun(path: string) # Call back after the image is downloaded. The parameter is the file path after downloading
 function M.request_icon(url, callback)
     ---@diagnostic disable-next-line: undefined-field
     GameAPI.lua_request_team_icon(url, function (context)
@@ -368,7 +368,7 @@ end
 
 ---【异步】请求结算天梯分
 ---@param player Player
----@param params table<string, any> # 结算参数
+---@param params table<string, any> # Settlement parameter
 ---@param callback? fun(result: {
 --- id: integer,
 --- new_score: integer,
@@ -388,10 +388,10 @@ function M.request_roll_settle_ladder_score(player, params, callback)
 end
 
 ---【异步】请求创建房间
----@param room_name string # 房间名称
----@param callback fun(room_info?: Steam.FullRoomInfo, error_code?: integer) # 创建成功后回调，参数为房间id
----@param mode_id? integer # 模式id，默认为 `1002`
----@param password? string # 房间密码，`nil` 或空字符串等表示无需密码
+---@param room_name string # Room name
+---@param callback fun(room_info?: Steam.FullRoomInfo, error_code?: integer) # Callback after successful creation. The parameter is room id
+---@param mode_id? integer # Mode id. The default value is 1002
+---@param password? string # Room password, such as' nil 'or empty string, means that no password is required
 function M.request_create_room(room_name, callback, mode_id, password)
     ---@diagnostic disable-next-line: undefined-field
     GameAPI.lua_request_server_create_room(room_name, function (context)
@@ -406,12 +406,12 @@ end
 ---@field room_name string
 ---@field curr_player_number integer
 ---@field max_player_number integer
----@field is_public boolean # 非公开房加入需要密码
----@field room_state y3.Const.SteamRoomState
+---@field is_public boolean # A password is required to join non-public rooms
+---@field room_state clicli.Const.SteamRoomState
 ---@field rooms_total_num integer
 
 ---【异步】请求房间列表
----@param page integer # 第几页，每页会有最多100个结果
+---@param page integer # Which page, each page will have a maximum of 100 results
 ---@param callback fun(rooms?: Steam.SimpleRoomInfo[], error_code?: integer)
 function M.request_room_list(page, callback)
     ---@diagnostic disable-next-line: undefined-field
@@ -450,7 +450,7 @@ end
 ---@field head_icon string
 ---@field locked boolean
 ---@field ai_type 5 | 6
----@field state y3.Const.SteamRoomSlotState
+---@field state clicli.Const.SteamRoomSlotState
 ---@field is_ready any
 ---@field is_owner boolean
 ---@field aid integer
@@ -461,14 +461,14 @@ function M.convert_room_info(info)
     if info and info['slot_info'] then
         for _, slot in ipairs(info['slot_info']) do
             if slot.locked then
-                slot.state = y3.const.SteamRoomSlotState['关闭']
+                slot.state = clicli.const.SteamRoomSlotState['关闭']
             else
                 if slot.ai_type == 5 then
-                    slot.state = y3.const.SteamRoomSlotState['简单电脑']
+                    slot.state = clicli.const.SteamRoomSlotState['简单电脑']
                 elseif slot.ai_type == 6 then
-                    slot.state = y3.const.SteamRoomSlotState['困难电脑']
+                    slot.state = clicli.const.SteamRoomSlotState['困难电脑']
                 else
-                    slot.state = y3.const.SteamRoomSlotState['打开']
+                    slot.state = clicli.const.SteamRoomSlotState['打开']
                 end
             end
         end
@@ -523,7 +523,7 @@ function M.reply_accpet_room_invite(aid, room_id, callback)
 end
 
 ---【异步】请求交换房间槽位
----@param slot integer # 目标槽位
+---@param slot integer # Target slot
 ---@param callback fun(success: boolean, error_code?: integer)
 function M.request_change_room_slot(slot, callback)
     ---@diagnostic disable-next-line: undefined-field
@@ -533,7 +533,7 @@ function M.request_change_room_slot(slot, callback)
 end
 
 ---【异步】请求将房主转交给其他用户
----@param aid integer # 目标用户的aid
+---@param aid integer # The aid of the target user
 ---@param callback fun(success: boolean, error_code?: integer)
 function M.request_change_owner(aid, callback)
     ---@diagnostic disable-next-line: undefined-field
@@ -553,7 +553,7 @@ function M.request_exit_room(callback)
 end
 
 ---【异步】请求从房间中踢出用户
----@param aid integer # 目标用户的aid
+---@param aid integer # The aid of the target user
 ---@param callback fun(success: boolean, error_code?: integer)
 function M.request_kick_from_room(aid, callback)
     ---@diagnostic disable-next-line: undefined-field
@@ -563,8 +563,8 @@ function M.request_kick_from_room(aid, callback)
 end
 
 ---【异步】请求修改房间中某个槽位的状态
----@param slot integer # 目标槽位
----@param state y3.Const.SteamRoomSlotState # 目标状态
+---@param slot integer # Target slot
+---@param state clicli.Const.SteamRoomSlotState # Target state
 ---@param callback fun(success: boolean, error_code?: integer)
 function M.request_change_slot_state(slot, state, callback)
     ---@diagnostic disable-next-line: undefined-field
@@ -574,7 +574,7 @@ function M.request_change_slot_state(slot, state, callback)
 end
 
 ---【异步】请求修改房间密码
----@param password? string # 房间密码，`nil` 或空字符串等表示无需密码
+---@param password? string # Room password, such as' nil 'or empty string, means that no password is required
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_change_room_password(password, callback)
     ---@diagnostic disable-next-line: undefined-field
@@ -584,7 +584,7 @@ function M.request_change_room_password(password, callback)
 end
 
 ---【异步】请求修改房间名字
----@param name string # 房间名字
+---@param name string # Room name
 ---@param callback? fun(success: boolean, error_code?: integer)
 function M.request_change_room_name(name, callback)
     ---@diagnostic disable-next-line: undefined-field
@@ -605,7 +605,7 @@ end
 ---@return number?
 function M.get_steam_goods_price(goods_id)
     ---@diagnostic disable-next-line: undefined-field
-    return y3.helper.tonumber(GameAPI.get_steam_goods_price(tostring(goods_id)))
+    return clicli.helper.tonumber(GameAPI.get_steam_goods_price(tostring(goods_id)))
 end
 
 return M

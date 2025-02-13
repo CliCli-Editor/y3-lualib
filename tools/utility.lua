@@ -539,7 +539,7 @@ function m.utf8Len(str, start, finish)
     return len
 end
 
--- 把数组中的元素顺序*原地*反转
+--Invert the order of the elements in an array
 ---@param arr any[]
 ---@return any[]
 function m.revertArray(arr)
@@ -554,7 +554,7 @@ function m.revertArray(arr)
     return arr
 end
 
--- 创建一个value-key表
+--Create a value-key table
 ---@generic K, V
 ---@param t table<K, V>
 ---@return table<V, K>
@@ -611,7 +611,7 @@ end
 
 ---遍历文本的每一行
 ---@param text string
----@param keepNL? boolean # 保留换行符
+---@param keepNL? boolean # Keep newlines
 ---@return fun():string?, integer?
 function m.eachLine(text, keepNL)
     local offset = 1
@@ -654,7 +654,7 @@ end
 
 ---@alias SortByScoreCallback fun(o: any): integer
 
--- 按照分数排序，分数越高越靠前
+--Sort by score, the higher the score, the higher the score
 ---@param tbl any[]
 ---@param callbacks SortByScoreCallback | SortByScoreCallback[]
 function m.sortByScore(tbl, callbacks)

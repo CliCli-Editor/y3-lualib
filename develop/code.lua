@@ -2,8 +2,8 @@
 local M = {}
 
 ---@class Develop.Code.SyncHandler
----@field env? fun(data: any): table? # 返回一个表，用于作为执行环境
----@field complete? fun(suc: boolean, result: any, data: any) # 代码执行后带着结果调用此函数
+---@field env? fun(data: any): table? # Returns a table to be used as the execution environment
+---@field complete? fun(suc: boolean, result: any, data: any) # This function is called after the code executes with the result
 
 ---@package
 ---@type table<string, Develop.Code.SyncHandler>
@@ -14,7 +14,7 @@ local keywords = { 'and', 'break', 'do', 'else', 'elseif', 'end', 'for', 'functi
 ---@private
 function M.wrap_code(code, env)
     local first_token = code:match('^%s*([%w_]+)')
-    if not first_token or not y3.util.arrayHas(keywords, first_token) then
+    if not first_token or not clicli.util.arrayHas(keywords, first_token) then
         local returnedCode = 'return ' .. code
         local f, err = load(returnedCode, '=code', 't', env or _ENV)
         if f then
@@ -30,15 +30,15 @@ function M.wrap_code(code, env)
 end
 
 ---执行本地代码
----@param code string # 要执行的代码
----@param env? table # 执行环境
----@return boolean # 是否执行成功
----@return any # 执行结果
+---@param code string # Code to execute
+---@param env? table # Execution environment
+---@return boolean # Whether the execution is successful
+---@return any # Execution result
 function M.run(code, env)
-    local debug_mode = y3.game.is_debug_mode()
+    local debug_mode = clicli.game.is_debug_mode()
 
     if not debug_mode then
-        if not y3.config.code.enable_local then
+        if not clicli.config.code.enable_local then
             log.error('不允许执行本地代码：\n' .. tostring(code))
             return false, '不允许执行本地代码'
         end
@@ -66,16 +66,16 @@ function M.run(code, env)
 end
 
 ---广播后同步执行代码，必须由本地发起
----@param code string # 要执行的代码
----@param data? table<string, any> # 数据，代码里可以直接访问到
----@param id? string # 处理器ID
----@return boolean # 是否执行成功
----@return string? # 错误消息
+---@param code string # Code to execute
+---@param data? table<string, any> # Data, can be accessed directly in the code
+---@param id? string # Processor ID
+---@return boolean # Whether the execution is successful
+---@return string? # Error message
 function M.sync_run(code, data, id)
-    local debug_mode = y3.game.is_debug_mode()
+    local debug_mode = clicli.game.is_debug_mode()
 
     if not debug_mode then
-        if not y3.config.code.enable_remote then
+        if not clicli.config.code.enable_remote then
             log.error('不允许执行远程代码：\n' .. tostring(code))
             return false, '不允许执行远程代码'
         end
@@ -90,7 +90,7 @@ function M.sync_run(code, data, id)
         log.warn('发起远程代码：\n' .. code)
     end
 
-    y3.sync.send('$sync_run', {
+    clicli.sync.send('$sync_run', {
         code = code,
         data = data,
         id = id,
@@ -99,13 +99,13 @@ function M.sync_run(code, data, id)
     return true
 end
 
-y3.sync.onSync('$sync_run', function (data, source)
+clicli.sync.onSync('$sync_run', function (data, source)
     ---@cast data table
-    local debug_mode = y3.game.is_debug_mode()
+    local debug_mode = clicli.game.is_debug_mode()
     local handler = M._sync_handler[data.id]
 
     if not debug_mode then
-        if not y3.config.code.enable_remote then
+        if not clicli.config.code.enable_remote then
             log.error(string.format('%s 广播了远程代码，已拒绝：\n%s'
                 , source
                 , tostring(data.code)

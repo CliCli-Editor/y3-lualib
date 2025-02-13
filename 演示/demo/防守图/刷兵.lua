@@ -12,7 +12,7 @@ local generate_monsters_config = {
 
 for _, config in ipairs(generate_monsters_config) do
     local monster_type = config.monster_type
-    if not y3.object.unit[monster_type].data then
+    if not clicli.object.unit[monster_type].data then
         error [[
 该演示图依赖特定的物编数据，请按照以下步骤安装：
 
@@ -20,23 +20,23 @@ for _, config in ipairs(generate_monsters_config) do
     end
 end
 
--- 怪物出生坐标
-local spawn_point = y3.point.create(0, -2000, 0)
--- 怪物进攻目标
-local attack_point = y3.point.create(0, -2000, 0)
+--Monster birth coordinates
+local spawn_point = clicli.point.create(0, -2000, 0)
+--Monster attack target
+local attack_point = clicli.point.create(0, -2000, 0)
 
--- 初始为第0波怪物
+--It starts with wave 0 monsters
 local wave_index = 0
 
--- 总共几波
+--Total number of waves
 local total_batch_count = #generate_monsters_config
 
--- 场上存活的怪物
+--Monsters alive on the field
 local alive_count = 0
 
 local stopped = false
 
--- 刷下一波怪
+--Brush the next wave of monsters
 function M.next_wave()
     if not M.has_next() then
         return
@@ -55,13 +55,13 @@ function M.next_wave()
     local count = generate_monsters_config[wave_index].count
 
     -- 每间隔一秒刷一个怪物
-    y3.timer.count_loop(1, count, function()
+    clicli.timer.count_loop(1, count, function()
         if stopped then
             return
         end
 
         -- 生成怪物
-        local monster = y3.unit.create_unit(y3.player(31), monster_type, spawn_point, 0)
+        local monster = clicli.unit.create_unit(clicli.player(31), monster_type, spawn_point, 0)
 
         -- 命令怪物攻击移动到目标位置
         monster:attack_move(attack_point)

@@ -1,4 +1,4 @@
---粒子特效
+--Particle effect
 ---@class Particle
 ---@field handle py.Sfx
 ---@overload fun(sfx:py.Sfx): self
@@ -30,8 +30,8 @@ function M.get_by_handle(py_sfx)
     return particle
 end
 
-y3.py_converter.register_py_to_lua('py.Sfx', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Sfx', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Sfx', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Sfx', function (lua_value)
     return lua_value.handle
 end)
 
@@ -59,12 +59,12 @@ end
 ---@field time? number 持续时间
 ---@field height? number 高度，只有当 `target` 的类型为点时有效
 ---@field socket? string 特效挂节点，只有当 `target` 的类型为单位时有效
----@field follow_rotation? integer | y3.Const.SfxRotateType 跟随单位旋转的模式，只有当 `target` 的类型为单位时有效
+---@field follow_rotation? integer | clicli.Const.SfxRotateType 跟随单位旋转的模式，只有当 `target` 的类型为单位时有效
 ---@field follow_scale? boolean 是否跟随单位缩放，只有当 `target` 的类型为单位时有效
 ---@field immediate? boolean 销毁时，是否立刻移除显示效果
 ---@field detach? boolean 是否脱离单位，只有当 `target` 的类型为单位时有效
 
---创建特效到单位或点
+--Create effects to units or points
 ---@param data Particle.Param.Create
 ---@return Particle
 function M.create(data)
@@ -82,7 +82,7 @@ function M.create(data)
             data.type,
             target.handle,
             socket,
-            y3.const.SfxRotateType[follow_rotation] or follow_rotation or 0,
+            clicli.const.SfxRotateType[follow_rotation] or follow_rotation or 0,
             follow_scale,
             scale,
             time,
@@ -118,12 +118,12 @@ function M:get_handle()
     return self.handle
 end
 
---删除粒子
+--Deletion particle
 function M:remove()
     Delete(self)
 end
 
---设置旋转角度
+--Set rotation Angle
 ---@param x number X轴角度
 ---@param y number Y轴角度
 ---@param z number Z轴角度
@@ -131,14 +131,14 @@ function M:set_rotate(x, y, z)
     GameAPI.set_sfx_rotate(self.handle, x, y, z)
 end
 
---设置朝向
+--orientation
 ---@param direction number 方向
 function M:set_facing(direction)
     GameAPI.set_sfx_angle(self.handle, direction)
 end
 
 
---设置缩放比例
+--Set scale
 ---@param x number X轴缩放
 ---@param y number Y轴缩放
 ---@param z number Z轴缩放
@@ -146,13 +146,13 @@ function M:set_scale(x, y, z)
     GameAPI.set_sfx_scale(self.handle, x, y, z)
 end
 
---设置高度
+--Set height
 ---@param height number 高度
 function M:set_height(height)
     GameAPI.set_sfx_height(self.handle, height)
 end
 
---设置坐标
+--Set coordinates
 ---@param point Point 点
 function M:set_point(point)
     -- TODO 见问题2
@@ -160,19 +160,19 @@ function M:set_point(point)
     GameAPI.set_sfx_position(self.handle, point.handle)
 end
 
---设置动画速度
+--Set animation speed
 ---@param speed number 速度
 function M:set_animation_speed(speed)
     GameAPI.set_sfx_animation_speed(self.handle, speed)
 end
 
---设置持续时间
+--Set duration
 ---@param duration number 持续时间
 function M:set_time(duration)
     GameAPI.set_sfx_duration(self.handle, duration)
 end
 
---设置特效颜色
+--Set effects color
 ---@param x number # x
 ---@param y number # y
 ---@param z number # z
@@ -181,8 +181,8 @@ function M:set_color(x, y, z, w)
     GameAPI.set_sfx_color(self.handle, x, y, z, w)
 end
 
---设置特效显示
----@param visible boolean # 开关
+--Set effects display
+---@param visible boolean # Switch
 function M:set_visible(visible)
     local role = GameAPI.get_client_role()
     GameAPI.enable_sfx_visible(self.handle, role, visible)

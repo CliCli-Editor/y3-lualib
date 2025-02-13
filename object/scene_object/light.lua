@@ -1,6 +1,6 @@
---光照
+--illumination
 --
---用来修改光照、阴影等效果
+--Used to modify lighting, shadows, and other effects
 ---@class Light
 ---@field handle py.Light
 ---@field res_id? py.LightID
@@ -52,18 +52,18 @@ function M.create_lua_light_by_py(py_light)
     return light
 end
 
-y3.py_converter.register_py_to_lua('py.Light', M.create_lua_light_by_py)
-y3.py_converter.register_lua_to_py('py.Light', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Light', M.create_lua_light_by_py)
+clicli.py_converter.register_lua_to_py('py.Light', function (lua_value)
     return lua_value.handle
 end)
 
---TODO:点光源属性枚举需在Lua层处理
+--TODO: Point source attribute enumeration needs to be handled in the Lua layer
 
 ---获取光源属性
 ---@param key string 属性名
 ---@return number 属性值
 function M:get_light_attribute(key)
-    return y3.helper.tonumber(GameAPI.get_light_float_attr_value(self.handle, key)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_light_float_attr_value(self.handle, key)) or 0.0
 end
 
 
@@ -74,7 +74,7 @@ function M:get_light_cast_shadow_state()
 end
 
 
---创建点光源到点
+--Create point light source to point
 ---@param point Point 目标点
 ---@param deviation_height number 偏移高度
 ---@return Light
@@ -89,7 +89,7 @@ function M.create_point_light_at_point(point, deviation_height)
 end
 
 
---创建点光源到单位挂接点
+--Create a point light source to the unit mount contact
 ---@param unit Unit 目标单位
 ---@param socket_name string 挂接点
 ---@param deviation_height number 偏移高度
@@ -100,7 +100,7 @@ function M.create_point_light_at_unit_socket(unit, socket_name, deviation_height
 end
 
 
---创建方向光源到点
+--Create directional light source to point
 ---@param point Point 目标点
 ---@param pos_offset_y? number 偏移高度
 ---@param unit_point_projectile? Unit|Point|Projectile 目标
@@ -121,7 +121,7 @@ function M.create_spot_light_to_point(point, pos_offset_y, unit_point_projectile
 end
 
 
---创建方向光源到单位挂接点
+--Create a directional light source to the unit mount contact
 ---@param unit Unit 目标单位
 ---@param socket_name string 挂接点
 ---@param pos_offset_y? number 偏移高度
@@ -139,25 +139,25 @@ function M.create_spot_light_at_unit_socket(unit,socket_name,pos_offset_y,target
     return M.create_lua_light_by_py(py_obj)
 end
 
---删除光源
+--Remove light source
 function M:remove_light()
     GameAPI.remove_light(self.handle)
 end
 
---设置光源是否产生阴影
+--Sets whether the light source produces shadows
 ---@param value boolean 是否产生阴影
 function M:set_shadow_casting_status(value)
     GameAPI.set_light_cast_shadow_attr_value(self.handle, value)
 end
 
---设置点光源属性
+--Set the point light properties
 ---@param light_attr_type string 属性名
 ---@param value number 属性值
 function M:set_point_light_attribute(light_attr_type,value)
     GameAPI.set_light_float_attr_value(self.handle, light_attr_type, Fix32(value))
 end
 
---设置方向光源属性
+--Set the directional light source properties
 ---@param light_attr_type string 属性名
 ---@param value number 属性值
 function M:set_directional_light_attribute(light_attr_type,value)

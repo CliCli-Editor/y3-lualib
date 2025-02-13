@@ -8,9 +8,9 @@ function M.getHelpInfo()
     local info = {}
 
     info[#info+1] = '指令列表:'
-    local commands = y3.develop.command.getAllCommands()
+    local commands = clicli.develop.command.getAllCommands()
     for _, command in ipairs(commands) do
-        local commandInfo = y3.develop.command.getCommandInfo(command)
+        local commandInfo = clicli.develop.command.getCommandInfo(command)
         if commandInfo then
             info[#info+1] = ('  .%s - %s'):format(command, commandInfo.desc)
         end
@@ -18,7 +18,7 @@ function M.getHelpInfo()
     info[#info+1] = ''
     info[#info+1] = '可以直接输入代码运行，以 `!` 开头的代码会在同步后运行：'
     info[#info+1] = '  1 + 2 --> 当前控制台打印3'
-    info[#info+1] = '  !y3.player(1):get_name() --> 多开测试时所有控制台都会打印玩家1的名字'
+    info[#info+1] = '  !clicli.player(1):get_name() --> 多开测试时所有控制台都会打印玩家1的名字'
     info[#info+1] = ''
     info[#info+1] = '输入 `?` 查看此帮助'
 
@@ -28,7 +28,7 @@ end
 ---@param message string
 local function print_to_console(message)
     consoleprint(message)
-    y3.develop.helper.print(message)
+    clicli.develop.helper.print(message)
 end
 
 ---@param ok boolean
@@ -43,14 +43,14 @@ function M.show_result(ok, result)
         print_to_console(tostring(result))
         return
     end
-    local view = y3.inspect(result)
+    local view = clicli.inspect(result)
     if #view > 10000 then
         view = view:sub(1, 10000) .. '...'
     end
     print_to_console(view)
 end
 
---控制台输入
+--Console input
 ---@param input string
 function M.input(input)
     if input == '?' then
@@ -59,8 +59,8 @@ function M.input(input)
     end
 
     if input:sub(1, 1) == '.' then
-        y3.player.with_local(function (local_player)
-            y3.sync.send('$command', {
+        clicli.player.with_local(function (local_player)
+            clicli.sync.send('$command', {
                 input = input,
                 player = local_player,
             })
@@ -70,30 +70,30 @@ function M.input(input)
 
     if input:sub(1, 1) == '!' then
         local code = input:sub(2)
-        y3.develop.code.sync_run(code, nil, '$console')
+        clicli.develop.code.sync_run(code, nil, '$console')
         return
     end
 
-    local ok, result = y3.develop.code.run(input)
+    local ok, result = clicli.develop.code.run(input)
     M.show_result(ok, result)
 end
 
-y3.game:event('控制台-输入', function (trg, data)
-    if not y3.game.is_debug_mode() then
+clicli.game:event('控制台-输入', function (trg, data)
+    if not clicli.game.is_debug_mode() then
         return
     end
     local input = data.str1
     M.input(input)
 end)
 
-y3.develop.code.on_sync('$console', {
+clicli.develop.code.on_sync('$console', {
     complete = function (suc, result, data)
         M.show_result(suc, result)
     end
 })
 
-y3.sync.onSync('$command', function (data)
-    if not y3.game.is_debug_mode() then
+clicli.sync.onSync('$command', function (data)
+    if not clicli.game.is_debug_mode() then
         return
     end
     if type(data) ~= 'table' then
@@ -102,7 +102,7 @@ y3.sync.onSync('$command', function (data)
     if type(data.input) ~= 'string' then
         return
     end
-    y3.develop.command.input('.', data.input, data.player)
+    clicli.develop.command.input('.', data.input, data.player)
 end)
 
 ---@param word string
@@ -215,7 +215,7 @@ local function getFieldsOf(t)
 
     lookIntoMetaTable(getmetatable(t))
 
-    return y3.util.getTableKeys(fields, true)
+    return clicli.util.getTableKeys(fields, true)
 end
 
 local function requestWordsByField(words)
@@ -303,7 +303,7 @@ local function parseWords(input)
             break
         end
     end
-    y3.util.revertArray(words)
+    clicli.util.revertArray(words)
     return words
 end
 
@@ -322,8 +322,8 @@ local function requestWords(inputed)
     return completes
 end
 
-y3.game:event('控制台-请求补全', function (trg, data)
-    if not y3.game.is_debug_mode() then
+clicli.game:event('控制台-请求补全', function (trg, data)
+    if not clicli.game.is_debug_mode() then
         return
     end
     local input = data.str1
@@ -333,7 +333,7 @@ y3.game:event('控制台-请求补全', function (trg, data)
     end
 
     if input:sub(1, 1) == '.' then
-        local commands = y3.develop.command.getAllCommands()
+        local commands = clicli.develop.command.getAllCommands()
         local words = {}
         for _, comman in ipairs(commands) do
             words[#words+1] = '.' .. comman
@@ -347,7 +347,7 @@ y3.game:event('控制台-请求补全', function (trg, data)
     console_tips_match(table.concat(completes, '\x01'))
 end)
 
-y3.game:event_on('$Y3-初始化', function ()
+clicli.game:event_on('$CliCli-初始化', function ()
     consoleprint(M.getHelpInfo())
 end)
 

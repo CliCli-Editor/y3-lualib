@@ -6,7 +6,7 @@ local monster_types = {
 }
 
 for _, monster_type in ipairs(monster_types) do
-    if not y3.object.unit[monster_type].data then
+    if not clicli.object.unit[monster_type].data then
         error [[
 该演示图依赖特定的物编数据，请按照以下步骤安装：
 
@@ -14,36 +14,36 @@ for _, monster_type in ipairs(monster_types) do
     end
 end
 
--- 怪物出生坐标
-local spawn_point = y3.point.create(-1000, -1000, 0)
--- 怪物进攻坐标
-local attack_point = y3.point.create(-1000, -1000, 0)
+--Monster birth coordinates
+local spawn_point = clicli.point.create(-1000, -1000, 0)
+--Monster attack coordinates
+local attack_point = clicli.point.create(-1000, -1000, 0)
 
--- 场上存活怪物数量
+--Number of monsters alive in the field
 local alive_cnt = 0
 
--- 是否停止产生怪物
+--Whether to stop producing monsters
 local is_stop = false
 
--- 产生怪物计时器
+--Spawn monster timer
 local timer_start = nil
 
--- 怪物单位组
-local monsters = y3.unit_group.create()
+--Monster unit group
+local monsters = clicli.unit_group.create()
 
--- 刷怪逻辑
+--Spawning logic
 function M.start()
     is_stop = false
 
     -- 每间隔一秒进行是否刷怪的判断
-    timer_start = y3.ltimer.loop(1, function (timer, count)
+    timer_start = clicli.ltimer.loop(1, function (timer, count)
         -- 如果停止标志不为真并且场上怪的数量为0时开始刷怪
         if (not is_stop and alive_cnt == 0) then
             alive_cnt = 10
             for i = 1, alive_cnt, 1 do
                 -- 随机生成一个怪物
                 local monster_type = monster_types[math.random(1, #monster_types)]
-                local monster = y3.unit.create_unit(y3.player(31), monster_type, spawn_point, 0)
+                local monster = clicli.unit.create_unit(clicli.player(31), monster_type, spawn_point, 0)
                 monsters:add_unit(monster)
 
                 -- 命令怪物攻击移动到目标位置
@@ -78,7 +78,7 @@ function M.delete(area, time)
     end)
 
     -- 判断英雄离开区域一定时间后是否进行删除怪物
-    y3.ltimer.wait(time, function (timer)
+    clicli.ltimer.wait(time, function (timer)
         -- 如果英雄没有折回则删除所有怪物单位
         if not is_hero_enter then
             for _, v in ipairs(monsters:pick()) do

@@ -1,10 +1,10 @@
--- 使用角度制的三角函数
+--Use trigonometric functions based on angles
 local deg = math.deg(1)
 local rad = math.rad(1)
 
---数学库
+--Mathematical library
 --
---均使用角度制
+--All use Angle system
 ---@class Math
 local M = Class 'Math'
 
@@ -65,7 +65,7 @@ function M.atan(y, x)
     return math.atan(y, x) * deg
 end
 
---计算2个角度之间的夹角（角度制）
+--Calculate the Angle between 2 angles (Angle system)
 ---@param r1 number
 ---@param r2 number
 ---@return number angle 夹角，取值范围[0, 180]
@@ -79,7 +79,7 @@ function M.includedAngle(r1, r2)
     end
 end
 
--- 检查数字是否在[min, max]范围内
+--Check whether the number is in the [min, max] range
 ---@param number number
 ---@param min number
 ---@param max number

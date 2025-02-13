@@ -1,4 +1,4 @@
---玩家
+--Player
 ---@class Player
 ---@field handle py.Role
 ---@field id integer
@@ -67,8 +67,8 @@ function M.get_by_id(id)
     return player
 end
 
---根据字符串获取玩家，字符串是通过 `tostring(Player)`
---或是使用ECA中的“任意变量转化为字符串”获得的。
+--Get the Player based on a string, which is via 'tostring(Player)'
+--Or using the 'Convert any variable to string' in ECA.
 ---@param str string
 ---@return Player?
 function M.get_by_string(str)
@@ -81,8 +81,8 @@ function M.get_by_string(str)
     return M.get_by_id(tonumber(id)--[[@as integer]])
 end
 
-y3.py_converter.register_type_alias('py.Role', 'Player')
-y3.py_converter.register_py_to_lua('py.RoleID', M.get_by_id)
+clicli.py_converter.register_type_alias('py.Role', 'Player')
+clicli.py_converter.register_py_to_lua('py.RoleID', M.get_by_id)
 
 ---@param py_player py.Role
 ---@return Player
@@ -95,12 +95,12 @@ function M.get_by_handle(py_player)
     return M.get_by_id(id)
 end
 
-y3.py_converter.register_py_to_lua('py.Role', M.get_by_handle)
-y3.py_converter.register_lua_to_py('py.Role', function (lua_value)
+clicli.py_converter.register_py_to_lua('py.Role', M.get_by_handle)
+clicli.py_converter.register_lua_to_py('py.Role', function (lua_value)
     return lua_value.handle
 end)
 
--- 本地玩家，注意这可能会导致不同步！
+--Local players, be aware that this may cause out-of-sync!
 ---@private
 M.LOCAL_PLAYER = M.get_by_handle(GameAPI.get_client_role())
 
@@ -142,39 +142,39 @@ function M:set_team(id)
 end
 
 ---设置属性值
----@param key y3.Const.PlayerAttr | string 属性名
+---@param key clicli.Const.PlayerAttr | string 属性名
 ---@param value number 值
 function M:set(key, value)
-    key = y3.const.PlayerAttr[key] or key
+    key = clicli.const.PlayerAttr[key] or key
     ---@cast key py.RoleResKey
     self.handle:set_role_res(key, Fix32(value))
 end
 
 ---增加属性值
----@param key y3.Const.PlayerAttr | string 属性名
+---@param key clicli.Const.PlayerAttr | string 属性名
 ---@param value number 值
 function M:add(key, value)
-    key = y3.const.PlayerAttr[key] or key
+    key = clicli.const.PlayerAttr[key] or key
     ---@cast key py.RoleResKey
     self.handle:change_role_res(key, Fix32(value))
 end
 
 ---获取玩家属性
----@param key y3.Const.PlayerAttr | string # 属性名
+---@param key clicli.Const.PlayerAttr | string # Attribute name
 ---@return number role_res 玩家属性
 function M:get(key)
-    key = y3.const.PlayerAttr[key] or key
+    key = clicli.const.PlayerAttr[key] or key
     ---@cast key py.RoleResKey
-    return y3.helper.tonumber(self.handle:get_role_res(key)) or 0.0
+    return clicli.helper.tonumber(self.handle:get_role_res(key)) or 0.0
 end
 
 ---获取玩家属性
----@param key y3.Const.PlayerAttr | string # 属性名
+---@param key clicli.Const.PlayerAttr | string # Attribute name
 ---@return number role_res 玩家属性
 function M:get_attr(key)
-    key = y3.const.PlayerAttr[key] or key
+    key = clicli.const.PlayerAttr[key] or key
     ---@cast key py.RoleResKey
-    return y3.helper.tonumber(self.handle:get_role_res(key)) or 0.0
+    return clicli.helper.tonumber(self.handle:get_role_res(key)) or 0.0
 end
 
 ---设置经验获得率
@@ -227,7 +227,7 @@ function M:set_mouse_wheel(is_enable)
 end
 
 ---玩家基础操作快捷键是否被占用
---TODO:功能键lua层表示需要处理
+--TODO: Function key lua layer indicates that processing is required
 ---@param key py.NormalKey 键名
 ---@param assist_key py.RecordKey 辅助键名
 ---@return boolean is_conf 是否被占用
@@ -236,7 +236,7 @@ function M:is_operation_key_occupied(key,assist_key)
 end
 
 ---设置玩家的基础操作快捷键（过滤掉禁止设置的） 
---TODO:operation在lua层的表示方式待整理 方法名英文待确认
+--TODO:operation Indicates the operation mode on the lua layer to be sorted. Method Name English to be confirmed
 ---@param operation py.EditableGameFunc 可编辑操作
 ---@param key py.NormalKey 功能按键
 ---@param assist_key py.RecordKey 辅助按键
@@ -245,7 +245,7 @@ function M:set_operation_key(operation, key, assist_key)
 end
 
 ---设置玩家的基础操作开关（包含所有基础操作）
---TODO:operation在lua层的表示方式待整理 方法名英文待确认
+--TODO:operation Indicates the operation mode on the lua layer to be sorted. Method Name English to be confirmed
 ---@param operation py.AllGameFunc 可编辑操作
 ---@param is_enable boolean 是否开
 function M:set_all_operation_key(operation, is_enable)
@@ -358,14 +358,14 @@ function M:get_color()
 end
 
 ---获取玩家游戏状态
----@see y3.Const.RoleStatus
----@return y3.Const.RoleStatus role_status 玩家游戏状态
+---@see clicli.Const.RoleStatus
+---@return clicli.Const.RoleStatus role_status 玩家游戏状态
 function M:get_state()
     return self.handle:get_role_status() or 2
 end
 
 ---获取玩家控制者类型
----@return y3.Const.RoleType role_type 玩家控制者类型
+---@return clicli.Const.RoleType role_type 玩家控制者类型
 function M:get_controller()
     if not self._cotroller then
         ---@private
@@ -383,7 +383,7 @@ end
 ---获取经验获得率
 ---@return number exp_rate 经验获得率
 function M:get_exp_rate()
-    return y3.helper.tonumber(self.handle:get_role_exp_rate()) or 0.0
+    return clicli.helper.tonumber(self.handle:get_role_exp_rate()) or 0.0
 end
 
 ---获取队伍ID
@@ -413,7 +413,7 @@ end
 ---@param key integer 存档key
 ---@return number int_value 实数型存档数据
 function M:get_save_data_float(key)
-    return y3.helper.tonumber(self.handle:get_save_data_fixed_value(key)) or 0.0
+    return clicli.helper.tonumber(self.handle:get_save_data_fixed_value(key)) or 0.0
 end
 
 ---获取整数型存档数据
@@ -468,35 +468,35 @@ function M:get_platform_icon_url()
     return url or ''
 end
 
---获取玩家平台唯一ID
+--Gets the player's platform unique ID
 ---@return integer plat_aid 平台唯一ID
 function M:get_platform_id()
     return math.tointeger(GameAPI.get_player_plat_aid(self.handle)) or 0
 end
 
---获取玩家的此地图平台等级
+--Get the player's platform level for this map
 ---@return integer
 function M:get_map_level()
     return self.handle:get_role_plat_map_level() or 0
 end
 
---获取玩家在本地图的平台等级排名
+--Get the player's platform rank in the local chart
 ---@return integer
 function M:get_map_level_rank()
     return self.handle:api_get_map_level_rank() or 0
 end
 
---获取玩家在本地图的累计局数
+--Gets the player's accumulated game count on the local graph
 function M:get_played_times()
     return self.handle:api_get_played_times() or 0
 end
 
---获取玩家当前地图的成就点数
+--Get achievement points for the player's current map
 function M:get_achieve_point()
     return self.handle:api_get_role_achieve_point() or 0
 end
 
---判断指定成就是否解锁
+--Determines whether the specified achievement is unlocked
 ---@param id string
 ---@return boolean
 function M:is_achieve_unlock(id)
@@ -535,9 +535,9 @@ end
 function M:get_all_units()
     local py_unit_group = self.handle:get_all_unit_id()
     if not py_unit_group then
-        return y3.unit_group.create()
+        return clicli.unit_group.create()
     end
-    return y3.unit_group.get_by_handle(py_unit_group)
+    return clicli.unit_group.get_by_handle(py_unit_group)
 end
 
 ---创建单位
@@ -546,7 +546,7 @@ end
 ---@param facing? number 朝向
 ---@return Unit
 function M:create_unit(unit_id, point, facing)
-    local unit = y3.unit.create_unit(self, unit_id, point or y3.point(0.0, 0.0), facing or 0.0)
+    local unit = clicli.unit.create_unit(self, unit_id, point or clicli.point(0.0, 0.0), facing or 0.0)
     return unit
 end
 
@@ -559,7 +559,7 @@ end
 ---设置玩家属性图标
 ---@param key py.RoleResKey 属性名
 ---@param id py.Texture 图标id
-function y3.set_res_icon(key, id)
+function clicli.set_res_icon(key, id)
     GameAPI.change_role_res_icon_with_icon(key, id)
 end
 
@@ -569,37 +569,37 @@ function M:get_platform_model()
     return GameAPI.get_role_platform_model(self.handle)
 end
 
--- 获取鼠标在游戏内的所在点。
--- 必须先设置 `y3.config.sync.mouse = true`。
+--Gets the point of the mouse in the game.
+--You must first set 'clicli.config.sync.mouse = true'.
 ---@return Point point 点
 function M:get_mouse_pos()
-    if not y3.config.sync.mouse then
-        error('必须先设置 `y3.config.sync.mouse = true`')
+    if not clicli.config.sync.mouse then
+        error('必须先设置 `clicli.config.sync.mouse = true`')
     end
     local py_point = GameAPI.get_player_pointing_pos(self.handle)
     -- TODO 见问题2
     ---@diagnostic disable-next-line: param-type-mismatch
-    return y3.point.get_by_handle(py_point)
+    return clicli.point.get_by_handle(py_point)
 end
 
 ---获取玩家鼠标屏幕坐标X的占比。
--- 必须先设置 `y3.config.sync.mouse = true`。
+--You must first set 'clicli.config.sync.mouse = true'.
 ---@return number x_per X的占比
 function M:get_mouse_ui_x_percent()
-    if not y3.config.sync.mouse then
-        error('必须先设置 `y3.config.sync.mouse = true`')
+    if not clicli.config.sync.mouse then
+        error('必须先设置 `clicli.config.sync.mouse = true`')
     end
-    return y3.helper.tonumber(GameAPI.get_role_ui_x_per(self.handle)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_role_ui_x_per(self.handle)) or 0.0
 end
 
 ---获取玩家鼠标屏幕坐标y的占比。
--- 必须先设置 `y3.config.sync.mouse = true`。
+--You must first set 'clicli.config.sync.mouse = true'.
 ---@return number y_per Y的占比
 function M:get_mouse_ui_y_percent()
-    if not y3.config.sync.mouse then
-        error('必须先设置 `y3.config.sync.mouse = true`')
+    if not clicli.config.sync.mouse then
+        error('必须先设置 `clicli.config.sync.mouse = true`')
     end
-    return y3.helper.tonumber(GameAPI.get_role_ui_y_per(self.handle)) or 0.0
+    return clicli.helper.tonumber(GameAPI.get_role_ui_y_per(self.handle)) or 0.0
 end
 
 ---获取鼠标在屏幕上的X坐标
@@ -615,14 +615,14 @@ function M:get_mouse_pos_y()
 end
 
 ---玩家的按键是否被按下
----@param key y3.Const.KeyboardKey | y3.Const.MouseKey | integer 按键
+---@param key clicli.Const.KeyboardKey | clicli.Const.MouseKey | integer 按键
 ---@return boolean 是否被按下
 function M:is_key_pressed(key)
-    if not y3.config.sync.key then
-        error('必须先设置 `y3.config.sync.key = true`')
+    if not clicli.config.sync.key then
+        error('必须先设置 `clicli.config.sync.key = true`')
     end
-    key =  y3.const.KeyboardKey[key]
-        or y3.const.MouseKey[key]
+    key =  clicli.const.KeyboardKey[key]
+        or clicli.const.MouseKey[key]
         or key
     return GameAPI.player_key_is_pressed(self.handle, key)
 end
@@ -661,7 +661,7 @@ function M.get_res_name(key)
     return GameAPI.get_role_res_name(key)
 end
 
--- 设置滤镜
+--Set filter
 ---@param value integer 滤镜
 function M:set_color_grading(value)
     GameAPI.set_role_color_grading(self.handle, value)
@@ -707,37 +707,37 @@ function M:set_vignetting_color(red, green, blue, time)
     self.handle:set_role_vignetting_color(red, green, blue, time)
 end
 
--- 退出游戏
+--Quit the game
 function M:exit_game()
     GameAPI.exit_game(self.handle)
 end
 
--- 获取本地玩家，注意这可能会导致不同步！  
---> 警告：如果你不确定这个函数在做什么，请不要使用它！
+--Get local players, be aware that this may cause out-of-sync!
+--Warning: If you are not sure what this function is doing, do not use it!
 --
---> 已废弃：请改用 `y3.player.with_local`
+--> Obsolete: use 'clicli.player.with_local' instead
 ---@deprecated
 ---@return Player
 function M.get_local()
     return M.LOCAL_PLAYER
 end
 
--- 获取所有玩家属性的属性名
----@param only_coin boolean # 只获取货币类型的玩家属性
+--Gets attribute names for all player attributes
+---@param only_coin boolean # Only gets player attributes for currency types
 ---@return py.RoleResKey[]
 function M.get_res_keys(only_coin)
     local py_list = GameAPI.iter_role_res(only_coin)
-    return y3.helper.unpack_list(py_list)
+    return clicli.helper.unpack_list(py_list)
 end
 
--- 对玩家显示文本消息
----@param message string # 消息
----@param localize? boolean # 是否支持语言环境
+--Displays a text message to the player
+---@param message string # message
+---@param localize? boolean # Whether locale is supported
 function M:display_message(message, localize)
     GameAPI.show_msg_to_role(self.handle, message, localize or false)
 end
 
--- 上传埋点数据
+--Upload the buried data
 ---@param key string
 ---@param cnt integer
 function M:upload_tracking_data(key, cnt)
@@ -745,17 +745,17 @@ function M:upload_tracking_data(key, cnt)
 end
 
 ---获取玩家在社区的互动数据
----@param community_type y3.Const.PlatFormRoleCommunityType
+---@param community_type clicli.Const.PlatFormRoleCommunityType
 ---@return integer
 function M:get_community_value(community_type)
-    return self.handle:api_get_community_value(y3.const.PlatFormRoleCommunityType[community_type] or community_type) or 0
+    return self.handle:api_get_community_value(clicli.const.PlatFormRoleCommunityType[community_type] or community_type) or 0
 end
 
 ---获取玩家当前地图的签到天数
----@param sign_type? y3.Const.SignInDaysType
+---@param sign_type? clicli.Const.SignInDaysType
 ---@return integer
 function M:get_sign_in_days(sign_type)
-    return self.handle:api_get_sign_in_days_of_platform(y3.const.SignInDaysType[sign_type] or sign_type or 0) or 0
+    return self.handle:api_get_sign_in_days_of_platform(clicli.const.SignInDaysType[sign_type] or sign_type or 0) or 0
 end
 
 ---玩家是否收藏当前地图
@@ -772,22 +772,22 @@ end
 ---  + `2`: 不满足每日限制
 ---  + `999`: 服务器无法连接，必须在平台上才能测试
 ---* `result`: 结果表，`key` 表示影响的存档编号，`value` 表示改变的值
----@param id integer # 随机池的编号
----@param callback fun(code: 0|1|2|999, result: { [integer]: integer }) # 执行完毕后的回调函数
+---@param id integer # Number of the random pool
+---@param callback fun(code: 0|1|2|999, result: { [integer]: integer }) # Callback function after execution
 function M:request_random_pool(id, callback)
     local response = {}
     GameAPI.lua_request_server_random_pool_result(self.handle, id, function ()
         local code = response['__random_pool_ret_code']
-        local result = y3.helper.dict_to_table(response['__random_pool_result_dict'])
+        local result = clicli.helper.dict_to_table(response['__random_pool_result_dict'])
         xpcall(callback, log.error, code, result)
     end, response)
 end
 
 ---请求使用商城道具
 ---执行完毕后调用回调函数，通知是否成功
----@param count integer # 使用数量
----@param item_id py.StoreKey # 商城道具id
----@param callback fun(suc: boolean) # 执行完毕后的回调函数
+---@param count integer # Quantity used
+---@param item_id py.StoreKey # Shop item id
+---@param callback fun(suc: boolean) # Callback function after execution
 function M:request_use_item(count, item_id, callback)
     GameAPI.lua_request_server_role_use_item(self.handle, count, item_id, function (_, suc)
         callback(suc)
@@ -815,10 +815,10 @@ function M:request_buy_mall_coin(goods_id, callback)
 end
 
 ---@class MallGoodsInfo
----@field is_exist boolean # 是否存在
----@field effective_time integer # 生效时间
----@field expiration_time integer # 过期时间
----@field left_token integer # 剩余货币数量
+---@field is_exist boolean # Existence or not
+---@field effective_time integer # Effective time
+---@field expiration_time integer # Expiration time
+---@field left_token integer # Quantity of surplus money
 
 ---获取某个玩家的商城物品信息
 ---@param goods_id string
@@ -836,9 +836,9 @@ function M:request_mall_goods_info(goods_id, callback)
 end
 
 ---请求购买商城道具
----@param count integer # 数量
----@param goods_id integer # 商城道具id
----@param callback? fun(suc: boolean, error_code: integer) # 执行完毕后的回调函数
+---@param count integer # quantity
+---@param goods_id integer # Shop item id
+---@param callback? fun(suc: boolean, error_code: integer) # Callback function after execution
 function M:request_mall_purchase_goods(count, goods_id, callback)
     ---@diagnostic disable-next-line: undefined-field, param-type-mismatch
     GameAPI.lua_request_server_mall_purchase_goods(self.handle, count, goods_id, function (context)
@@ -850,9 +850,9 @@ function M:request_mall_purchase_goods(count, goods_id, callback)
 end
 
 ---请求生成随机数
----@param group_id integer # 随机只读存档组id
----@param key string # 随机数的key
----@param callback fun(value: integer) # 执行完毕后的回调函数
+---@param group_id integer # id of a random read-only archive group
+---@param key string # The key of a random number
+---@param callback fun(value: integer) # Callback function after execution
 function M:request_random_number(group_id, key, callback)
     ---@diagnostic disable-next-line: undefined-field
     GameAPI.lua_request_generate_random_number(self.handle, key, group_id, function (context)
@@ -862,7 +862,7 @@ function M:request_random_number(group_id, key, callback)
 end
 
 ---请求玩家的开放存档数据
----@param callback fun(archive: any) # 执行完毕后的回调函数
+---@param callback fun(archive: any) # Callback function after execution
 function M:request_open_archive(callback)
     ---@diagnostic disable-next-line: undefined-field
     GameAPI.lua_request_role_open_archive(self.handle, function (context)
@@ -871,7 +871,7 @@ function M:request_open_archive(callback)
 end
 
 ---更新存档排行榜
----@param save_index integer # 存档栏位
+---@param save_index integer # Archive field
 function M:update_save_rank(save_index)
     self.handle:update_player_save_rank(save_index)
 end

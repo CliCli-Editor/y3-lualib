@@ -30,7 +30,7 @@ function M:__init(className, new)
     self.strongRefMap = {}
     -- 弱引用
     ---@private
-    self.weakRefMap = setmetatable({}, y3.util.MODE_K)
+    self.weakRefMap = setmetatable({}, clicli.util.MODE_K)
 
     M.all_managers[className] = self
 end
